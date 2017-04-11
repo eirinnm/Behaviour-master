@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>ZebrafishHeadTracking</id>
+    <version>1.0.0</version>
+    <title>Zebrafish tracking with centroid and eye identification</title>
+    <authors>Eirinn Mackay</authors>
+    <owners>Eirinn</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Example of tracking a zebrafish larvae.
+Techniques:
+- Good Features to Track (for eyes)
+- Adaptive threshold &amp; binary region analysis (for body)
+- Angle between the eyes and body is used to find the true orientation of the body
+- Outputs velocity, heading, angular velocity etc
+
+A video is included.</description>
+    <tags>Bonsai Gallery</tags>
+    <dependencies>
+      <dependency id="Bonsai.Core" version="2.3.0" />
+      <dependency id="Bonsai.Vision" version="2.3.0" />
+      <dependency id="Bonsai.Scripting" version="2.3.0" />
+      <dependency id="Bonsai.Vision.Design" version="2.3.0" />
+      <dependency id="Bonsai.Design" version="2.3.0" />
+      <dependency id="Bonsai.Design.Visualizers" version="2.3.0" />
+    </dependencies>
+  </metadata>
+</package>

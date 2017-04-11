@@ -1,0 +1,537 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.3.0">
+  <Workflow xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q2="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q1="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns="https://horizongir.org/bonsai">
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:FileCapture">
+          <q1:FileName>Example-video.avi</q1:FileName>
+          <q1:PlaybackRate>10</q1:PlaybackRate>
+          <q1:StartPosition>0</q1:StartPosition>
+          <q1:PositionUnits>Frames</q1:PositionUnits>
+          <q1:Loop>true</q1:Loop>
+          <q1:Playing>true</q1:Playing>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Crop">
+          <q1:RegionOfInterest>
+            <q1:X>710</q1:X>
+            <q1:Y>543</q1:Y>
+            <q1:Width>76</q1:Width>
+            <q1:Height>72</q1:Height>
+          </q1:RegionOfInterest>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Grayscale" />
+      </Expression>
+      <Expression xsi:type="NestedWorkflow">
+        <Name>Find centroid and heading</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Zip" />
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item2.Centroid</Selector>
+            </Expression>
+            <Expression xsi:type="q2:PythonTransform">
+              <q2:Name>Find real heading</q2:Name>
+              <q2:Script>import math
+from System import Tuple
+clr.AddReference("OpenCV.Net")
+from OpenCV.Net import Point2f
+from System import Tuple
+
+@returns(Tuple[float, Point2f, float])
+def process(value):
+  centroid = value.Item2.Centroid
+  body_heading = value.Item2.Orientation
+  eye_heading, head_pos, head_length = get_eye_heading(eye_features = value.Item1, largest_binary = value.Item2)
+  real_heading = fix_heading(body_heading, eye_heading)
+  return Tuple[float, Point2f, float](real_heading,head_pos, head_length)
+
+def fix_heading(naive, informed):
+  #inform a 2-quadrant heading of it's true direction
+  #by finding which of the two directions is closest to 4-quadrant heading
+  if naive-informed &lt; -1.4:
+    return naive+3.14
+  elif naive-informed &gt; 1.4:
+    return naive-3.14
+  else: 
+    return naive
+
+def get_eye_heading(eye_features, largest_binary):
+  good_features = [feature for feature in eye_features]
+  if len(good_features)==2:
+    ## if there's two objects, take an average of these two eyes
+    avg_x = (good_features[0].X+good_features[1].X)/2.0
+    avg_y = (good_features[0].Y+good_features[1].Y)/2.0
+    head_pos = Point2f(avg_x, avg_y)
+  else:
+    ## otherwise we just use the first good feature, assuming it's an eye
+    head_pos = good_features[0]
+  body_pos = largest_binary.Centroid
+  ## get the angle between the head and the body
+  dx = (head_pos.X - body_pos.X)
+  dy = (head_pos.Y - body_pos.Y)
+  head_length = math.hypot(dx,dy)
+  return math.atan2(dy, dx), head_pos, head_length</q2:Script>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Zip" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q1:GoodFeaturesToTrack">
+                <q1:MaxFeatures>1</q1:MaxFeatures>
+                <q1:QualityLevel>0.01</q1:QualityLevel>
+                <q1:MinDistance>0</q1:MinDistance>
+                <q1:RegionOfInterest>
+                  <q1:X>0</q1:X>
+                  <q1:Y>0</q1:Y>
+                  <q1:Width>0</q1:Width>
+                  <q1:Height>0</q1:Height>
+                </q1:RegionOfInterest>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q1:LargestBinaryRegion" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q1:BinaryRegionAnalysis" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q1:FindContours">
+                <q1:Mode>External</q1:Mode>
+                <q1:Method>ChainApproxNone</q1:Method>
+                <q1:Offset>
+                  <q1:X>0</q1:X>
+                  <q1:Y>0</q1:Y>
+                </q1:Offset>
+                <q1:MinArea>5</q1:MinArea>
+                <q1:MaxArea xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q1:AdaptiveThreshold">
+                <q1:MaxValue>255</q1:MaxValue>
+                <q1:AdaptiveMethod>MeanC</q1:AdaptiveMethod>
+                <q1:ThresholdType>BinaryInv</q1:ThresholdType>
+                <q1:BlockSize>67</q1:BlockSize>
+                <q1:Parameter>30</q1:Parameter>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item3</Selector>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>10</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>0</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>11</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>4</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>5</From>
+              <To>3</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>6</From>
+              <To>5</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>7</From>
+              <To>6</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>7</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>9</From>
+              <To>4</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>9</From>
+              <To>8</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.Item2.Item1</Selector>
+      </Expression>
+      <Expression xsi:type="NestedWorkflow">
+        <Name>Body velocity</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="q2:PythonTransform">
+              <q2:Name>Euclidean Distance</q2:Name>
+              <q2:Script>import math 
+@returns(float)
+def process(value):
+  dx = value.Item1.X-value.Item2.X
+  dy = value.Item1.Y-value.Item2.Y
+  return math.hypot(dx, dy)</q2:Script>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Zip" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Skip">
+                <Count>1</Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>4</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>1</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.Item2.Item2</Selector>
+      </Expression>
+      <Expression xsi:type="q2:PythonTransform">
+        <q2:Name>Draw heading</q2:Name>
+        <q2:Script>import clr
+clr.AddReference("OpenCV.Net")
+from OpenCV.Net import *
+import math
+line_length = 10 ## length of the line in pixels
+line_col = Scalar.Rgb(0,255,0)
+
+@returns(IplImage)
+def process(value):
+  image = value.Item1
+  heading = value.Item2
+  centroid = value.Item3
+  output = IplImage(image.Size, image.Depth, 3)
+  CV.CvtColor(image, output, ColorConversion.Gray2Bgr)
+  draw_heading(output, centroid, heading, Scalar.Rgb(255,0,255))
+  return output
+
+def draw_heading(img, centroid, heading, colour):
+  rise = math.sin(heading)*line_length
+  run = math.cos(heading)*line_length
+  p2 = Point(centroid.X+run,centroid.Y+rise)
+  CV.Line(img,Point(centroid),p2,color=colour)
+</q2:Script>
+      </Expression>
+      <Expression xsi:type="NestedWorkflow">
+        <Name>Angular velocity</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="q2:PythonTransform">
+              <q2:Name>Unwrap</q2:Name>
+              <q2:Script>import math
+@returns(float)
+def process(value):
+  if value&gt;math.pi:
+    return value-2*math.pi
+  if value&lt;-math.pi:
+    return value+2*math.pi
+  else:
+    return value</q2:Script>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Zip" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Skip">
+                <Count>1</Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="Subtract" />
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>4</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>5</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>1</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>5</From>
+              <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.Item1</Selector>
+      </Expression>
+      <Expression xsi:type="NestedWorkflow">
+        <Name>Head velocity</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="q2:PythonTransform">
+              <q2:Name>Euclidean Distance</q2:Name>
+              <q2:Script>import math 
+@returns(float)
+def process(value):
+  dx = value.Item1.X-value.Item2.X
+  dy = value.Item1.Y-value.Item2.Y
+  return math.hypot(dx, dy)</q2:Script>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Zip" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Skip">
+                <Count>1</Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>4</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>1</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>Head Pos</Name>
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>Body Pos</Name>
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>Real heading</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>Cropped Image</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>Real heading</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>Body Pos</Name>
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>Cropped Image</Name>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge>
+        <From>0</From>
+        <To>2</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>18</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>3</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>2</From>
+        <To>1</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>9</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>4</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>4</From>
+        <To>14</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>6</From>
+        <To>12</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>9</From>
+        <To>13</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>11</From>
+        <To>7</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>12</From>
+        <To>10</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>13</From>
+        <To>5</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>14</From>
+        <To>8</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>15</From>
+        <To>11</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>16</From>
+        <To>11</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>17</From>
+        <To>11</To>
+        <Label>Source3</Label>
+      </Edge>
+    </Edges>
+  </Workflow>
+  <ExtensionTypes>
+    <Type>Bonsai.Vision.FileCapture, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Grayscale, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Zip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.GoodFeaturesToTrack, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.LargestBinaryRegion, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.AdaptiveThreshold, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Skip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.SubtractBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+  </ExtensionTypes>
+</WorkflowBuilder>

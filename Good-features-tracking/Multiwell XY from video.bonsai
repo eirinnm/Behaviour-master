@@ -1,0 +1,813 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.3.0">
+  <Workflow xmlns:q2="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q3="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q4="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q1="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns="https://horizongir.org/bonsai">
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:FileCapture">
+          <q1:FileName>N:\Behaviour\6well 6dpf 30min plate2-0.avi</q1:FileName>
+          <q1:PlaybackRate>100</q1:PlaybackRate>
+          <q1:StartPosition>0</q1:StartPosition>
+          <q1:PositionUnits>Frames</q1:PositionUnits>
+          <q1:Loop>false</q1:Loop>
+          <q1:Playing>true</q1:Playing>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Grayscale" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:RoiActivity">
+          <q1:Regions>
+            <q1:ArrayOfPoint>
+              <q1:Point>
+                <q1:X>815</q1:X>
+                <q1:Y>32</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>1044</q1:X>
+                <q1:Y>32</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>1044</q1:X>
+                <q1:Y>12</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>815</q1:X>
+                <q1:Y>12</q1:Y>
+              </q1:Point>
+            </q1:ArrayOfPoint>
+            <q1:ArrayOfPoint>
+              <q1:Point>
+                <q1:X>60</q1:X>
+                <q1:Y>78</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>397</q1:X>
+                <q1:Y>78</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>397</q1:X>
+                <q1:Y>402</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>60</q1:X>
+                <q1:Y>402</q1:Y>
+              </q1:Point>
+            </q1:ArrayOfPoint>
+            <q1:ArrayOfPoint>
+              <q1:Point>
+                <q1:X>405</q1:X>
+                <q1:Y>78</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>742</q1:X>
+                <q1:Y>78</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>742</q1:X>
+                <q1:Y>402</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>405</q1:X>
+                <q1:Y>402</q1:Y>
+              </q1:Point>
+            </q1:ArrayOfPoint>
+            <q1:ArrayOfPoint>
+              <q1:Point>
+                <q1:X>749</q1:X>
+                <q1:Y>79</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>1086</q1:X>
+                <q1:Y>79</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>1086</q1:X>
+                <q1:Y>403</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>749</q1:X>
+                <q1:Y>403</q1:Y>
+              </q1:Point>
+            </q1:ArrayOfPoint>
+            <q1:ArrayOfPoint>
+              <q1:Point>
+                <q1:X>59</q1:X>
+                <q1:Y>420</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>396</q1:X>
+                <q1:Y>420</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>396</q1:X>
+                <q1:Y>744</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>59</q1:X>
+                <q1:Y>744</q1:Y>
+              </q1:Point>
+            </q1:ArrayOfPoint>
+            <q1:ArrayOfPoint>
+              <q1:Point>
+                <q1:X>403</q1:X>
+                <q1:Y>420</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>740</q1:X>
+                <q1:Y>420</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>740</q1:X>
+                <q1:Y>744</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>403</q1:X>
+                <q1:Y>744</q1:Y>
+              </q1:Point>
+            </q1:ArrayOfPoint>
+            <q1:ArrayOfPoint>
+              <q1:Point>
+                <q1:X>744</q1:X>
+                <q1:Y>421</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>1081</q1:X>
+                <q1:Y>421</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>1081</q1:X>
+                <q1:Y>745</q1:Y>
+              </q1:Point>
+              <q1:Point>
+                <q1:X>744</q1:X>
+                <q1:Y>745</q1:Y>
+              </q1:Point>
+            </q1:ArrayOfPoint>
+          </q1:Regions>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="SelectMany">
+        <Name>Find Objects</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item2</Selector>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item1</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Concat" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="CombineLatest" />
+            </Expression>
+            <Expression xsi:type="InputMapping">
+              <PropertyMappings>
+                <Property name="RegionOfInterest" selector="Source.Item2.Rect" />
+              </PropertyMappings>
+              <Selector>Source.Item1</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q1:Crop">
+                <q1:RegionOfInterest>
+                  <q1:X>744</q1:X>
+                  <q1:Y>421</q1:Y>
+                  <q1:Width>338</q1:Width>
+                  <q1:Height>325</q1:Height>
+                </q1:RegionOfInterest>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item2</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Zip" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="ToList" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="NestedWorkflow">
+              <Name>Find centroid and heading</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Zip" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q1:GoodFeaturesToTrack">
+                      <q1:MaxFeatures>1</q1:MaxFeatures>
+                      <q1:QualityLevel>0.5</q1:QualityLevel>
+                      <q1:MinDistance>0</q1:MinDistance>
+                      <q1:RegionOfInterest>
+                        <q1:X>0</q1:X>
+                        <q1:Y>0</q1:Y>
+                        <q1:Width>0</q1:Width>
+                        <q1:Height>0</q1:Height>
+                      </q1:RegionOfInterest>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q1:BinaryRegionAnalysis" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q1:FindContours">
+                      <q1:Mode>External</q1:Mode>
+                      <q1:Method>ChainApproxNone</q1:Method>
+                      <q1:Offset>
+                        <q1:X>0</q1:X>
+                        <q1:Y>0</q1:Y>
+                      </q1:Offset>
+                      <q1:MinArea>5</q1:MinArea>
+                      <q1:MaxArea>60</q1:MaxArea>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q1:AdaptiveThreshold">
+                      <q1:MaxValue>255</q1:MaxValue>
+                      <q1:AdaptiveMethod>MeanC</q1:AdaptiveMethod>
+                      <q1:ThresholdType>BinaryInv</q1:ThresholdType>
+                      <q1:BlockSize>73</q1:BlockSize>
+                      <q1:Parameter>50</q1:Parameter>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="q2:PythonTransform">
+                    <q2:Name>Find real heading</q2:Name>
+                    <q2:Script>## Takes a Keypoint (from GoodFeaturesToTrack) and a list of BinaryRegions.
+## We first find which binary region is closes to the Keypoint (which is assumed to be the head).
+## This binary region is then assumed to be the body, so its orientation is the fish orientation.
+## This orientation doesn't know which side is the head and which is the tail. 
+## We solve that by looking where the head is. 
+
+## Return value: corrected heading (radians), coordinates of the head, coordinates of the body.
+
+import math
+from System import Tuple
+clr.AddReference("OpenCV.Net")
+from OpenCV.Net import Point2f
+from System import Tuple
+## max distance between head and body:
+## fish outside this range will be rejected. If in doubt, make it really big like 1000.
+MAX_BODY_LENGTH_PX = 6 
+
+@returns(Tuple[float, Point2f, Point2f])
+def process(value):
+  good_features = [keypoint for keypoint in value.Item1]
+  binary_regions = [br for br in value.Item2]
+  body_binary_region = None
+  if(good_features and binary_regions):
+    head_pos = good_features[0]
+    ## compare the binary regions and work out which is the fish
+    eye_angle, body_binary_region = get_eye_angle(head_pos, binary_regions)
+  if body_binary_region:
+    ## we successfully found a fish. Now which way is it facing?
+    body_heading = body_binary_region.Orientation
+    body_pos = body_binary_region.Centroid
+    real_heading = fix_heading(body_heading, eye_angle)
+    return Tuple[float, Point2f, Point2f](real_heading,head_pos, body_pos)
+  else:
+    return Tuple[float, Point2f, Point2f](float("NaN"),Point2f(0,0),Point2f(0,0))
+
+
+def fix_heading(naive, informed):
+  #inform a 2-quadrant heading of it's true direction
+  #by finding which of the two directions is closest to 4-quadrant heading
+  if naive-informed &lt; -1.4:
+    return naive+3.14
+  elif naive-informed &gt; 1.4:
+    return naive-3.14
+  else: 
+    return naive
+
+def get_eye_angle(head_pos, binary_regions):
+  closest_distance = MAX_BODY_LENGTH_PX
+  best_body = None
+  best_eye_angle = 0
+  for body in binary_regions: ##compare all binary regions
+    body_pos = body.Centroid
+    ## get the angle between the head and the body
+    dx = (head_pos.X - body_pos.X)
+    dy = (head_pos.Y - body_pos.Y)
+    body_length = math.hypot(dx,dy)
+    if body_length&lt;closest_distance:
+      best_body = body
+      closest_distance = body_length
+      best_eye_angle = math.atan2(dy, dx) 
+  ## whatever body we have is declared the true fish body
+  return best_eye_angle, best_body</q2:Script>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>7</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>1</From>
+                    <To>0</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>0</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>7</From>
+                    <To>6</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="PublishSubject">
+              <Name>Head Pos</Name>
+            </Expression>
+            <Expression xsi:type="PublishSubject">
+              <Name>Body Pos</Name>
+            </Expression>
+            <Expression xsi:type="PublishSubject">
+              <Name>Real heading</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item2</Selector>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item3</Selector>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item1</Selector>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Real heading</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Head Pos</Name>
+            </Expression>
+            <Expression xsi:type="PublishSubject">
+              <Name>Cropped Image</Name>
+            </Expression>
+            <Expression xsi:type="PublishSubject">
+              <Name>Full Image</Name>
+            </Expression>
+            <Expression xsi:type="PublishSubject">
+              <Name>This Roi</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>This Roi</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Skip">
+                <Count>1</Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Body Pos</Name>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>0</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>21</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>24</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>4</From>
+              <To>5</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>4</From>
+              <To>7</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>5</From>
+              <To>6</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>6</From>
+              <To>11</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>6</From>
+              <To>20</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>7</From>
+              <To>22</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>9</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>9</From>
+              <To>10</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>11</From>
+              <To>17</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>11</From>
+              <To>15</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>11</From>
+              <To>16</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>15</From>
+              <To>12</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>16</From>
+              <To>13</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>17</From>
+              <To>14</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>18</From>
+              <To>8</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>19</From>
+              <To>8</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>21</From>
+              <To>4</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>23</From>
+              <To>8</To>
+              <Label>Source4</Label>
+            </Edge>
+            <Edge>
+              <From>24</From>
+              <To>4</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>25</From>
+              <To>8</To>
+              <Label>Source3</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>Tracking data</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.Item[0].Activity.Val0</Selector>
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>IR LED</Name>
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>Input Image</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="TimeInterval" />
+      </Expression>
+      <Expression xsi:type="NestedWorkflow">
+        <Name>Calculate FPS</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:Average" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:Buffer">
+                <q3:Count>50</q3:Count>
+                <q3:Skip>1</q3:Skip>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="q2:ExpressionTransform">
+              <q2:Expression>1000/it</q2:Expression>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Interval.TotalMilliseconds</Selector>
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>5</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>4</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="q2:PythonTransform">
+        <q2:Name>Draw heading</q2:Name>
+        <q2:Script>import clr
+clr.AddReference("OpenCV.Net")
+from OpenCV.Net import *
+import math
+
+@returns(IplImage)
+def process(value):
+  image = value.Item2
+  output = IplImage(image.Size, image.Depth, 3)
+  CV.CvtColor(image, output, ColorConversion.Gray2Bgr)
+  for values in value.Item1:
+    heading = values.Item1
+    head_pos = values.Item2
+    body_pos = values.Item3
+    rect = values.Item4.Rect
+    if not math.isnan(heading):
+      draw_heading(output, body_pos.X+rect.X, body_pos.Y+rect.Y, heading, Scalar.Rgb(255,0,255))
+  return output
+
+def draw_heading(img, X, Y, heading, colour):
+  ## draw a triangle indicating the heading of the fish
+  triangle_length = 12
+  basewidth = 4 ##pixels on each side
+  marker_col = Scalar.Rgb(255,0,255)
+  ## get the axis first
+  rise = math.sin(heading)
+  run = math.cos(heading)
+  p1 = Point(X, Y)  
+  p2 = Point(X+run*triangle_length,Y+rise*triangle_length)
+  ## now calculate the gradient of the "base" of the triangle
+  baserun = math.cos(heading+1.5708)
+  baserise = math.sin(heading+1.5708)
+  p3 = Point(X+baserun*basewidth, Y+baserise*basewidth)
+  p4 = Point(X-baserun*basewidth, Y-baserise*basewidth)
+  #CV.Line(img,p1,p2,color=colour)
+  CV.FillConvexPoly(img,(p2,p3,p4),color=marker_col)
+  
+</q2:Script>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q4:TextWriter">
+          <q4:FileName>C:\Users\Eirinn\OneDrive\Zwp\Behaviour\Seizures\Expt11 6well video\xy\6well 6dpf plate2-tracking.csv</q4:FileName>
+          <q4:Suffix>FileCount</q4:Suffix>
+          <q4:Buffered>true</q4:Buffered>
+          <q4:Overwrite>false</q4:Overwrite>
+          <q4:Append>false</q4:Append>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>Tracking data</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="CombineLatest" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>IR LED</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="q2:PythonTransform">
+        <q2:Script>import math
+@returns(str)
+def process(value):
+  ir = str(int(value.Item1))
+  allwells=[ir]
+  for well in value.Item2:
+    heading = well.Item1
+    head_pos = well.Item2
+    body_pos = well.Item3
+    rect = well.Item4.Rect
+    if not math.isnan(heading):
+      #welldata = (head_pos.X+rect.X, head_pos.Y+rect.Y, heading)
+      welldata = (body_pos.X, body_pos.Y, heading)
+    else:
+      welldata = (0, 0, 0)
+    wellstr = "%0.2f %0.2f %0.2f" % welldata
+    allwells.append(wellstr)
+  return " ".join(allwells)</q2:Script>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>Tracking data</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>Input Image</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Take">
+          <Count>1</Count>
+        </Combinator>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge>
+        <From>0</From>
+        <To>1</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>0</From>
+        <To>9</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>2</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>3</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>8</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>2</From>
+        <To>3</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>2</From>
+        <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>4</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>4</From>
+        <To>5</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>6</From>
+        <To>7</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>9</From>
+        <To>10</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>13</From>
+        <To>14</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>14</From>
+        <To>20</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>15</From>
+        <To>16</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>16</From>
+        <To>17</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>17</From>
+        <To>12</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>18</From>
+        <To>16</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>19</From>
+        <To>14</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>20</From>
+        <To>11</To>
+        <Label>Source1</Label>
+      </Edge>
+    </Edges>
+  </Workflow>
+  <ExtensionTypes>
+    <Type>Bonsai.Vision.FileCapture, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Grayscale, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.RoiActivity, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Zip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Concat, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.InputMappingBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.ToList, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.GoodFeaturesToTrack, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.AdaptiveThreshold, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Skip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.TimeInterval, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Average, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Buffer, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.ExpressionTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.IO.TextWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Take, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+  </ExtensionTypes>
+</WorkflowBuilder>
