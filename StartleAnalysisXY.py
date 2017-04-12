@@ -5,11 +5,7 @@ Created on Wed Feb 08 21:18:24 2017
 @author: Eirinn
 """
 from __future__ import division
-import sys, os.path
-print sys.argv
-if len(sys.argv)==1:
-    raise NameError, "No input file provided"
-
+import os.path
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -17,42 +13,24 @@ import matplotlib.pyplot as plt
 #import scipy.signal
 #%matplotlib inline
 from pylab import rcParams
-rcParams['figure.figsize'] = 10, 5
+rcParams['figure.figsize'] = 5, 5
 sns.set(context='talk',style='darkgrid',palette='deep',rc={'figure.facecolor':'white'})
 
-
-datafile = sys.argv[1]
-#load the file
-data=np.loadtxt(datafile,dtype=float)
-datapath, datafile = os.path.split(datafile)
-datafile=datafile.replace('.csv','')
-
-
-## Set experiment conditions
-#import itertools
-#NUM_WELLS=24
-#NUMROWS=4
-#NUMCOLS=6
-#conditions=pd.DataFrame(list(itertools.product('ABCDEFGH'[:NUMROWS],range(1,NUMCOLS+1))), columns=['row','col'])
-#conditions.loc[conditions.col.between(1,3),'genotype']='wt'
-#conditions.loc[conditions.col.between(4,6),'genotype']='zwp'
-platedata=pd.read_csv(os.path.join(datapath,'Plate.csv'),index_col=0)
-conditions=platedata.stack().reset_index()
-conditions.columns=['row','col','genotype']
-NUM_WELLS=len(conditions)
-print NUM_WELLS, " wells specified:"
-print platedata
-
-trialdata=pd.read_csv(os.path.join(datapath,'Trials.csv'))
-stimname=trialdata.columns[0]
-trialdata.columns=['stimulus']
-NUM_TRIALS = trialdata.shape[0]
-print NUM_TRIALS, " trials specified. Stimulus name: ", stimname
-FRAMERATE=500
-SCALEFACTOR=16.2/132 #mm / pixel. 16.2/66 is for a 24-well plate at 640x480 resolution
-SKIP_FRAMES = 0 #number of frames to skip at the start of each trial
-
+DEFAULT_FRAMERATE=500
+import common_plate_assay as cpa
+args=cpa.get_args(DEFAULT_FRAMERATE,'Startle Analysis XY')
+data=cpa.load_file()
+conditions, treatment_order = cpa.load_conditions()
+datafilename = cpa.datafilename
+datapath = cpa.datapath
+NUM_WELLS = cpa.NUM_WELLS
+NUM_TRIALS = cpa.NUM_TRIALS
+FRAMERATE = cpa.FRAMERATE
+trialdata = cpa.trialdata
+stimname = cpa.stimname
+#%%
 #main function for finding swim bouts in a given set of values
+SKIP_FRAMES = 0 #number of frames to skip at the start of each trial
 MIN_BOUT_LENGTH = 5 #frames
 MIN_BOUT_GAP = 2 #frames
 
@@ -84,7 +62,6 @@ rdf=[]
 trialframecounter=0
 tdf=[]
 bdf=[]
-maxmovement=np.array(0)
 for t,trial in enumerate(trials):
     #find the LED flash, if there is one. It will always be in well 0.
     pulseframes = np.nonzero(trial[SKIP_FRAMES:,0,0])[0]
@@ -97,9 +74,6 @@ for t,trial in enumerate(trials):
     #now find the swimming bouts
     for well in range(NUM_WELLS):
         thismovement=trial[SKIP_FRAMES:,well+1] #well+1 because the LED is well 0
-        if np.count_nonzero(thismovement)>np.count_nonzero(maxmovement):
-            maxmovement=thismovement
-            print t, well
         for boutid,(boutlength, startframe) in enumerate(zip(*get_bouts(thismovement))):
             bdf.append({'boutid':boutid,'trial':t,'fish':well,
                         'boutlength_raw':boutlength,
@@ -108,71 +82,108 @@ for t,trial in enumerate(trials):
                         #'endframe':startframe+boutlength})
 tdf=pd.DataFrame(tdf,dtype=int)
 bdf=pd.DataFrame(bdf)
+
+## Prepare trial data
 meanflash=tdf.flash1.median()
 print "Median flash frame was",meanflash,"+-", tdf.flash1.std()
-print len(tdf[tdf.flash1.isnull()])," trials had no flash and were given the median value:"
-print tdf[tdf.flash1.isnull()].index
-tdf.loc[tdf.flash1.isnull(),'flash1']=meanflash
+missing_flash_trials = tdf[tdf.flash1.isnull()]
+if len(missing_flash_trials)>0:
+    print len(missing_flash_trials)," trials had no flash and were given the median value:"
+    print tdf[tdf.flash1.isnull()].index
+    tdf.loc[tdf.flash1.isnull(),'flash1']=meanflash
+else:
+    print "Flash found in all",NUM_TRIALS, "trials."
 tdf=pd.merge(tdf,trialdata,left_index=True,right_index=True)
-
 
 #the 'startframe' values for each bout need to be offset with the LED flash value for that trial.
 bdf['vid_startframe']=bdf.apply(lambda x: tdf.loc[x.trial].trialstart+x.startframe+SKIP_FRAMES,axis=1)
 bdf['startframe']=bdf.apply(lambda x: x.startframe-tdf.loc[x.trial].flash1,axis=1)
-bdf['latency']=bdf.startframe/FRAMERATE
-
-
+bdf['latency']=bdf.startframe/FRAMERATE*1000
+## make the fish and trials a category, so missing fish/trials will show up
+bdf.fish = bdf.fish.astype("category", categories = np.arange(NUM_WELLS))
+bdf.trial = bdf.trial.astype("category", categories = np.arange(NUM_TRIALS))
+#%%
 ##Classify responses
-##Make a dataframe of the first bout in each trial
-rdf=bdf.groupby(['fish','trial'],as_index=False).agg({'latency':np.min,'boutlength':np.sum})
-rdf=pd.merge(rdf,tdf,left_on='trial',right_index=True)
-rdf=pd.merge(rdf, conditions, left_on='fish',right_index=True)
-rdf.loc[rdf.latency<0,'cat']='already_moving'
-rdf.loc[rdf.latency>=0,'cat']='responded'
-#print "Dropping", len(rdf[rdf.startframe<=0]), "responses that occured before the LED flash"
-#rdf=rdf[rdf.latency>0]
-#print len(rdf), "responses remain"
+##Make a blank dataframe for each fish/trial combination
+from itertools import product
+df = pd.DataFrame([{'trial':t,'fish':f} for f,t in product(bdf.fish.cat.categories,bdf.trial.cat.categories)])
+## group responses for each fish/trial, getting the first latency and longest bout
+rdf=bdf.groupby(['fish','trial'],as_index=False).agg({'latency':np.min,'boutlength':np.max})
+## put this back into the blank dataframe
+df=pd.merge(df,rdf,left_on=['fish','trial'],right_on=['fish','trial'],how='outer')
+df=pd.merge(df,tdf,left_on='trial',right_index=True) ## add the trial conditions
+df=pd.merge(df, conditions, left_on='fish',right_index=True) ## add the well (fish) conditions
+df['responded']=False
+df.loc[df.latency>=0,'responded']=True
+#df.loc[df.latency<0,'cat']='already_moving'
+#df.loc[df.latency>=0,'cat']='responded'
+#df.loc[df.latency.isnull(),'cat']='no_response'
+#%% Plot the response per well, ignoring stimuli conditions
+#fish_responses = df.groupby(['row','col','cat']).size().unstack().fillna(0)
+#fishmeans = df.groupby(['row','col','fish','genotype','treatment'])['latency','boutlength'].mean().reset_index()
+plate_summary = df.groupby(['row','col','fish','genotype','treatment']).agg({'latency':np.mean,
+                                                                          'boutlength':np.mean,
+                                                                          'responded':np.mean}).reset_index()
+#fishmeans.rename(columns={'cat':'responses'},inplace=True)
+fig,axes=plt.subplots(1,2, sharex=True, sharey=True, figsize=(14,4))
+#plt.tight_layout()
+annot_kws={"size": 10}
+ax=axes[0]
+sns.heatmap(ax=ax,data=plate_summary.pivot('row','col','responded'),annot=True,cbar=False,square=True,annot_kws=annot_kws)
+ax.set_title('Response rate')
+ax=axes[1]
+sns.heatmap(ax=ax,data=plate_summary.pivot('row','col','latency'),annot=True,cbar=False,square=True,annot_kws=annot_kws,fmt=".1f")
+ax.set_title('Mean latency (ms)')
+#plt.axis('off')
+plt.suptitle('Behaviour per well')
+#%%
+#g = sns.FacetGrid(data=fishmeans,row='stimulus', aspect=2, size=5)
+#g.map_dataframe(lambda data,color: sns.heatmap(data.pivot('row','col','responded'),
+#                                               annot=True,cbar=False,square=True,annot_kws=annot_kws ))
+#%% ================= Per-trial response rate =================
+## What percentage of fish responded to each stimuli?
+trialmeans = df.groupby(['genotype','treatment','stimulus','trial']).agg({'responded': np.mean,
+                                                                            'latency': np.mean}).reset_index()
+sns.factorplot(data=trialmeans,y='responded',x='stimulus',hue='genotype',col='treatment',aspect=1,capsize=.1,size=5)
+plt.ylim(0,1)
+plt.subplots_adjust(top=0.85)
+plt.suptitle('Responses per stimulus and treatment')
+plt.ylabel('Fraction of fish')
+plt.savefig(os.path.join(datapath, datafilename+".pct.perstimulus.png"))
+#%%
+sns.factorplot(data=trialmeans,y='responded',x='trial',hue='genotype',col='treatment',row='stimulus',aspect=2)
+plt.ylim(0,1)
+plt.subplots_adjust(top=0.85)
+plt.suptitle('Response fraction per trial')
+plt.savefig(os.path.join(datapath, datafilename+".pertrial.png"))
+#%% ================= Per-fish response rate =================
+## Generate per-fish response rates rather than per-trial
+fishmeans=df.groupby(['row','col','fish','genotype','treatment','stimulus']).agg({'latency':np.mean,
+                                                                          'boutlength':np.mean,
+                                                                          'responded': np.mean}).reset_index()
+## make a facetgrid
+g = sns.FacetGrid(data=fishmeans, hue='genotype',col='stimulus',aspect=1, ylim=(0,1),size=5)
+g.map(sns.violinplot,'treatment','responded', cut=0, bw=0.1)
+g.map(sns.swarmplot,'treatment','responded',color='gray')
+g.set_ylabels('Rate (fraction of trials)')
+plt.subplots_adjust(top=0.85)
+plt.suptitle('Response rate per stimulus condition')
+#plt.ylabel('Fraction of trials')
+g.savefig(os.path.join(datapath, datafilename+".rate.perstimulus.png"))
+#%% ================= Latencies =================
+## What was the mean latency for all responses? (not fish means)
+g = sns.factorplot(data=df[df.responded], kind='box', x='latency',y='treatment', row='stimulus',aspect=2, size=5,
+                   showfliers=False, notch=True,margin_titles=True)
+g.set(xlim=(0,30))
+g.set(xticks=np.arange(0,30,2))
+plt.subplots_adjust(top=0.85)
+plt.suptitle('Latency of responses (ms)')
+g.savefig(os.path.join(datapath, datafilename+".latency.box.png"))
 
-responses = rdf[rdf.cat=='responded'].groupby(['genotype','trial','stimulus']).size().reset_index(name='num_responses')
-responses = pd.merge(responses,tdf.groupby('stimulus').size().reset_index(name='num_trials'))
-responses = pd.merge(responses,conditions.groupby('genotype').size().reset_index(name='num_fish'))
-responses['mean_response']=responses.num_responses/responses.num_fish
-
-## start plotting things
-## response rate
-
-sns.barplot(data=responses,y='mean_response', x='stimulus', hue='genotype' )
-plt.title("Number of responses in each group, mean across trials")
-plt.ylabel("Percent of fish that responded")
-plt.xlabel("Stimulus (%s)" % stimname)
-plt.text(0.5, 1.08,datafile,
-     horizontalalignment='center',
-     verticalalignment='top',
-     transform = plt.gca().transAxes,
-        fontsize=10)
-plt.savefig(os.path.join(datapath, datafile+".responserate.png"))
-plt.show()
-
-##plot all the latencies
-for name, group in rdf.groupby('stimulus'):
-    sns.kdeplot(data=group.latency,label=name)
-plt.title("Distribution of latencies")
-plt.xlabel("Time until first movement (seconds)")
-plt.savefig(os.path.join(datapath, datafile+".latencydist.png"))
-plt.show()
-
-##plot all the latencies - excluding already_moving
-for name, group in rdf[rdf.cat=='responded'].groupby('stimulus'):
-    sns.kdeplot(data=group.latency,label=name,clip=(0,0.4))
-plt.title("Distribution of latencies - responders only")
-plt.xlabel("Time until first movement (seconds)")
-plt.savefig(os.path.join(datapath, datafile+".latencydist-responders.png"))
-plt.show()
-
-#make a bar graph of latencies
-sns.stripplot(data=rdf[rdf.cat=='responded'],y='latency', hue='genotype',x='stimulus',jitter=True)
-plt.title("Latency of first bout")
-plt.ylabel("Mean latency per bout (seconds)")
-plt.xlabel("Stimulus (%s)" % stimname)
-plt.savefig(os.path.join(datapath, datafile+".latencybar.png"))
-plt.show()
+#%% Total distribution
+g = sns.FacetGrid(data=df[df.responded], hue='genotype', row='stimulus',aspect=2, size=5,margin_titles=True)
+g.map(sns.violinplot,'latency', 'treatment',bw=0.1,cut=0,split=True)
+g.map(sns.stripplot,'latency','treatment', jitter=True, color='gray')
+plt.subplots_adjust(top=0.85)
+plt.suptitle('Total distribution of latencies')
+g.savefig(os.path.join(datapath, datafilename+".latency.dist.png"))
