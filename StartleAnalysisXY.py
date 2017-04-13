@@ -136,6 +136,7 @@ sns.heatmap(ax=ax,data=plate_summary.pivot('row','col','latency'),annot=True,cba
 ax.set_title('Mean latency (ms)')
 #plt.axis('off')
 plt.suptitle('Behaviour per well')
+plt.savefig(os.path.join(datapath, datafilename+".plateview.png"))
 #%%
 #g = sns.FacetGrid(data=fishmeans,row='stimulus', aspect=2, size=5)
 #g.map_dataframe(lambda data,color: sns.heatmap(data.pivot('row','col','responded'),

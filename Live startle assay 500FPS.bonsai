@@ -288,7 +288,7 @@ PULSELENGTH=500 #milliseconds
 @returns(str)
 def generate():
   for i in range(NUM_REPEATS):
-    for brightness in [255,128,64,0]:
+    for brightness in [0]:
       yield "F{},{}".format(brightness, PULSELENGTH)
 </q2:Script>
             </Expression>
@@ -360,16 +360,6 @@ def generate():
           <DueTime>PT0.1S</DueTime>
         </Combinator>
       </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q3:Crop">
-          <q3:RegionOfInterest>
-            <q3:X>68</q3:X>
-            <q3:Y>102</q3:Y>
-            <q3:Width>1144</q3:Width>
-            <q3:Height>858</q3:Height>
-          </q3:RegionOfInterest>
-        </Combinator>
-      </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>Trigger Signal</Name>
       </Expression>
@@ -389,7 +379,7 @@ def generate():
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q5:TextWriter">
-          <q5:FileName>C:\DATA\Eirinn\Megan\5dpf eml425\5dpf eml425-.csv</q5:FileName>
+          <q5:FileName>C:\DATA\Eirinn\Megan\Test\Test-.csv</q5:FileName>
           <q5:Suffix>FileCount</q5:Suffix>
           <q5:Buffered>true</q5:Buffered>
           <q5:Overwrite>false</q5:Overwrite>
@@ -2570,6 +2560,16 @@ def process(value):
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Index" />
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:Crop">
+          <q3:RegionOfInterest>
+            <q3:X>64</q3:X>
+            <q3:Y>72</q3:Y>
+            <q3:Width>1144</q3:Width>
+            <q3:Height>858</q3:Height>
+          </q3:RegionOfInterest>
+        </Combinator>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge>
@@ -2584,12 +2584,12 @@ def process(value):
       </Edge>
       <Edge>
         <From>1</From>
-        <To>34</To>
+        <To>33</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>6</From>
-        <To>32</To>
+        <To>31</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2649,12 +2649,12 @@ def process(value):
       </Edge>
       <Edge>
         <From>18</From>
-        <To>28</To>
+        <To>27</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>18</From>
-        <To>35</To>
+        <To>34</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2664,78 +2664,78 @@ def process(value):
       </Edge>
       <Edge>
         <From>20</From>
-        <To>4</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>21</From>
         <To>19</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>22</From>
+        <From>21</From>
         <To>18</To>
         <Label>Source3</Label>
       </Edge>
       <Edge>
-        <From>24</From>
-        <To>26</To>
+        <From>23</From>
+        <To>25</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>25</From>
+        <From>24</From>
+        <To>23</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>26</From>
+        <To>29</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>27</From>
         <To>24</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>27</From>
-        <To>30</To>
+        <To>26</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>28</From>
-        <To>25</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>28</From>
-        <To>27</To>
+        <To>36</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>29</From>
-        <To>37</To>
+        <To>30</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>30</From>
-        <To>31</To>
+        <To>28</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>31</From>
-        <To>29</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>33</From>
+        <From>32</From>
         <To>0</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>34</From>
-        <To>20</To>
+        <From>33</From>
+        <To>37</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>35</From>
+        <From>34</From>
         <To>3</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>36</From>
+        <From>35</From>
         <To>6</To>
         <Label>Source6</Label>
+      </Edge>
+      <Edge>
+        <From>37</From>
+        <To>4</To>
+        <Label>Source1</Label>
       </Edge>
     </Edges>
   </Workflow>
@@ -2754,7 +2754,6 @@ def process(value):
     <Type>Bonsai.Expressions.ExternalizedTimeSpan`1[[Bonsai.Reactive.Timer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.TriggeredBuffer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Reactive.TriggeredWindow, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Concat, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.IO.TextWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -2764,6 +2763,7 @@ def process(value):
     <Type>Bonsai.Scripting.PythonSelectMany, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.InputMappingBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.LargestBinaryRegion, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>

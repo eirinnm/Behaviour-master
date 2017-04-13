@@ -257,22 +257,6 @@
     <WindowState>Normal</WindowState>
   </DialogSettings>
   <DialogSettings>
-    <Visible>false</Visible>
-    <Location>
-      <X>571</X>
-      <Y>184</Y>
-    </Location>
-    <Size>
-      <Width>336</Width>
-      <Height>278</Height>
-    </Size>
-    <WindowState>Normal</WindowState>
-    <VisualizerTypeName>Bonsai.Vision.Design.IplImageVisualizer</VisualizerTypeName>
-    <VisualizerSettings>
-      <IplImageVisualizer />
-    </VisualizerSettings>
-  </DialogSettings>
-  <DialogSettings>
     <Visible>true</Visible>
     <Location>
       <X>842</X>
@@ -393,7 +377,7 @@
     </VisualizerSettings>
   </DialogSettings>
   <DialogSettings>
-    <Visible>true</Visible>
+    <Visible>false</Visible>
     <Location>
       <X>846</X>
       <Y>236</Y>
@@ -446,7 +430,7 @@
         <AutoScaleY>false</AutoScaleY>
         <SelectedPage>0</SelectedPage>
         <ChannelsPerPage>100</ChannelsPerPage>
-        <OverlayChannels>true</OverlayChannels>
+        <OverlayChannels>false</OverlayChannels>
         <ChannelOffset>0</ChannelOffset>
         <HistoryLength>1</HistoryLength>
         <WaveformBufferLength>1</WaveformBufferLength>
@@ -524,8 +508,8 @@
   <DialogSettings>
     <Visible>true</Visible>
     <Location>
-      <X>869</X>
-      <Y>349</Y>
+      <X>850</X>
+      <Y>246</Y>
     </Location>
     <Size>
       <Width>415</Width>
@@ -536,5 +520,17 @@
     <VisualizerSettings>
       <ObjectTextVisualizer />
     </VisualizerSettings>
+  </DialogSettings>
+  <DialogSettings>
+    <Visible>false</Visible>
+    <Location>
+      <X>0</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <Width>0</Width>
+      <Height>0</Height>
+    </Size>
+    <WindowState>Normal</WindowState>
   </DialogSettings>
 </VisualizerLayout>
