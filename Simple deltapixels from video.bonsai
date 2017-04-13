@@ -9,7 +9,7 @@
           <q1:StartPosition>0</q1:StartPosition>
           <q1:PositionUnits>Frames</q1:PositionUnits>
           <q1:Loop>false</q1:Loop>
-          <q1:Playing>false</q1:Playing>
+          <q1:Playing>true</q1:Playing>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -71,6 +71,15 @@
           </Edges>
         </Workflow>
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:BackgroundSubtraction">
+          <q1:BackgroundFrames>1</q1:BackgroundFrames>
+          <q1:AdaptationRate>0.5</q1:AdaptationRate>
+          <q1:ThresholdValue>9</q1:ThresholdValue>
+          <q1:ThresholdType>Binary</q1:ThresholdType>
+          <q1:SubtractionMethod>Absolute</q1:SubtractionMethod>
+        </Combinator>
+      </Expression>
       <Expression xsi:type="q3:PythonTransform">
         <q3:Name>Number of moving fish</q3:Name>
         <q3:Script>@returns(int)
@@ -86,6 +95,21 @@ def process(value):
       </Expression>
       <Expression xsi:type="PublishSubject">
         <Name>VideoData</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:MorphologicalOperator">
+          <q1:Size>
+            <q1:Width>3</q1:Width>
+            <q1:Height>3</q1:Height>
+          </q1:Size>
+          <q1:Anchor>
+            <q1:X>1</q1:X>
+            <q1:Y>1</q1:Y>
+          </q1:Anchor>
+          <q1:Shape>Rectangle</q1:Shape>
+          <q1:Iterations>1</q1:Iterations>
+          <q1:Operation>Open</q1:Operation>
+        </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q3:PythonTextWriter">
@@ -1872,32 +1896,42 @@ def process(value):
       </Edge>
       <Edge>
         <From>2</From>
-        <To>5</To>
+        <To>6</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>5</From>
+        <From>4</From>
         <To>9</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>5</From>
-        <To>7</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
         <From>6</From>
-        <To>8</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>9</From>
         <To>4</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
+        <From>7</From>
+        <To>10</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>9</From>
-        <To>6</To>
+        <To>11</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>9</From>
+        <To>8</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>11</From>
+        <To>5</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>11</From>
+        <To>7</To>
         <Label>Source1</Label>
       </Edge>
     </Edges>
@@ -1908,8 +1942,10 @@ def process(value):
     <Type>Bonsai.Dsp.Average, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Dsp.Buffer, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Scripting.ExpressionTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.BackgroundSubtraction, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.Grayscale, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.MorphologicalOperator, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Scripting.PythonTextWriter, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.RoiActivity, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
