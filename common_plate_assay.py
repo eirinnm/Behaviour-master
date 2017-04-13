@@ -18,7 +18,9 @@ def get_args(default_framerate=100, experiment_type="Undefined experiment"):
     parser.add_argument('--framerate',type=int, default=default_framerate)
     parser.add_argument('--scalefactor',type=float, default=0.1227)
     parser.add_argument('--minactivity',type=float, default=0)
+    parser.add_argument('--skipframes',type=int, default=0)
     parser.add_argument('--longboutlength',type=float, default=0.5)
+    parser.add_argument('--usedeltapixels',action='store_true',help='Use delta pixels even for XY(H) scripts')
     args=parser.parse_args()
     FRAMERATE=args.framerate
     SCALEFACTOR=args.scalefactor
