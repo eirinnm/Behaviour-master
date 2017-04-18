@@ -20,6 +20,7 @@ def get_args(default_framerate=100, experiment_type="Undefined experiment"):
     parser.add_argument('--minactivity',type=float, default=0)
     parser.add_argument('--skipframes',type=int, default=0)
     parser.add_argument('--longboutlength',type=float, default=0.5)
+    parser.add_argument('--maxlatency',type=int, default=500, help='cutoff (milliseconds) to classify movement as response')
     parser.add_argument('--usedeltapixels',action='store_true',help='Use delta pixels even for XY(H) scripts')
     args=parser.parse_args()
     FRAMERATE=args.framerate
@@ -27,7 +28,9 @@ def get_args(default_framerate=100, experiment_type="Undefined experiment"):
     print (' %s ' % experiment_type).center(40,'=')
     print '''Framerate = {0.framerate}
 Scalefactor = {0.scalefactor}
-Ignore LED: {0.noled}'''.format(args)
+Ignore LED: {0.noled}
+Use delta pixels: {0.usedeltapixels}
+Maximum latency = {0.maxlatency}'''.format(args)
     return args
 def load_file():
     print ' Datafile '.center(40,'=')

@@ -30,6 +30,7 @@ USEDELTAPIXELS = cpa.args.usedeltapixels
 SKIP_FRAMES = cpa.args.skipframes #number of frames to skip at the start of each trial
 trialdata = cpa.trialdata
 stimname = cpa.stimname
+MAX_LATENCY = cpa.args.maxlatency #milliseconds. Movement after this time is not a response to the stimulus
 #%%
 #main function for finding swim bouts in a given set of values
 MIN_BOUT_LENGTH = 5 #frames
@@ -86,7 +87,7 @@ for t,trial in enumerate(trials):
             bdf.append({'boutid':boutid,'trial':t,'fish':well,
                         'boutlength_raw':boutlength,
                         'boutlength':boutlength/FRAMERATE,
-                        'startframe':startframe,})
+                        'startframe':startframe})
                         #'endframe':startframe+boutlength})
 tdf=pd.DataFrame(tdf,dtype=int)
 bdf=pd.DataFrame(bdf)
@@ -122,27 +123,27 @@ df=pd.merge(df,rdf,left_on=['fish','trial'],right_on=['fish','trial'],how='outer
 df=pd.merge(df,tdf,left_on='trial',right_index=True) ## add the trial conditions
 df=pd.merge(df, conditions, left_on='fish',right_index=True) ## add the well (fish) conditions
 df['responded']=False
-df.loc[df.latency>=0,'responded']=True
+df.loc[(df.latency>=0) & (df.latency<=MAX_LATENCY),'responded']=True
 #drop fish with genotype 'x'
 df=df[df.genotype<>'x']
 #df.loc[df.latency<0,'cat']='already_moving'
 #df.loc[df.latency>=0,'cat']='responded'
 #df.loc[df.latency.isnull(),'cat']='no_response'
 #%% Plot the response per well, ignoring stimuli conditions
-#fish_responses = df.groupby(['row','col','cat']).size().unstack().fillna(0)
-#fishmeans = df.groupby(['row','col','fish','genotype','treatment'])['latency','boutlength'].mean().reset_index()
-plate_summary = df.groupby(['row','col','fish','genotype','treatment']).agg({'latency':np.mean,
-                                                                          'boutlength':np.mean,
-                                                                          'responded':np.mean}).reset_index()
-#fishmeans.rename(columns={'cat':'responses'},inplace=True)
+fishmeans = df.groupby(['row','col','fish','genotype','treatment','stimulus']).agg({'boutlength':np.mean, 'responded': np.mean})
+fishmeanlatency = df[df.responded].groupby(['row','col','fish','genotype','treatment','stimulus']).latency.mean()
+fishmeans['latency']=fishmeanlatency
+fishmeans=fishmeans.reset_index()
+
 fig,axes=plt.subplots(1,2, sharex=True, sharey=True, figsize=(14,4))
 #plt.tight_layout()
 annot_kws={"size": 10}
 ax=axes[0]
-sns.heatmap(ax=ax,data=plate_summary.pivot('row','col','responded'),annot=True,cbar=False,square=True,annot_kws=annot_kws)
+## this will probably break with more than one stimuli; need to take an average before making the heatmap
+sns.heatmap(ax=ax,data=fishmeans.pivot('row','col','responded'),annot=True,cbar=False,square=True,annot_kws=annot_kws)
 ax.set_title('Response rate')
 ax=axes[1]
-sns.heatmap(ax=ax,data=plate_summary.pivot('row','col','latency'),annot=True,cbar=False,square=True,annot_kws=annot_kws,fmt=".1f")
+sns.heatmap(ax=ax,data=fishmeans.pivot('row','col','latency'),annot=True,cbar=False,square=True,annot_kws=annot_kws,fmt=".1f")
 ax.set_title('Mean latency (ms)')
 #plt.axis('off')
 plt.suptitle('Behaviour per well')
@@ -170,13 +171,11 @@ plt.suptitle('Response fraction per trial')
 g.savefig(os.path.join(datapath, datafilename+"_pertrial.png"))
 #%% ================= Per-fish response rate =================
 ## Generate per-fish response rates rather than per-trial
-fishmeans=df.groupby(['row','col','fish','genotype','treatment','stimulus']).agg({'latency':np.mean,
-                                                                          'boutlength':np.mean,
-                                                                          'responded': np.mean}).reset_index()
+
 ## make a facetgrid
 g = sns.FacetGrid(data=fishmeans, hue='genotype',col='stimulus',aspect=1, ylim=(0,1),size=5)
 g.map(sns.violinplot,'treatment','responded', cut=0, bw=0.2)
-g.map(sns.swarmplot,'treatment','responded',color='gray')
+g.map(sns.swarmplot,'treatment','responded',color='#333333')
 g.set_ylabels('Rate (fraction of trials)')
 plt.subplots_adjust(top=0.85)
 plt.suptitle('Response rate per stimulus condition')
@@ -188,7 +187,7 @@ g = sns.factorplot(data=df[df.responded], kind='box', x='latency',y='treatment',
                    showfliers=False, notch=True,margin_titles=True)
 #g.set(xlim=(0,30))
 #g.set(xticks=np.arange(0,30,2))
-g.map(sns.stripplot,'latency','treatment', jitter=True, color='gray')
+g.map(sns.swarmplot,'latency','treatment',  color='#333333')
 #g.map_dataframe(lambda data, color: sns.stripplot(data=data))
 plt.subplots_adjust(top=0.85)
 plt.suptitle('Latency of responses (ms)')
@@ -196,10 +195,12 @@ g.savefig(os.path.join(datapath, datafilename+"_latency_box.png"))
 
 #%% Total distribution
 CUTOFF = 100
-#g = sns.FacetGrid(data=df[df.responded & (df.latency<=CUTOFF)], hue='genotype', row='stimulus',aspect=1.5, size=5)
-g = sns.factorplot(data=df[df.responded & (df.latency<=CUTOFF)], hue='genotype', row='stimulus',aspect=1.5, size=5,
-                           kind='strip',x='latency',y='treatment',order=treatment_order,jitter=True,color='k')
-g.map(sns.violinplot,'latency', 'treatment',bw=0.1,cut=0,split=True,order=treatment_order)
+g = sns.FacetGrid(data=df[df.responded & (df.latency<=CUTOFF)], hue='genotype', row='stimulus',aspect=1.5, size=5)
+#g = sns.factorplot(data=df[df.responded & (df.latency<=CUTOFF)], hue='genotype', row='stimulus',aspect=1.5, size=5,
+#                           kind='strip',x='latency',y='treatment',order=treatment_order,jitter=True,color='black')
+
+g.map(sns.swarmplot,'latency','treatment',  color='#333333')
+g.map(sns.violinplot,'latency', 'treatment',bw=0.05,cut=0,split=True,order=treatment_order)
 #g.map(sns.distplot,'latency',bw=1)
 #g.map(sns.stripplot,'latency','treatment', jitter=True, color='gray')
 g.set(xticks=np.arange(0,100,4))
