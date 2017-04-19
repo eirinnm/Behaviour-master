@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-#import scipy.signal
+import scipy.signal
 #%matplotlib inline
 from pylab import rcParams
 rcParams['figure.figsize'] = 5, 5
@@ -30,24 +30,28 @@ USEDELTAPIXELS = cpa.args.usedeltapixels
 SKIP_FRAMES = cpa.args.skipframes #number of frames to skip at the start of each trial
 trialdata = cpa.trialdata
 stimname = cpa.stimname
+genotype_order = cpa.genotype_order
 MAX_LATENCY = cpa.args.maxlatency #milliseconds. Movement after this time is not a response to the stimulus
 #%%
 #main function for finding swim bouts in a given set of values
-MIN_BOUT_LENGTH = 5 #frames
-MIN_BOUT_GAP = 2 #frames
+MIN_BOUT_LENGTH = 4 #frames. We'll apply a time-based filter later.
+MIN_BOUT_GAP = 3 #frames. Gaps shorter than this will be merged into a single bout
+## TODO: check if this bout length is a sane figure
 
 def get_bouts(movementframes): #returns stats for each bout in this well
     #bouts=xy[:,0].nonzero()[0]
+    ## apply a median filter to smooth single spikes and gaps
+    movementframes = scipy.signal.medfilt(movementframes,3)
     bouts=movementframes.nonzero()[0]
     if len(bouts)>0:
         start_gaps=np.ediff1d(bouts,to_begin=99)
         end_gaps=np.ediff1d(bouts,to_end=99)
-        breakpoints=np.vstack((bouts[np.where(start_gaps>MIN_BOUT_GAP)],
-                               bouts[np.where(end_gaps>MIN_BOUT_GAP)])) #two columns, start and end frame
+        breakpoints=np.vstack((bouts[np.where(start_gaps>=MIN_BOUT_GAP)],
+                               bouts[np.where(end_gaps>=MIN_BOUT_GAP)])) #two columns, start and end frame
         boutlengths=np.diff(breakpoints,axis=0)[0]
         #select only bouts longer than a minimum
-        breakpoints=breakpoints[:,boutlengths>MIN_BOUT_LENGTH]
-        boutlengths=boutlengths[boutlengths>MIN_BOUT_LENGTH]
+        breakpoints=breakpoints[:,boutlengths>=MIN_BOUT_LENGTH]
+        boutlengths=boutlengths[boutlengths>=MIN_BOUT_LENGTH]
         #intensities=np.array([np.sum(delta_pixels[start:end]) for start, end in breakpoints.T])
         return boutlengths, breakpoints[0]#, intensities
     else:
@@ -104,8 +108,8 @@ else:
     print "Flash found in all",NUM_TRIALS, "trials."
 tdf=pd.merge(tdf,trialdata,left_index=True,right_index=True)
 
-#the 'startframe' values for each bout need to be offset with the LED flash value for that trial.
 bdf['vid_startframe']=bdf.apply(lambda x: tdf.loc[x.trial].trialstart+x.startframe+SKIP_FRAMES,axis=1)
+#the 'startframe' values for each bout need to be offset with the LED flash value for that trial.
 bdf['startframe']=bdf.apply(lambda x: x.startframe-tdf.loc[x.trial].flash1,axis=1)
 bdf['latency']=bdf.startframe/FRAMERATE*1000
 ## make the fish and trials a category, so missing fish/trials will show up
@@ -156,7 +160,7 @@ plt.savefig(os.path.join(datapath, datafilename+"_plateview.png"))
 ## What percentage of fish responded to each stimuli?
 trialmeans = df.groupby(['genotype','treatment','stimulus','trial']).agg({'responded': np.mean,
                                                                             'latency': np.mean}).reset_index()
-g=sns.factorplot(data=trialmeans,y='responded',x='stimulus',hue='genotype',col='treatment',aspect=0.75,capsize=.1,size=5)
+g=sns.factorplot(data=trialmeans,y='responded',x='stimulus',hue='genotype',col='treatment',aspect=0.75,capsize=.1,size=5,hue_order=genotype_order)
 g.set_ylabels('Fraction of fish')
 g.set(ylim=(0,1))
 #plt.ylim(0,1)
@@ -164,7 +168,7 @@ plt.subplots_adjust(top=0.85)
 plt.suptitle('Responses per stimulus and treatment')
 g.savefig(os.path.join(datapath, datafilename+"_pct_perstimulus.png"))
 #%%
-g=sns.factorplot(data=trialmeans,y='responded',x='trial',hue='genotype',row='treatment',col='stimulus',aspect=2,size=4)
+g=sns.factorplot(data=trialmeans,y='responded',x='trial',hue='genotype',row='treatment',col='stimulus',aspect=2,size=4,hue_order=genotype_order)
 g.set(ylim=(0,1))
 plt.subplots_adjust(top=0.85)
 plt.suptitle('Response fraction per trial')
@@ -173,38 +177,51 @@ g.savefig(os.path.join(datapath, datafilename+"_pertrial.png"))
 ## Generate per-fish response rates rather than per-trial
 
 ## make a facetgrid
-g = sns.FacetGrid(data=fishmeans, hue='genotype',col='stimulus',aspect=1, ylim=(0,1),size=5)
-g.map(sns.violinplot,'treatment','responded', cut=0, bw=0.2)
-g.map(sns.swarmplot,'treatment','responded',color='#333333')
+#g = sns.FacetGrid(data=fishmeans, hue='genotype',col='stimulus',aspect=1, ylim=(0,1),size=5)
+g=sns.factorplot(data=fishmeans,hue='genotype',col='stimulus',aspect=1, ylim=(0,1),size=5,hue_order=genotype_order,
+              kind='violin',y='responded',x='treatment',cut=0)
+def swarmplot_hue(x,y, **kwargs):
+    sns.swarmplot(x=x,y=y,hue='genotype', **kwargs)
+#g.map(sns.violinplot,'treatment','responded', cut=0, bw=0.2)
+g = g.map_dataframe(swarmplot_hue,'treatment','responded', split=True, linewidth=1, edgecolor='gray',alpha=0.4,hue_order=genotype_order)
+#g.map(sns.swarmplot,'treatment','responded',color='#333333')
 g.set_ylabels('Rate (fraction of trials)')
 plt.subplots_adjust(top=0.85)
 plt.suptitle('Response rate per stimulus condition')
 #plt.ylabel('Fraction of trials')
 g.savefig(os.path.join(datapath, datafilename+"_rate_perstimulus.png"))
 #%% ================= Latencies =================
-## What was the mean latency for all responses? (not fish means)
-g = sns.factorplot(data=df[df.responded], kind='box', x='latency',y='treatment',hue='genotype', row='stimulus',aspect=2, size=5,
-                   showfliers=False, notch=True,margin_titles=True)
-#g.set(xlim=(0,30))
-#g.set(xticks=np.arange(0,30,2))
-g.map(sns.swarmplot,'latency','treatment',  color='#333333')
-#g.map_dataframe(lambda data, color: sns.stripplot(data=data))
-plt.subplots_adjust(top=0.85)
-plt.suptitle('Latency of responses (ms)')
-g.savefig(os.path.join(datapath, datafilename+"_latency_box.png"))
+
+### What was the mean latency for all responses? (not fish means)
+#g = sns.factorplot(data=df[df.responded], kind='box', x='latency',y='treatment',hue='genotype', row='stimulus',aspect=2, size=5,
+#                   showfliers=False, notch=True,margin_titles=True)
+##g.set(xlim=(0,30))
+##g.set(xticks=np.arange(0,30,2))
+#g.map(sns.swarmplot,'latency','treatment',  color='#333333')
+#g.set(xticks=np.arange(0,MAX_LATENCY,4))
+#g.set_xticklabels(np.arange(0,MAX_LATENCY,4))
+##g.map_dataframe(lambda data, color: sns.stripplot(data=data))
+#plt.subplots_adjust(top=0.85)
+#plt.suptitle('Latency of responses (ms)')
+#g.savefig(os.path.join(datapath, datafilename+"_latency_box.png"))
 
 #%% Total distribution
-CUTOFF = 100
-g = sns.FacetGrid(data=df[df.responded & (df.latency<=CUTOFF)], hue='genotype', row='stimulus',aspect=1.5, size=5)
+#g = sns.FacetGrid(data=df[df.responded], hue='genotype', row='stimulus',aspect=1.5, size=5)
 #g = sns.factorplot(data=df[df.responded & (df.latency<=CUTOFF)], hue='genotype', row='stimulus',aspect=1.5, size=5,
 #                           kind='strip',x='latency',y='treatment',order=treatment_order,jitter=True,color='black')
+g = sns.factorplot(data=df[df.responded], hue='genotype', row='stimulus',aspect=1.5, size=5,hue_order=genotype_order,
+                   kind='violin',x='latency',y='treatment',cut=0, bw=0.1)
+#g = g.map(sns.barplot,'latency','treatment',hue_order=['Hom', 'Het', 'WT'],order=['Control'])
 
-g.map(sns.swarmplot,'latency','treatment',  color='#333333')
-g.map(sns.violinplot,'latency', 'treatment',bw=0.05,cut=0,split=True,order=treatment_order)
+g = g.map_dataframe(swarmplot_hue,'latency','treatment', split=True, linewidth=1, edgecolor='gray',alpha=0.4,hue_order=genotype_order)
+        #sns.barplot,x='latency',y='treatment',hue='genotype',hue_order=['Hom', 'Het', 'WT'],order=['Control'])
+#g.add_legend()
+#g.map(sns.violinplot,'latency','treatment')
+#g.map(sns.violinplot,'latency', 'treatment',bw=0.1,cut=0,split=True,order=treatment_order)
 #g.map(sns.distplot,'latency',bw=1)
 #g.map(sns.stripplot,'latency','treatment', jitter=True, color='gray')
-g.set(xticks=np.arange(0,100,4))
-g.set_xticklabels(np.arange(0,100,4))
+g.set(xticks=np.arange(0,MAX_LATENCY,4))
+g.set_xticklabels(np.arange(0,MAX_LATENCY,4))
 plt.subplots_adjust(top=0.85)
-plt.suptitle('Distribution of latencies below %sms' % CUTOFF)
+plt.suptitle('Distribution of latencies below %sms' % MAX_LATENCY)
 g.savefig(os.path.join(datapath, datafilename+"_latency_dist.png"))

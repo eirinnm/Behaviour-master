@@ -43,7 +43,7 @@ def load_file():
     return data
 #%% Conditions
 def load_conditions():
-    global datapath, datafilename, conditions, treatment_order, NUM_TRIALS, NUM_WELLS, trialdata, stimname
+    global datapath, datafilename, conditions, treatment_order, NUM_TRIALS, NUM_WELLS, trialdata, stimname, genotype_order
     datapath, datafilename = os.path.split(datafile)
     datafilename=datafilename.replace('.csv','')
     platedata=pd.read_csv(os.path.join(datapath,'Plate.csv'),index_col=0)
@@ -54,6 +54,12 @@ def load_conditions():
     print ' Conditions '.center(40,'=')
     print NUM_WELLS, " wells specified:"
     print platedata
+    ## Set the genotype order
+    expected_names = ['Unk','Wt','Het','Hom','Mut']
+    actual_names = [name.capitalize() for name in conditions.genotype.unique()]
+    genotype_order = [name for name in expected_names if name in actual_names]
+    genotype_order+= [name for name in actual_names if name not in expected_names]
+    print "Genotypes:",genotype_order
     ### Treatments
     treatmentfile = os.path.join(datapath,'Treatment.csv')
     if os.path.exists(treatmentfile):
