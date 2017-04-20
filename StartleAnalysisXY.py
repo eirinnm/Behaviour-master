@@ -192,18 +192,21 @@ plt.suptitle('Response rate per stimulus condition')
 g.savefig(os.path.join(datapath, datafilename+"_rate_perstimulus.png"))
 #%% ================= Latencies =================
 
-### What was the mean latency for all responses? (not fish means)
-#g = sns.factorplot(data=df[df.responded], kind='box', x='latency',y='treatment',hue='genotype', row='stimulus',aspect=2, size=5,
-#                   showfliers=False, notch=True,margin_titles=True)
-##g.set(xlim=(0,30))
-##g.set(xticks=np.arange(0,30,2))
+### What was the mean latency for first movement? (not fish means)
+#g = sns.factorplot(data=df, kind='box', x='latency',y='treatment',hue='genotype', row='stimulus',aspect=2, size=5,
+#                   showfliers=False, notch=True, hue_order=genotype_order)
+g = sns.factorplot(data=df, hue='genotype', row='stimulus',aspect=2, size=5,hue_order=genotype_order,
+                   kind='violin',x='latency',y='treatment',cut=0, bw=1)
+#g.set(xlim=(0,30))
+#g.set(xticks=np.arange(0,30,2))
+g = g.map_dataframe(swarmplot_hue,'latency','treatment', split=True, linewidth=1, edgecolor='gray',alpha=0.4,hue_order=genotype_order, color='black')
 #g.map(sns.swarmplot,'latency','treatment',  color='#333333')
 #g.set(xticks=np.arange(0,MAX_LATENCY,4))
 #g.set_xticklabels(np.arange(0,MAX_LATENCY,4))
-##g.map_dataframe(lambda data, color: sns.stripplot(data=data))
-#plt.subplots_adjust(top=0.85)
-#plt.suptitle('Latency of responses (ms)')
-#g.savefig(os.path.join(datapath, datafilename+"_latency_box.png"))
+#g.map_dataframe(lambda data, color: sns.stripplot(data=data))
+plt.subplots_adjust(top=0.85)
+plt.suptitle('Latency of first bout (ms)')
+g.savefig(os.path.join(datapath, datafilename+"_latency_all.png"))
 
 #%% Total distribution
 #g = sns.FacetGrid(data=df[df.responded], hue='genotype', row='stimulus',aspect=1.5, size=5)
@@ -223,5 +226,5 @@ g = g.map_dataframe(swarmplot_hue,'latency','treatment', split=True, linewidth=1
 g.set(xticks=np.arange(0,MAX_LATENCY,4))
 g.set_xticklabels(np.arange(0,MAX_LATENCY,4))
 plt.subplots_adjust(top=0.85)
-plt.suptitle('Distribution of latencies below %sms' % MAX_LATENCY)
+plt.suptitle('Distribution of latencies between 0-%s ms' % MAX_LATENCY)
 g.savefig(os.path.join(datapath, datafilename+"_latency_dist.png"))
