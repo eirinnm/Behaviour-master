@@ -411,12 +411,12 @@
   <DialogSettings>
     <Visible>true</Visible>
     <Location>
-      <X>731</X>
-      <Y>413</Y>
+      <X>75</X>
+      <Y>75</Y>
     </Location>
     <Size>
-      <Width>605</Width>
-      <Height>401</Height>
+      <Width>416</Width>
+      <Height>278</Height>
     </Size>
     <WindowState>Normal</WindowState>
     <VisualizerTypeName>Bonsai.Dsp.Design.MatVisualizer</VisualizerTypeName>
@@ -426,7 +426,7 @@
         <XMax>250</XMax>
         <YMin>0</YMin>
         <YMax>100</YMax>
-        <AutoScaleX>true</AutoScaleX>
+        <AutoScaleX>false</AutoScaleX>
         <AutoScaleY>false</AutoScaleY>
         <SelectedPage>0</SelectedPage>
         <ChannelsPerPage>100</ChannelsPerPage>

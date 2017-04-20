@@ -4,12 +4,12 @@
     <Nodes>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:FileCapture">
-          <q1:FileName>C:\Users\Eirinn\OneDrive - University College London\Other behaviour\Megan\20170413\6dpf importin\Video-0.avi</q1:FileName>
+          <q1:FileName>C:\Users\Eirinn\OneDrive2\Other behaviour\Megan\20170420\Importin13 8dpf\standard audiostim\Video-2.avi</q1:FileName>
           <q1:PlaybackRate>200</q1:PlaybackRate>
-          <q1:StartPosition>570</q1:StartPosition>
+          <q1:StartPosition>0</q1:StartPosition>
           <q1:PositionUnits>Frames</q1:PositionUnits>
           <q1:Loop>false</q1:Loop>
-          <q1:Playing>false</q1:Playing>
+          <q1:Playing>true</q1:Playing>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -120,7 +120,7 @@ def process(value):
   except:
     print traceback.format_exc()
   return</q3:Script>
-          <q3:FileName>C:\Users\Eirinn\OneDrive - University College London\Other behaviour\Megan\20170413\6dpf importin\importin 6dpf-deltapixels.csv</q3:FileName>
+          <q3:FileName>C:\Users\Eirinn\OneDrive2\Other behaviour\Megan\20170420\Importin13 8dpf\standard audiostim\Importin13-dp-.csv</q3:FileName>
           <q3:Append>false</q3:Append>
           <q3:Suffix>FileCount</q3:Suffix>
         </Combinator>

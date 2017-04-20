@@ -31,6 +31,7 @@ SKIP_FRAMES = cpa.args.skipframes #number of frames to skip at the start of each
 trialdata = cpa.trialdata
 stimname = cpa.stimname
 genotype_order = cpa.genotype_order
+stim_order = cpa.stim_order
 MAX_LATENCY = cpa.args.maxlatency #milliseconds. Movement after this time is not a response to the stimulus
 #%%
 #main function for finding swim bouts in a given set of values
@@ -146,13 +147,19 @@ fig,axes=plt.subplots(1,2, sharex=True, sharey=True, figsize=(14,4))
 annot_kws={"size": 10}
 ax=axes[0]
 ## this will probably break with more than one stimuli; need to take an average before making the heatmap
-sns.heatmap(ax=ax,data=fishmeans.pivot('row','col','responded'),annot=True,cbar=False,square=True,annot_kws=annot_kws)
+## actually just use the last stimuli value
+max_stimuli = fishmeans[fishmeans.stimulus==stim_order[-1]]
+sns.heatmap(ax=ax,data=max_stimuli.pivot('row','col','responded'),annot=True,cbar=False,square=True,annot_kws=annot_kws)
 ax.set_title('Response rate')
 ax=axes[1]
-sns.heatmap(ax=ax,data=fishmeans.pivot('row','col','latency'),annot=True,cbar=False,square=True,annot_kws=annot_kws,fmt=".1f")
+sns.heatmap(ax=ax,data=max_stimuli.pivot('row','col','latency'),annot=True,cbar=False,square=True,annot_kws=annot_kws,fmt=".1f")
 ax.set_title('Mean latency (ms)')
 #plt.axis('off')
-plt.suptitle('Behaviour per well')
+if len(stim_order==1):
+    plt.suptitle('Behaviour per well')
+else:
+    plt.suptitle('Behaviour per well (%s: %s)' % (stimname, stim_order[-1]))
+    
 plt.savefig(os.path.join(datapath, datafilename+"_plateview.png"))
 #%%
 #g = sns.FacetGrid(data=fishmeans,row='stimulus', aspect=2, size=5)
@@ -194,12 +201,7 @@ plt.suptitle('Response rate per stimulus condition')
 g.savefig(os.path.join(datapath, datafilename+"_rate_perstimulus.png"))
 #%% ================= Latencies =================
 ## Plot a distribution of bout onsets, ignoring onsets at <=2 frames from the video start
-g = sns.FacetGrid(data=bdf[bdf.startframe>2], row='treatment', hue='genotype', hue_order=genotype_order, col='stimulus',aspect=1.5, size=5)
-#g = sns.factorplot(data=bdf[bdf.startframe>2], hue='genotype', row='stimulus',hue_order=genotype_order, col='treatment',aspect=2, size=5,
-#                   kind='kde',x='latency', bw=1)
-def genotype_dists(x,y,**kwargs):
-    print kwargs['label'],kwargs['data'].shape
-#g.map_dataframe(genotype_dists, 'latency', 'genotype')
+g = sns.FacetGrid(data=bdf[bdf.startframe>2], col='treatment', hue='genotype', hue_order=genotype_order, row='stimulus',aspect=1.5, size=5)
 g.map(sns.kdeplot, 'latency', bw=5, legend=True)
 g.set_xlabels('latency (ms)')
 plt.subplots_adjust(top=0.85)

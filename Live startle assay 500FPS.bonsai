@@ -63,7 +63,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q3:VideoWriter">
-          <q3:FileName>C:\DATA\Eirinn\Megan\Video-.avi</q3:FileName>
+          <q3:FileName>C:\DATA\Eirinn\Megan\20170419\7dpf importin 13\Video-.avi</q3:FileName>
           <q3:Suffix>FileCount</q3:Suffix>
           <q3:Buffered>true</q3:Buffered>
           <q3:Overwrite>false</q3:Overwrite>
@@ -379,7 +379,7 @@ def generate():
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q5:TextWriter">
-          <q5:FileName>C:\DATA\Eirinn\Megan\Test\Test-.csv</q5:FileName>
+          <q5:FileName>C:\DATA\Eirinn\Megan\20170419\7dpf importin 13\Test-.csv</q5:FileName>
           <q5:Suffix>FileCount</q5:Suffix>
           <q5:Buffered>true</q5:Buffered>
           <q5:Overwrite>false</q5:Overwrite>

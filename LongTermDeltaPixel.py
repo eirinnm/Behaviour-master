@@ -5,7 +5,7 @@ Created on Wed Feb 08 21:18:24 2017
 @author: Eirinn
 """
 from __future__ import division
-#import os.path, argparse
+import os.path
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -14,7 +14,22 @@ import matplotlib.pyplot as plt
 from pylab import rcParams
 rcParams['figure.figsize'] = 10, 5
 sns.set(context='talk',style='darkgrid',palette='deep',rc={'figure.facecolor':'white'})
-from common_plate_assay import *
+
+DEFAULT_FRAMERATE=100
+import common_plate_assay as cpa
+args=cpa.get_args(DEFAULT_FRAMERATE,'Long term delta pixels')
+data=cpa.load_file()
+conditions, treatment_order = cpa.load_conditions()
+datafilename = cpa.datafilename
+datapath = cpa.datapath
+NUM_WELLS = cpa.NUM_WELLS
+NUM_TRIALS = cpa.NUM_TRIALS
+FRAMERATE = cpa.FRAMERATE
+USEDELTAPIXELS = cpa.args.usedeltapixels
+SKIP_FRAMES = cpa.args.skipframes #number of frames to skip at the start of each trial
+trialdata = cpa.trialdata
+stimname = cpa.stimname
+genotype_order = cpa.genotype_order
 #%% Analysis functions
 MIN_BOUT_LENGTH = 2 #frames
 MIN_BOUT_GAP = 2 #frames
