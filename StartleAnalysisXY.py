@@ -110,8 +110,10 @@ tdf=pd.merge(tdf,trialdata,left_index=True,right_index=True)
 
 bdf['vid_startframe']=bdf.apply(lambda x: tdf.loc[x.trial].trialstart+x.startframe+SKIP_FRAMES,axis=1)
 #the 'startframe' values for each bout need to be offset with the LED flash value for that trial.
-bdf['startframe']=bdf.apply(lambda x: x.startframe-tdf.loc[x.trial].flash1,axis=1)
-bdf['latency']=bdf.startframe/FRAMERATE*1000
+#bdf['startframe']=bdf.apply(lambda x: x.startframe-tdf.loc[x.trial].flash1,axis=1)
+bdf['latency']=bdf.apply(lambda x: x.startframe-tdf.loc[x.trial].flash1,axis=1)/FRAMERATE*1000
+bdf=pd.merge(bdf, conditions, left_on='fish',right_index=True)
+bdf=bdf.merge(tdf.stimulus.to_frame(),left_on='trial',right_index=True)
 ## make the fish and trials a category, so missing fish/trials will show up
 bdf.fish = bdf.fish.astype("category", categories = np.arange(NUM_WELLS))
 bdf.trial = bdf.trial.astype("category", categories = np.arange(NUM_TRIALS))
@@ -191,7 +193,25 @@ plt.suptitle('Response rate per stimulus condition')
 #plt.ylabel('Fraction of trials')
 g.savefig(os.path.join(datapath, datafilename+"_rate_perstimulus.png"))
 #%% ================= Latencies =================
-
+## Plot a distribution of bout onsets, ignoring onsets at <=2 frames from the video start
+g = sns.FacetGrid(data=bdf[bdf.startframe>2], row='treatment', hue='genotype', hue_order=genotype_order, col='stimulus',aspect=1.5, size=5)
+#g = sns.factorplot(data=bdf[bdf.startframe>2], hue='genotype', row='stimulus',hue_order=genotype_order, col='treatment',aspect=2, size=5,
+#                   kind='kde',x='latency', bw=1)
+def genotype_dists(x,y,**kwargs):
+    print kwargs['label'],kwargs['data'].shape
+#g.map_dataframe(genotype_dists, 'latency', 'genotype')
+g.map(sns.kdeplot, 'latency', bw=5, legend=True)
+g.set_xlabels('latency (ms)')
+plt.subplots_adjust(top=0.85)
+plt.legend()
+plt.suptitle('Distribution of bout onsets')
+g.savefig(os.path.join(datapath, datafilename+"_bout_onsets.png"))
+#%% ==== Bout lengths ====
+sns.violinplot(data=bdf,x='boutlength',y='genotype',order=genotype_order, bw=0.1)
+plt.title('Bout lengths (s)')
+plt.xlabel('bout length (seconds)')
+plt.savefig(os.path.join(datapath, datafilename+"_boutlengths.png"))
+#%%
 ### What was the mean latency for first movement? (not fish means)
 #g = sns.factorplot(data=df, kind='box', x='latency',y='treatment',hue='genotype', row='stimulus',aspect=2, size=5,
 #                   showfliers=False, notch=True, hue_order=genotype_order)
