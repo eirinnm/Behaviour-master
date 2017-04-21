@@ -63,7 +63,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q3:VideoWriter">
-          <q3:FileName>C:\DATA\Eirinn\Megan\20170419\7dpf importin 13\Video-.avi</q3:FileName>
+          <q3:FileName>C:\DATA\Eirinn\Megan\20170420\Importin13 8dpf\014 audiostim\Video-.avi</q3:FileName>
           <q3:Suffix>FileCount</q3:Suffix>
           <q3:Buffered>true</q3:Buffered>
           <q3:Overwrite>false</q3:Overwrite>
@@ -226,7 +226,7 @@ PULSELENGTH=10 #milliseconds
 @returns(str)
 def generate():
   for i in range(NUM_REPEATS):
-    for vol in [3]:
+    for vol in [4]:
        yield "S{},{}".format(vol,PULSELENGTH)</q2:Script>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -368,8 +368,11 @@ def generate():
         <Name>Record length</Name>
         <Value>250</Value>
       </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>Trigger Signal</Name>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q5:SerialStringRead">
+          <q5:PortName>COM7</q5:PortName>
+          <q5:NewLine>\r\n</q5:NewLine>
+        </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Concat" />
@@ -379,7 +382,7 @@ def generate():
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q5:TextWriter">
-          <q5:FileName>C:\DATA\Eirinn\Megan\20170419\7dpf importin 13\Test-.csv</q5:FileName>
+          <q5:FileName>C:\DATA\Eirinn\Megan\20170421\importin13 9dpf startle\Importin13xy-.csv</q5:FileName>
           <q5:Suffix>FileCount</q5:Suffix>
           <q5:Buffered>true</q5:Buffered>
           <q5:Overwrite>false</q5:Overwrite>
@@ -2755,6 +2758,7 @@ def process(value):
     <Type>Bonsai.Reactive.TriggeredBuffer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Reactive.TriggeredWindow, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.IO.SerialStringRead, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Concat, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.IO.TextWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Dsp.Buffer, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>

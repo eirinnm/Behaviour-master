@@ -33,6 +33,8 @@ stimname = cpa.stimname
 genotype_order = cpa.genotype_order
 stim_order = cpa.stim_order
 MAX_LATENCY = cpa.args.maxlatency #milliseconds. Movement after this time is not a response to the stimulus
+
+LLC_THRESHOLD = 25 #ms
 #%%
 #main function for finding swim bouts in a given set of values
 MIN_BOUT_LENGTH = 4 #frames. We'll apply a time-based filter later.
@@ -124,19 +126,30 @@ bdf.trial = bdf.trial.astype("category", categories = np.arange(NUM_TRIALS))
 from itertools import product
 df = pd.DataFrame([{'trial':t,'fish':f} for f,t in product(bdf.fish.cat.categories,bdf.trial.cat.categories)])
 ## group responses for each fish/trial, getting the first latency and longest bout
-rdf=bdf.groupby(['fish','trial'],as_index=False).agg({'latency':np.min,'boutlength':np.max})
+def get_first_bout(bouts):
+    possible_responses = bouts[bouts.latency>0]
+    if len(possible_responses):
+        firstbout = bouts.ix[possible_responses.latency.idxmin()]
+        #print type(firstbout)
+        return firstbout#[['latency','boutlength']]
+    else:
+        return None
+rdf=bdf.groupby(['fish','trial'],as_index=False).apply(get_first_bout)
 ## put this back into the blank dataframe
+rdf=rdf[['fish','trial','latency','boutlength']]
 df=pd.merge(df,rdf,left_on=['fish','trial'],right_on=['fish','trial'],how='outer')
 df=pd.merge(df,tdf,left_on='trial',right_index=True) ## add the trial conditions
 df=pd.merge(df, conditions, left_on='fish',right_index=True) ## add the well (fish) conditions
 df['responded']=False
-df.loc[(df.latency>=0) & (df.latency<=MAX_LATENCY),'responded']=True
+df.loc[df.latency<=MAX_LATENCY,'responded']=True
 #drop fish with genotype 'x'
 df=df[df.genotype<>'x']
-#df.loc[df.latency<0,'cat']='already_moving'
+df.loc[df.latency<LLC_THRESHOLD,'cat']='SLC'
+df.loc[df.latency>=LLC_THRESHOLD,'cat']='LLC'
+df.loc[df.latency>=MAX_LATENCY,'cat']='Too slow'
 #df.loc[df.latency>=0,'cat']='responded'
 #df.loc[df.latency.isnull(),'cat']='no_response'
-#%% Plot the response per well, ignoring stimuli conditions
+#%% Plot the response per well
 fishmeans = df.groupby(['row','col','fish','genotype','treatment','stimulus']).agg({'boutlength':np.mean, 'responded': np.mean})
 fishmeanlatency = df[df.responded].groupby(['row','col','fish','genotype','treatment','stimulus']).latency.mean()
 fishmeans['latency']=fishmeanlatency
@@ -171,14 +184,16 @@ trialmeans = df.groupby(['genotype','treatment','stimulus','trial']).agg({'respo
                                                                             'latency': np.mean}).reset_index()
 g=sns.factorplot(data=trialmeans,y='responded',x='stimulus',hue='genotype',col='treatment',aspect=0.75,capsize=.1,size=5,hue_order=genotype_order)
 g.set_ylabels('Fraction of fish')
+g.set_xlabels(stimname)
 g.set(ylim=(0,1))
 #plt.ylim(0,1)
 plt.subplots_adjust(top=0.85)
 plt.suptitle('Responses per stimulus and treatment')
 g.savefig(os.path.join(datapath, datafilename+"_pct_perstimulus.png"))
 #%%
-g=sns.factorplot(data=trialmeans,y='responded',x='trial',hue='genotype',row='treatment',col='stimulus',aspect=2,size=4,hue_order=genotype_order)
+g=sns.factorplot(data=trialmeans,y='responded',x='trial',hue='genotype',row='treatment',aspect=2,size=4,hue_order=genotype_order)
 g.set(ylim=(0,1))
+plt.tight_layout()
 plt.subplots_adjust(top=0.85)
 plt.suptitle('Response fraction per trial')
 g.savefig(os.path.join(datapath, datafilename+"_pertrial.png"))
@@ -195,38 +210,53 @@ def swarmplot_hue(x,y, **kwargs):
 g = g.map_dataframe(swarmplot_hue,'treatment','responded', split=True, linewidth=1, edgecolor='gray',alpha=0.4,hue_order=genotype_order)
 #g.map(sns.swarmplot,'treatment','responded',color='#333333')
 g.set_ylabels('Rate (fraction of trials)')
-plt.subplots_adjust(top=0.85)
+g.set_titles('%s = {col_name}' % stimname)
+plt.tight_layout()
+plt.subplots_adjust(top=0.88)
 plt.suptitle('Response rate per stimulus condition')
 #plt.ylabel('Fraction of trials')
 g.savefig(os.path.join(datapath, datafilename+"_rate_perstimulus.png"))
+#%% ==== Bout lengths ====
+g=sns.factorplot(data=bdf,kind='violin',row='stimulus',x='boutlength',y='genotype',order=genotype_order, bw=0.1,cut=0,aspect=2)
+#sns.violinplot(data=bdf,x='boutlength',y='genotype',order=genotype_order, bw=0.1)
+plt.suptitle('Bout lengths')
+plt.tight_layout()
+plt.subplots_adjust(top=0.88)
+g.set_titles('%s = {row_name}' % stimname)
+g.set_xlabels('bout length (seconds)')
+g.savefig(os.path.join(datapath, datafilename+"_boutlengths.png"))
 #%% ================= Latencies =================
 ## Plot a distribution of bout onsets, ignoring onsets at <=2 frames from the video start
 g = sns.FacetGrid(data=bdf[bdf.startframe>2], col='treatment', hue='genotype', hue_order=genotype_order, row='stimulus',aspect=1.5, size=5)
+#g = sns.factorplot(data=bdf[bdf.startframe>2], hue='genotype', row='stimulus',aspect=1.5, size=5,hue_order=genotype_order,
+#                   kind='violin',x='latency',y='treatment',cut=0, bw=0.1)
 g.map(sns.kdeplot, 'latency', bw=5, legend=True)
+plt.axvspan(0,LLC_THRESHOLD,fc='gold',alpha=0.3)
+plt.axvspan(LLC_THRESHOLD,MAX_LATENCY,fc='olive',alpha=0.3)
+#g = g.map_dataframe(swarmplot_hue,'latency','treatment', split=True, linewidth=1, edgecolor='gray',alpha=0.4,hue_order=genotype_order)
 g.set_xlabels('latency (ms)')
-plt.subplots_adjust(top=0.85)
+plt.subplots_adjust(top=0.88)
+g.set_titles('%s = {row_name} | {col_var} = {col_name}' % stimname)
 plt.legend()
 plt.suptitle('Distribution of bout onsets')
 g.savefig(os.path.join(datapath, datafilename+"_bout_onsets.png"))
-#%% ==== Bout lengths ====
-sns.violinplot(data=bdf,x='boutlength',y='genotype',order=genotype_order, bw=0.1)
-plt.title('Bout lengths (s)')
-plt.xlabel('bout length (seconds)')
-plt.savefig(os.path.join(datapath, datafilename+"_boutlengths.png"))
 #%%
 ### What was the mean latency for first movement? (not fish means)
 #g = sns.factorplot(data=df, kind='box', x='latency',y='treatment',hue='genotype', row='stimulus',aspect=2, size=5,
 #                   showfliers=False, notch=True, hue_order=genotype_order)
 g = sns.factorplot(data=df, hue='genotype', row='stimulus',aspect=2, size=5,hue_order=genotype_order,
-                   kind='violin',x='latency',y='treatment',cut=0, bw=1)
+                   kind='violin',x='latency',y='treatment',cut=0, bw=0.5)
 #g.set(xlim=(0,30))
 #g.set(xticks=np.arange(0,30,2))
 g = g.map_dataframe(swarmplot_hue,'latency','treatment', split=True, linewidth=1, edgecolor='gray',alpha=0.4,hue_order=genotype_order, color='black')
+plt.axvspan(0,LLC_THRESHOLD,fc='gold',alpha=0.3)
+plt.axvspan(LLC_THRESHOLD,MAX_LATENCY,fc='olive',alpha=0.3)
 #g.map(sns.swarmplot,'latency','treatment',  color='#333333')
 #g.set(xticks=np.arange(0,MAX_LATENCY,4))
 #g.set_xticklabels(np.arange(0,MAX_LATENCY,4))
 #g.map_dataframe(lambda data, color: sns.stripplot(data=data))
-plt.subplots_adjust(top=0.85)
+plt.subplots_adjust(top=0.88)
+g.set_titles('%s = {row_name}' % stimname)
 plt.suptitle('Latency of first bout (ms)')
 g.savefig(os.path.join(datapath, datafilename+"_latency_all.png"))
 
@@ -247,6 +277,12 @@ g = g.map_dataframe(swarmplot_hue,'latency','treatment', split=True, linewidth=1
 #g.map(sns.stripplot,'latency','treatment', jitter=True, color='gray')
 g.set(xticks=np.arange(0,MAX_LATENCY,4))
 g.set_xticklabels(np.arange(0,MAX_LATENCY,4))
-plt.subplots_adjust(top=0.85)
+g.set_titles('%s = {row_name}' % stimname)
+plt.subplots_adjust(top=0.88)
 plt.suptitle('Distribution of latencies between 0-%s ms' % MAX_LATENCY)
 g.savefig(os.path.join(datapath, datafilename+"_latency_dist.png"))
+#%% What percentage of fish moved in a given 20ms period?
+#resolution=20
+#timebins = np.arange(-2,5)*resolution
+#bdf['timebin']=pd.cut(bdf.latency, timebins,labels=[t for t in timebins if t<>0])
+#sns.countplot(data=bdf, x='timebin',y='latency',hue='genotype')

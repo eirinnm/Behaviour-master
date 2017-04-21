@@ -56,7 +56,7 @@ def load_conditions():
     print NUM_WELLS, " wells specified:"
     print platedata
     ## Set the genotype order
-    expected_names = ['Unk','Wt','Het','Hom','Mut']
+    expected_names = ['Unk','Wt','Sib','Het','Hom','Mut']
     actual_names = conditions.genotype.unique()
     genotype_order = [name for name in expected_names if name in actual_names]
     genotype_order+= [name for name in actual_names if name not in expected_names]

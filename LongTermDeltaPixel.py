@@ -86,7 +86,8 @@ bdf=process(data)
 ## widen some plots based on the number of conditions
 aspect = 0.75+0.25*(len(treatment_order)-1)
 #%%
-fig=sns.stripplot(data=bdf, jitter=True,y='boutlength',x='treatment',hue='genotype', split=True, order=treatment_order)
+fig=sns.stripplot(data=bdf, jitter=True,y='boutlength',x='treatment',hue='genotype', 
+                  split=True, order=treatment_order, hue_order=genotype_order)
 #fig.figure.axes[0].set(yscale="log")
 #fig.figure.axes[0].set_yscale('log',subsy=[0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
 plt.title("Bout lengths")
@@ -124,10 +125,11 @@ print conditions.iloc[inactive_fish]
 df=df[~df.fish.isin(inactive_fish)]
 #%% Plot time courses
 def plot_timecourse(variable, title):
-    f=sns.factorplot(data=df,x='minute',y=variable,hue='genotype',
+    f=sns.factorplot(data=df,x='minute',y=variable,hue='genotype',hue_order=genotype_order,
                      col_order=treatment_order,col='treatment',
-                     col_wrap=2, scale=0.5, aspect=2)
+                     scale=0.5, aspect=2)
     plt.suptitle(title)
+    plt.subplots_adjust(top=0.85)
     f.set(xticks=[])
     plt.savefig(os.path.join(datapath, "%s.%s_per_minute.png" % (datafilename,variable)))
     #plt.show()
@@ -136,14 +138,14 @@ plot_timecourse('long_bouts','Seizures per minute')
 #%% 15 minute bins
 tdf=df.groupby(['treatment','genotype','fish','minutes']).mean().reset_index().drop(['minute'],axis=1)
 tdf.sort_values(['fish','minutes'],inplace=True)
-sns.factorplot(data=tdf,x='minutes',y='long_bouts',hue='genotype',col_order=treatment_order,col='treatment',capsize=.1)
+sns.factorplot(data=tdf,x='minutes',y='long_bouts',hue='genotype',hue_order=genotype_order, col_order=treatment_order,col='treatment',capsize=.1)
 plt.suptitle("Seizures per minute, average 15 mins")
 plt.subplots_adjust(top=0.85)
 plt.savefig(os.path.join(datapath, datafilename+".seizures-15min.png"))
 #%% 15 minute bins, by genotype
 #tdf=df.groupby(['treatment','genotype','fish','minutes']).mean().reset_index().drop(['minute'],axis=1)
 #tdf.sort_values(['fish','minutes'],inplace=True)
-sns.factorplot(data=tdf,x='minutes',y='long_bouts',hue='treatment',hue_order=treatment_order,col='genotype',capsize=.1)
+sns.factorplot(data=tdf,x='minutes',y='long_bouts',hue='treatment',hue_order=treatment_order,col='genotype',col_order=genotype_order,capsize=.1)
 plt.suptitle("Seizures per minute, average 15 mins")
 plt.subplots_adjust(top=0.85)
 plt.savefig(os.path.join(datapath, datafilename+".seizures-15min-genotype.png"))
@@ -152,7 +154,7 @@ plt.savefig(os.path.join(datapath, datafilename+".seizures-15min-genotype.png"))
 fishmeans=df.groupby(['treatment','genotype','fish'],as_index=False).mean()
 melted=pd.melt(fishmeans, ['treatment','genotype','fish'],
                ['bout_freq','total_activity','bout_length','long_bouts'])
-sns.factorplot(data=melted,x='treatment',y='value',hue='genotype',kind='bar',
+sns.factorplot(data=melted,x='treatment',y='value',hue='genotype',kind='bar',hue_order=genotype_order,
                order=treatment_order,col='variable', col_wrap=2, aspect=aspect, sharey=False,sharex=False)
 plt.suptitle("Mean behaviours")
 plt.subplots_adjust(top=0.90)
@@ -162,7 +164,7 @@ plt.savefig(os.path.join(datapath, datafilename+".behaviours.png"))
 for timebin in tdf.minutes.unique():
     melted=pd.melt(tdf[tdf.minutes==timebin], ['treatment','genotype','fish'],
                    ['bout_freq','total_activity','bout_length','long_bouts'])
-    sns.factorplot(data=melted,x='treatment',y='value',hue='genotype',kind='bar',
+    sns.factorplot(data=melted,x='treatment',y='value',hue='genotype',kind='bar',hue_order=genotype_order,
                    order=treatment_order,col='variable', col_wrap=2,aspect=aspect, sharey=False,sharex=False)
     plt.suptitle("Behaviour during minutes "+timebin)
     plt.subplots_adjust(top=0.90)

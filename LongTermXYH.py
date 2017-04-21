@@ -3,6 +3,7 @@ Process a CSV file of fish tracking data
 Assumed first column is IR LED, then subsequent columns are X, Y, Heading for each fish
 '''
 from __future__ import division
+import os.path
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -11,8 +12,24 @@ import matplotlib.pyplot as plt
 from pylab import rcParams
 rcParams['figure.figsize'] = 10, 5
 sns.set(context='talk',style='darkgrid',palette='deep',rc={'figure.facecolor':'white'})
-from common_plate_assay import *
 import scipy.ndimage
+
+DEFAULT_FRAMERATE=100
+import common_plate_assay as cpa
+args=cpa.get_args(DEFAULT_FRAMERATE,'Long term delta pixels')
+data=cpa.load_file()
+conditions, treatment_order = cpa.load_conditions()
+datafilename = cpa.datafilename
+datapath = cpa.datapath
+NUM_WELLS = cpa.NUM_WELLS
+NUM_TRIALS = cpa.NUM_TRIALS
+FRAMERATE = cpa.FRAMERATE
+SCALEFACTOR = cpa.args.scalefactor
+USEDELTAPIXELS = cpa.args.usedeltapixels
+SKIP_FRAMES = cpa.args.skipframes #number of frames to skip at the start of each trial
+trialdata = cpa.trialdata
+stimname = cpa.stimname
+genotype_order = cpa.genotype_order
 
 '''
 We have X, Y and heading for each fish.
@@ -38,6 +55,7 @@ velocity=scipy.signal.medfilt(velocity,(3,1))
 #%%
 MIN_BOUT_LENGTH = 13 #frames
 MIN_BOUT_DISTANCE = 0.4 #mm
+MAX_PEAK_SPEED = 100 #mm/sec
 ## divide this movement into bouts.
 ## each bout should start and stop with a few frames of zero velocity (not nans)
 ### TODO: figure out why Bonsai exports ints!
@@ -57,12 +75,13 @@ bdf['boutlength']=bdf.length/FRAMERATE
 #%%
 ## What is the peak velocity and distance travelled in each bout?
 def get_track_stats(bout):
-    v=velocity[bout.start:bout.end,bout.fish]
+    b=bout.astype(int) ##shouldn't have to force this but here we are
+    v=velocity[b.start:b.end,int(b.fish)]
     #v=scipy.signal.savgol_filter(v,3,1) ## apply a smoothing filter - maybe not necessary
     boutstats = {'total_distance':v.sum()/FRAMERATE,'mean_speed':v.mean(),'peak_speed':v.max(),'peak_frame':v.argmax()}
     return pd.Series(boutstats)
 bdf=bdf.merge(bdf.apply(get_track_stats,axis=1),left_index=True,right_index=True)
-bdf=bdf[bdf.total_distance>=MIN_BOUT_DISTANCE]
+bdf=bdf[(bdf.total_distance>=MIN_BOUT_DISTANCE) & (bdf.peak_speed<=MAX_PEAK_SPEED)]
 #%%
 ## Plot the tracks for each fish
 ## first assign colour coding for the length
@@ -122,17 +141,20 @@ plt.suptitle("Fish paths in aligned space")
 plt.savefig(os.path.join(datapath, datafilename+".tracks-aligned.png"))
 #%% Draw some interesting bout velocities
 #bdf.groupby(['fish',bdf.start//200]).filter(lambda x: (x.total_distance.sum()>7) and (len(x)>1))
-good_times = [(0,18034),
-              (1,4032),
-              (2,66384),
-              (3,178604),
-              (4,36575),
-              (5,83068)]
+some_bouts=bdf.groupby(['fish',bdf.start//200]).filter(lambda x: (x.total_distance.sum()>10) or (len(x)>2))
+some_bouts=some_bouts.groupby('fish').first()
+#good_times = [(0,18034),
+#              (1,4032),
+#              (2,66384),
+#              (3,178604),
+#              (4,36575),
+#              (5,83068)]
 fig, axes=plt.subplots(2,3, sharex=True,sharey=True, figsize=(14,6))
 with sns.axes_style("white"):
-    for fish, start in good_times:
-        startframe=start-50
-        endframe=start+450
+    for bout in some_bouts.itertuples():
+        startframe=bout.start-50
+        endframe=bout.start+450
+        fish=bout.Index
         v=velocity[startframe:endframe,fish]
         ax=axes.flat[fish]
         ax.plot(v,lw=1)
