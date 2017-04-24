@@ -144,17 +144,23 @@ df['responded']=False
 df.loc[df.latency<=MAX_LATENCY,'responded']=True
 #drop fish with genotype 'x'
 df=df[df.genotype<>'x']
+df.latency.between(0,LLC_THRESHOLD)
 df.loc[df.latency<LLC_THRESHOLD,'cat']='SLC'
 df.loc[df.latency>=LLC_THRESHOLD,'cat']='LLC'
-df.loc[df.latency>=MAX_LATENCY,'cat']='Too slow'
+df.loc[df.latency>MAX_LATENCY,'cat']='Too slow'
 #df.loc[df.latency>=0,'cat']='responded'
 #df.loc[df.latency.isnull(),'cat']='no_response'
 #%% Plot the response per well
-fishmeans = df.groupby(['row','col','fish','genotype','treatment','stimulus']).agg({'boutlength':np.mean, 'responded': np.mean})
-fishmeanlatency = df[df.responded].groupby(['row','col','fish','genotype','treatment','stimulus']).latency.mean()
-fishmeans['latency']=fishmeanlatency
+groupcols = ['row','col','fish','genotype','treatment','stimulus']
+fishmeans = df.groupby(groupcols).agg({'boutlength':np.mean,
+                                        'responded': np.mean,
+                                        'latency': lambda x: x[x<=MAX_LATENCY].mean(),
+                                        'cat':{'llc':lambda x: np.mean(x=='LLC'),
+                                               'slc':lambda x: np.mean(x=='SLC')}})
 fishmeans=fishmeans.reset_index()
-
+##flatten some of the column names
+fishmeans.columns = [col[0] if col[0]<>'cat' else col[1] for col in fishmeans.columns.values]
+#%%
 fig,axes=plt.subplots(1,2, sharex=True, sharey=True, figsize=(14,4))
 #plt.tight_layout()
 annot_kws={"size": 10}
@@ -197,13 +203,14 @@ plt.tight_layout()
 plt.subplots_adjust(top=0.85)
 plt.suptitle('Response fraction per trial')
 g.savefig(os.path.join(datapath, datafilename+"_pertrial.png"))
+
 #%% ================= Per-fish response rate =================
 ## Generate per-fish response rates rather than per-trial
 
 ## make a facetgrid
 #g = sns.FacetGrid(data=fishmeans, hue='genotype',col='stimulus',aspect=1, ylim=(0,1),size=5)
-g=sns.factorplot(data=fishmeans,hue='genotype',col='stimulus',aspect=1, ylim=(0,1),size=5,hue_order=genotype_order,
-              kind='violin',y='responded',x='treatment',cut=0)
+g=sns.factorplot(data=fishmeans,hue='genotype',col='stimulus',aspect=0.75,size=5,hue_order=genotype_order,
+              kind='bar',y='responded',x='treatment')
 def swarmplot_hue(x,y, **kwargs):
     sns.swarmplot(x=x,y=y,hue='genotype', **kwargs)
 #g.map(sns.violinplot,'treatment','responded', cut=0, bw=0.2)
@@ -211,11 +218,26 @@ g = g.map_dataframe(swarmplot_hue,'treatment','responded', split=True, linewidth
 #g.map(sns.swarmplot,'treatment','responded',color='#333333')
 g.set_ylabels('Rate (fraction of trials)')
 g.set_titles('%s = {col_name}' % stimname)
+g.set(ylim=(-0.1,1.1))
 plt.tight_layout()
 plt.subplots_adjust(top=0.88)
-plt.suptitle('Response rate per stimulus condition')
+plt.suptitle('Response rate, one dot per fish')
 #plt.ylabel('Fraction of trials')
 g.savefig(os.path.join(datapath, datafilename+"_rate_perstimulus.png"))
+#%% Plot LLC vs SLC responses
+g=sns.lmplot(data=fishmeans, x='llc',y='slc',hue='genotype',hue_order=genotype_order,col='stimulus',col_order=stim_order,
+           ci=None,fit_reg=False,scatter_kws={'s':100},aspect=1, x_jitter=0.05,y_jitter=0.05)
+g.set(ylim=(-0.1,1.1))
+g.set(xlim=(-0.1,1.1))
+g.set_xlabels('% of trials with LLC response')
+g.set_ylabels('% of trials with SLC response')
+if len(stim_order)>1:
+    g.set_titles('%s = {col_name}' % stimname,verticalalignment='top')
+else:
+    g.set_titles('')
+    
+plt.suptitle('Type of response, one dot per fish')
+g.savefig(os.path.join(datapath, datafilename+"_response_scatter.png"))
 #%% ==== Bout lengths ====
 g=sns.factorplot(data=bdf,kind='violin',row='stimulus',x='boutlength',y='genotype',order=genotype_order, bw=0.1,cut=0,aspect=2)
 #sns.violinplot(data=bdf,x='boutlength',y='genotype',order=genotype_order, bw=0.1)
