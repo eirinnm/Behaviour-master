@@ -136,7 +136,9 @@ bdf=bdf.merge(tdf.stimulus.to_frame(),left_on='trial',right_index=True)
 ## make the fish and trials a category, so missing fish/trials will show up
 bdf.fish = bdf.fish.astype("category", categories = np.arange(NUM_WELLS))
 bdf.trial = bdf.trial.astype("category", categories = np.arange(NUM_TRIALS))
-    
+#drop fish with genotype 'x'
+bdf=bdf[bdf.genotype<>'X']
+if 'X' in genotype_order: genotype_order.remove('X')
 #%%
 ##Classify responses
 ##Make a blank dataframe for each fish/trial combination
@@ -159,8 +161,6 @@ df=pd.merge(df,tdf,left_on='trial',right_index=True) ## add the trial conditions
 df=pd.merge(df, conditions, left_on='fish',right_index=True) ## add the well (fish) conditions
 df['responded']=False
 df.loc[df.latency<=MAX_LATENCY,'responded']=True
-#drop fish with genotype 'x'
-df=df[df.genotype<>'x']
 df.latency.between(0,LLC_THRESHOLD)
 df.loc[df.latency<LLC_THRESHOLD,'cat']='SLC'
 df.loc[df.latency>=LLC_THRESHOLD,'cat']='LLC'
@@ -205,29 +205,33 @@ plt.savefig(os.path.join(datapath, datafilename+"_plateview.png"))
 ## What percentage of fish responded to each stimuli?
 trialmeans = df.groupby(['genotype','treatment','stimulus','trial','pulse']).agg({'responded': np.mean,
                                                                             'latency': np.mean}).reset_index()
-if PPI_MODE:
-    g=sns.factorplot(data=trialmeans,y='responded',x='pulse',order=pulse_order,hue='stimulus',col='genotype',
-                     aspect=0.75,capsize=.1,size=5,col_order=genotype_order,legend=False)
-    plt.legend(title=stimname)
-    #g.set_xlabels(stimname)
-else:    
-    g=sns.factorplot(data=trialmeans,y='responded',x='stimulus',hue='genotype',col='treatment',aspect=0.75,capsize=.1,size=5,hue_order=genotype_order)
-    g.set_xlabels(stimname)
+g=sns.factorplot(data=trialmeans[trialmeans.pulse=='main'],y='responded',x='stimulus',hue='genotype',col='treatment',aspect=0.75,capsize=.1,size=5,hue_order=genotype_order)
+g.set_xlabels(stimname)
 g.set_ylabels('Fraction of fish')
 #g.set(ylim=(0,1))
 plt.subplots_adjust(top=0.85)
 plt.suptitle('Responses per stimulus and treatment')
 g.savefig(os.path.join(datapath, datafilename+"_pct_perstimulus.png"))
+#%%
+if PPI_MODE:
+    g=sns.factorplot(data=trialmeans,y='responded',x='pulse',order=pulse_order,hue='stimulus',col='genotype',
+                     aspect=0.75,capsize=.1,size=5,col_order=genotype_order,legend=False)
+    plt.legend(title=stimname)
+    plt.subplots_adjust(top=0.85)
+    plt.suptitle("Response to pre- and main pulses")
+    g.savefig(os.path.join(datapath, datafilename+"_pct_prepulse.png"))
+
 #%% For PPI experiments: does the response to the prepulse affect the response to the main pulse?
-ppdf = df[df.stimulus=='yes'].set_index(['trial','fish','pulse','genotype','treatment']).unstack(level='pulse').reset_index()
-## we want to compare mean(response) in trials where fish did vs didn't respond to the prepulse.
-## so each dot will be one trial. 
-ppdf_mean=ppdf.groupby(['trial','genotype',('responded','pre')]).mean()['responded']['main'].reset_index(name='responded')
-ppdf_mean.rename(columns={('responded', u'pre'):'responded to prepulse'}, inplace=True)
-ax=sns.pointplot(data=ppdf_mean,y='responded',x='responded to prepulse',hue='genotype')
-#sns.stripplot(data=ppdf_mean,y='responded',hue='responded to prepulse',x='genotype',ax=ax, split=True, jitter=True,color='gray')
-plt.title('Effect of prepulse response on main response')
-plt.savefig(os.path.join(datapath, datafilename+"_prepulse_effect.png"))
+#if PPI_MODE:
+#    ppdf = df[df.stimulus=='yes'].set_index(['trial','fish','pulse','genotype','treatment']).unstack(level='pulse').reset_index()
+#    ## we want to compare mean(response) in trials where fish did vs didn't respond to the prepulse.
+#    ## so each dot will be one trial. 
+#    ppdf_mean=ppdf.groupby(['trial','genotype',('responded','pre')]).mean()['responded']['main'].reset_index(name='responded')
+#    ppdf_mean.rename(columns={('responded', u'pre'):'responded to prepulse'}, inplace=True)
+#    ax=sns.pointplot(data=ppdf_mean,y='responded',x='responded to prepulse',hue='genotype')
+#    #sns.stripplot(data=ppdf_mean,y='responded',hue='responded to prepulse',x='genotype',ax=ax, split=True, jitter=True,color='gray')
+#    plt.title('Effect of prepulse response on main response')
+#    plt.savefig(os.path.join(datapath, datafilename+"_prepulse_effect.png"))
 #%% Make a per-trial plot to check exhaustion or habituation
 g=sns.factorplot(data=trialmeans[trialmeans.pulse=='main'],y='responded',x='trial',hue='genotype',row='treatment',aspect=2,size=4,hue_order=genotype_order)
 g.set(ylim=(0,1))
