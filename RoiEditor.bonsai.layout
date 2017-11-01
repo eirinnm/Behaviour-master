@@ -15,12 +15,12 @@
   <DialogSettings>
     <Visible>false</Visible>
     <Location>
-      <X>114</X>
-      <Y>53</Y>
+      <X>563</X>
+      <Y>159</Y>
     </Location>
     <Size>
-      <Width>1160</Width>
-      <Height>896</Height>
+      <Width>659</Width>
+      <Height>553</Height>
     </Size>
     <WindowState>Normal</WindowState>
     <VisualizerTypeName>Bonsai.Vision.Design.IplImageVisualizer</VisualizerTypeName>
@@ -42,6 +42,54 @@
     <VisualizerTypeName>Bonsai.Vision.Design.IplImageVisualizer</VisualizerTypeName>
     <VisualizerSettings>
       <IplImageVisualizer />
+    </VisualizerSettings>
+  </DialogSettings>
+  <DialogSettings>
+    <Visible>false</Visible>
+    <Location>
+      <X>150</X>
+      <Y>150</Y>
+    </Location>
+    <Size>
+      <Width>336</Width>
+      <Height>278</Height>
+    </Size>
+    <WindowState>Normal</WindowState>
+    <VisualizerTypeName>Bonsai.Vision.Design.RegionActivityCollectionVisualizer</VisualizerTypeName>
+    <VisualizerSettings>
+      <RegionActivityCollectionVisualizer />
+    </VisualizerSettings>
+  </DialogSettings>
+  <DialogSettings>
+    <Visible>false</Visible>
+    <Location>
+      <X>175</X>
+      <Y>173</Y>
+    </Location>
+    <Size>
+      <Width>1168</Width>
+      <Height>689</Height>
+    </Size>
+    <WindowState>Normal</WindowState>
+    <VisualizerTypeName>Bonsai.Vision.Design.RegionActivityCollectionVisualizer</VisualizerTypeName>
+    <VisualizerSettings>
+      <RegionActivityCollectionVisualizer />
+    </VisualizerSettings>
+  </DialogSettings>
+  <DialogSettings>
+    <Visible>false</Visible>
+    <Location>
+      <X>175</X>
+      <Y>175</Y>
+    </Location>
+    <Size>
+      <Width>336</Width>
+      <Height>278</Height>
+    </Size>
+    <WindowState>Maximized</WindowState>
+    <VisualizerTypeName>Bonsai.Vision.Design.RegionActivityCollectionVisualizer</VisualizerTypeName>
+    <VisualizerSettings>
+      <RegionActivityCollectionVisualizer />
     </VisualizerSettings>
   </DialogSettings>
   <DialogSettings>

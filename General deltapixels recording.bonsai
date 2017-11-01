@@ -117,7 +117,7 @@ def process(value):
   except:
     print traceback.format_exc()
   return</q3:Script>
-          <q3:FileName>C:\DATA\Eirinn\Megan\20170421\importin13 9dpf xy 30min\Deltapixels-.csv</q3:FileName>
+          <q3:FileName>C:\Users\Axioplan\OneDrive - University College London\Zwp\Behaviour\Seizures\Expt17 6dpf ketamine 12well\2hrs post.csv</q3:FileName>
           <q3:Append>false</q3:Append>
           <q3:Suffix>FileCount</q3:Suffix>
         </Combinator>
@@ -144,13 +144,13 @@ def process(value):
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Delay">
-          <DueTime>PT30M</DueTime>
+          <DueTime>PT5M</DueTime>
         </Combinator>
       </Expression>
       <Expression xsi:type="ExternalizedTimeSpanOfDelay">
         <MemberName>DueTime</MemberName>
         <Name>Recording Duration</Name>
-        <Value>PT30M</Value>
+        <Value>PT5M</Value>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="TakeUntil" />
@@ -172,7 +172,7 @@ def process(value):
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q4:VideoWriter">
-          <q4:FileName>C:\DATA\Eirinn\Megan\20170421\importin13 9dpf xy 30min\30min video.avi</q4:FileName>
+          <q4:FileName>C:\DATA\Eirinn\Expt17 Zwp 6dpf new 12-well 2hrs ketamine.avi</q4:FileName>
           <q4:Suffix>FileCount</q4:Suffix>
           <q4:Buffered>true</q4:Buffered>
           <q4:Overwrite>false</q4:Overwrite>
@@ -203,128 +203,236 @@ def process(value):
           <q4:Regions>
             <q4:ArrayOfPoint>
               <q4:Point>
-                <q4:X>815</q4:X>
-                <q4:Y>32</q4:Y>
+                <q4:X>836</q4:X>
+                <q4:Y>41</q4:Y>
               </q4:Point>
               <q4:Point>
-                <q4:X>1044</q4:X>
-                <q4:Y>32</q4:Y>
+                <q4:X>1119</q4:X>
+                <q4:Y>41</q4:Y>
               </q4:Point>
               <q4:Point>
-                <q4:X>1044</q4:X>
-                <q4:Y>12</q4:Y>
+                <q4:X>1119</q4:X>
+                <q4:Y>0</q4:Y>
               </q4:Point>
               <q4:Point>
-                <q4:X>815</q4:X>
-                <q4:Y>12</q4:Y>
-              </q4:Point>
-            </q4:ArrayOfPoint>
-            <q4:ArrayOfPoint>
-              <q4:Point>
-                <q4:X>60</q4:X>
-                <q4:Y>78</q4:Y>
-              </q4:Point>
-              <q4:Point>
-                <q4:X>397</q4:X>
-                <q4:Y>78</q4:Y>
-              </q4:Point>
-              <q4:Point>
-                <q4:X>397</q4:X>
-                <q4:Y>402</q4:Y>
-              </q4:Point>
-              <q4:Point>
-                <q4:X>60</q4:X>
-                <q4:Y>402</q4:Y>
+                <q4:X>836</q4:X>
+                <q4:Y>0</q4:Y>
               </q4:Point>
             </q4:ArrayOfPoint>
             <q4:ArrayOfPoint>
               <q4:Point>
-                <q4:X>405</q4:X>
-                <q4:Y>78</q4:Y>
+                <q4:X>82</q4:X>
+                <q4:Y>73</q4:Y>
               </q4:Point>
               <q4:Point>
-                <q4:X>742</q4:X>
-                <q4:Y>78</q4:Y>
+                <q4:X>335</q4:X>
+                <q4:Y>73</q4:Y>
               </q4:Point>
               <q4:Point>
-                <q4:X>742</q4:X>
-                <q4:Y>402</q4:Y>
+                <q4:X>335</q4:X>
+                <q4:Y>290</q4:Y>
               </q4:Point>
               <q4:Point>
-                <q4:X>405</q4:X>
-                <q4:Y>402</q4:Y>
-              </q4:Point>
-            </q4:ArrayOfPoint>
-            <q4:ArrayOfPoint>
-              <q4:Point>
-                <q4:X>749</q4:X>
-                <q4:Y>79</q4:Y>
-              </q4:Point>
-              <q4:Point>
-                <q4:X>1086</q4:X>
-                <q4:Y>79</q4:Y>
-              </q4:Point>
-              <q4:Point>
-                <q4:X>1086</q4:X>
-                <q4:Y>403</q4:Y>
-              </q4:Point>
-              <q4:Point>
-                <q4:X>749</q4:X>
-                <q4:Y>403</q4:Y>
+                <q4:X>82</q4:X>
+                <q4:Y>290</q4:Y>
               </q4:Point>
             </q4:ArrayOfPoint>
             <q4:ArrayOfPoint>
               <q4:Point>
-                <q4:X>59</q4:X>
-                <q4:Y>420</q4:Y>
+                <q4:X>335</q4:X>
+                <q4:Y>73</q4:Y>
               </q4:Point>
               <q4:Point>
-                <q4:X>396</q4:X>
-                <q4:Y>420</q4:Y>
+                <q4:X>588</q4:X>
+                <q4:Y>73</q4:Y>
               </q4:Point>
               <q4:Point>
-                <q4:X>396</q4:X>
-                <q4:Y>744</q4:Y>
+                <q4:X>588</q4:X>
+                <q4:Y>290</q4:Y>
               </q4:Point>
               <q4:Point>
-                <q4:X>59</q4:X>
-                <q4:Y>744</q4:Y>
-              </q4:Point>
-            </q4:ArrayOfPoint>
-            <q4:ArrayOfPoint>
-              <q4:Point>
-                <q4:X>403</q4:X>
-                <q4:Y>420</q4:Y>
-              </q4:Point>
-              <q4:Point>
-                <q4:X>740</q4:X>
-                <q4:Y>420</q4:Y>
-              </q4:Point>
-              <q4:Point>
-                <q4:X>740</q4:X>
-                <q4:Y>744</q4:Y>
-              </q4:Point>
-              <q4:Point>
-                <q4:X>403</q4:X>
-                <q4:Y>744</q4:Y>
+                <q4:X>335</q4:X>
+                <q4:Y>290</q4:Y>
               </q4:Point>
             </q4:ArrayOfPoint>
             <q4:ArrayOfPoint>
               <q4:Point>
-                <q4:X>744</q4:X>
-                <q4:Y>421</q4:Y>
+                <q4:X>585</q4:X>
+                <q4:Y>73</q4:Y>
               </q4:Point>
               <q4:Point>
-                <q4:X>1081</q4:X>
-                <q4:Y>421</q4:Y>
+                <q4:X>838</q4:X>
+                <q4:Y>73</q4:Y>
               </q4:Point>
               <q4:Point>
-                <q4:X>1081</q4:X>
-                <q4:Y>745</q4:Y>
+                <q4:X>838</q4:X>
+                <q4:Y>290</q4:Y>
               </q4:Point>
               <q4:Point>
-                <q4:X>744</q4:X>
-                <q4:Y>745</q4:Y>
+                <q4:X>585</q4:X>
+                <q4:Y>290</q4:Y>
+              </q4:Point>
+            </q4:ArrayOfPoint>
+            <q4:ArrayOfPoint>
+              <q4:Point>
+                <q4:X>837</q4:X>
+                <q4:Y>73</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>1090</q4:X>
+                <q4:Y>73</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>1090</q4:X>
+                <q4:Y>290</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>837</q4:X>
+                <q4:Y>290</q4:Y>
+              </q4:Point>
+            </q4:ArrayOfPoint>
+            <q4:ArrayOfPoint>
+              <q4:Point>
+                <q4:X>81</q4:X>
+                <q4:Y>292</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>334</q4:X>
+                <q4:Y>292</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>334</q4:X>
+                <q4:Y>509</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>81</q4:X>
+                <q4:Y>509</q4:Y>
+              </q4:Point>
+            </q4:ArrayOfPoint>
+            <q4:ArrayOfPoint>
+              <q4:Point>
+                <q4:X>334</q4:X>
+                <q4:Y>293</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>587</q4:X>
+                <q4:Y>293</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>587</q4:X>
+                <q4:Y>510</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>334</q4:X>
+                <q4:Y>510</q4:Y>
+              </q4:Point>
+            </q4:ArrayOfPoint>
+            <q4:ArrayOfPoint>
+              <q4:Point>
+                <q4:X>586</q4:X>
+                <q4:Y>293</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>839</q4:X>
+                <q4:Y>293</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>839</q4:X>
+                <q4:Y>510</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>586</q4:X>
+                <q4:Y>510</q4:Y>
+              </q4:Point>
+            </q4:ArrayOfPoint>
+            <q4:ArrayOfPoint>
+              <q4:Point>
+                <q4:X>837</q4:X>
+                <q4:Y>292</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>1090</q4:X>
+                <q4:Y>292</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>1090</q4:X>
+                <q4:Y>509</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>837</q4:X>
+                <q4:Y>509</q4:Y>
+              </q4:Point>
+            </q4:ArrayOfPoint>
+            <q4:ArrayOfPoint>
+              <q4:Point>
+                <q4:X>81</q4:X>
+                <q4:Y>511</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>334</q4:X>
+                <q4:Y>511</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>334</q4:X>
+                <q4:Y>728</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>81</q4:X>
+                <q4:Y>728</q4:Y>
+              </q4:Point>
+            </q4:ArrayOfPoint>
+            <q4:ArrayOfPoint>
+              <q4:Point>
+                <q4:X>334</q4:X>
+                <q4:Y>511</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>587</q4:X>
+                <q4:Y>511</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>587</q4:X>
+                <q4:Y>728</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>334</q4:X>
+                <q4:Y>728</q4:Y>
+              </q4:Point>
+            </q4:ArrayOfPoint>
+            <q4:ArrayOfPoint>
+              <q4:Point>
+                <q4:X>585</q4:X>
+                <q4:Y>512</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>838</q4:X>
+                <q4:Y>512</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>838</q4:X>
+                <q4:Y>729</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>585</q4:X>
+                <q4:Y>729</q4:Y>
+              </q4:Point>
+            </q4:ArrayOfPoint>
+            <q4:ArrayOfPoint>
+              <q4:Point>
+                <q4:X>838</q4:X>
+                <q4:Y>512</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>1091</q4:X>
+                <q4:Y>512</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>1091</q4:X>
+                <q4:Y>729</q4:Y>
+              </q4:Point>
+              <q4:Point>
+                <q4:X>838</q4:X>
+                <q4:Y>729</q4:Y>
               </q4:Point>
             </q4:ArrayOfPoint>
           </q4:Regions>

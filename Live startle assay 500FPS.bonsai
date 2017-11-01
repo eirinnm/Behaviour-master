@@ -63,7 +63,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q3:VideoWriter">
-          <q3:FileName>C:\DATA\Eirinn\Megan\20170424\importin13 5dpf ppi\Video-.avi</q3:FileName>
+          <q3:FileName>C:\DATA\Eirinn\Megan\20170407\myrf plate 4 ppi\myrf_plate4_6dpf_ppi.avi</q3:FileName>
           <q3:Suffix>FileCount</q3:Suffix>
           <q3:Buffered>true</q3:Buffered>
           <q3:Overwrite>false</q3:Overwrite>
@@ -86,17 +86,17 @@
         <Combinator xsi:type="Merge" />
       </Expression>
       <Expression xsi:type="NestedWorkflow">
-        <Name>F4 sound test</Name>
+        <Name>F10 sound test</Name>
         <Workflow>
           <Nodes>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="StringProperty">
-                <Value>S0,10</Value>
+                <Value>S4,10</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q4:KeyDown">
-                <q4:Filter>F4</q4:Filter>
+                <q4:Filter>F10</q4:Filter>
               </Combinator>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -209,7 +209,7 @@
         <Combinator xsi:type="Merge" />
       </Expression>
       <Expression xsi:type="SelectMany">
-        <Name>F2 Audio trials</Name>
+        <Name>F2 Volume titration</Name>
         <Workflow>
           <Nodes>
             <Expression xsi:type="MemberSelector">
@@ -220,7 +220,7 @@
             </Expression>
             <Expression xsi:type="q2:PythonSource">
               <q2:Name>Stimulus script</q2:Name>
-              <q2:Script>NUM_REPEATS=6
+              <q2:Script>NUM_REPEATS=5
 PULSELENGTH=10 #milliseconds
 
 @returns(str)
@@ -282,13 +282,14 @@ def generate():
               <Combinator xsi:type="Zip" />
             </Expression>
             <Expression xsi:type="q2:PythonSource">
-              <q2:Script>NUM_REPEATS=10
+              <q2:Name>Stimulus script</q2:Name>
+              <q2:Script>NUM_REPEATS=20
 PULSELENGTH=500 #milliseconds
 
 @returns(str)
 def generate():
   for i in range(NUM_REPEATS):
-    for brightness in [0]:
+    for brightness in [255,0]:
       yield "F{},{}".format(brightness, PULSELENGTH)
 </q2:Script>
             </Expression>
@@ -382,7 +383,7 @@ def generate():
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q5:TextWriter">
-          <q5:FileName>C:\DATA\Eirinn\Megan\20170424\importin13 5dpf ppi\Importin13xy-ppi-.csv</q5:FileName>
+          <q5:FileName>C:\DATA\Eirinn\Megan\20170407\myrf plate 4 ppi\myrf_plate4_6dpf_ppi.csv</q5:FileName>
           <q5:Suffix>FileCount</q5:Suffix>
           <q5:Buffered>true</q5:Buffered>
           <q5:Overwrite>false</q5:Overwrite>
@@ -2528,46 +2529,6 @@ def process(value):
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Concat" />
       </Expression>
-      <Expression xsi:type="NestedWorkflow">
-        <Name>F4 set freq</Name>
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="StringProperty">
-                <Value>H200</Value>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q4:KeyDown">
-                <q4:Filter>F4</q4:Filter>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="WorkflowOutput" />
-            <Expression xsi:type="ExternalizedPropertyOfStringStringProperty">
-              <MemberName>Value</MemberName>
-              <Name>Value</Name>
-              <Value>H200</Value>
-            </Expression>
-          </Nodes>
-          <Edges>
-            <Edge>
-              <From>0</From>
-              <To>2</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>1</From>
-              <To>0</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>3</From>
-              <To>0</To>
-              <Label>Source2</Label>
-            </Edge>
-          </Edges>
-        </Workflow>
-      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q3:Crop">
           <q3:RegionOfInterest>
@@ -2590,7 +2551,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="q2:PythonSource">
               <q2:Name>Stimulus script</q2:Name>
-              <q2:Script>NUM_REPEATS=20
+              <q2:Script>NUM_REPEATS=30
 PULSELENGTH=10 #milliseconds
 MAXVOL = 4
 MINVOL = 1
@@ -2647,6 +2608,75 @@ def generate():
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q4:KeyDown">
           <q4:Filter>F3</q4:Filter>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="SelectMany">
+        <Name>F4 Frequency titration</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item1</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Zip" />
+            </Expression>
+            <Expression xsi:type="q2:PythonSource">
+              <q2:Name>Stimulus script</q2:Name>
+              <q2:Script>NUM_REPEATS=5
+PULSELENGTH=10 #milliseconds
+vol=4
+
+@returns(str)
+def generate():
+  for i in range(NUM_REPEATS):
+    for hertz in [100,200,400,800,1600]:
+       yield "H{}\nS{},{}".format(hertz,vol,PULSELENGTH)</q2:Script>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Timer">
+                <DueTime>PT0S</DueTime>
+                <Period>PT20S</Period>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="ExternalizedTimeSpanOfTimer">
+              <MemberName>Period</MemberName>
+              <Name>Inter-trial Interval</Name>
+              <Value>PT20S</Value>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>5</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>1</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>4</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q4:KeyDown">
+          <q4:Filter>F4</q4:Filter>
         </Combinator>
       </Expression>
     </Nodes>
@@ -2793,7 +2823,7 @@ def generate():
       </Edge>
       <Edge>
         <From>33</From>
-        <To>36</To>
+        <To>35</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2803,22 +2833,27 @@ def generate():
       </Edge>
       <Edge>
         <From>35</From>
-        <To>6</To>
-        <Label>Source6</Label>
-      </Edge>
-      <Edge>
-        <From>36</From>
         <To>4</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>37</From>
+        <From>36</From>
         <To>11</To>
         <Label>Source3</Label>
       </Edge>
       <Edge>
+        <From>37</From>
+        <To>36</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>38</From>
-        <To>37</To>
+        <To>11</To>
+        <Label>Source4</Label>
+      </Edge>
+      <Edge>
+        <From>39</From>
+        <To>38</To>
         <Label>Source1</Label>
       </Edge>
     </Edges>
@@ -2863,6 +2898,5 @@ def generate():
     <Type>Bonsai.IO.SerialStringWrite, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.ARK.Vision.IMAQ_Camera, BonsaiPackage1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.Grayscale, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.StringProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>

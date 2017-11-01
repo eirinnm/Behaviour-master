@@ -20,8 +20,10 @@ def get_args(default_framerate=100, experiment_type="Undefined experiment"):
     parser.add_argument('--minactivity',type=float, default=0)
     parser.add_argument('--skipframes',type=int, default=0)
     parser.add_argument('--longboutlength',type=float, default=0.5)
-    parser.add_argument('--maxlatency',type=int, default=500, help='cutoff (milliseconds) to classify movement as response')
+    parser.add_argument('--maxlatency',type=int, default=100, help='cutoff (milliseconds) to classify movement as response')
     parser.add_argument('--usedeltapixels',action='store_true',help='Use delta pixels even for XY(H) scripts')
+    parser.add_argument('--filterled',action='store_true',help='Filter the LED signal with a 5-element median filter')
+    parser.add_argument('--mindeltapixelchange',type=int, default=None,help='Minimum delta pixels to recognise a response')
     args=parser.parse_args()
     FRAMERATE=args.framerate
     SCALEFACTOR=args.scalefactor
