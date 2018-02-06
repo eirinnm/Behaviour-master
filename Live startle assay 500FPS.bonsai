@@ -63,7 +63,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q3:VideoWriter">
-          <q3:FileName>C:\DATA\Eirinn\Megan\20170407\myrf plate 4 ppi\myrf_plate4_6dpf_ppi.avi</q3:FileName>
+          <q3:FileName>E:\January 2018 PPI\01.02.2018\9. 12 well plate sound titration 200hz 10 repeats\myrf_z2989_6dpf_12wellplate_soundtitration_loudestscrew_10repeats.avi</q3:FileName>
           <q3:Suffix>FileCount</q3:Suffix>
           <q3:Buffered>true</q3:Buffered>
           <q3:Overwrite>false</q3:Overwrite>
@@ -222,12 +222,13 @@
               <q2:Name>Stimulus script</q2:Name>
               <q2:Script>NUM_REPEATS=5
 PULSELENGTH=10 #milliseconds
+FREQ=200
 
 @returns(str)
 def generate():
   for i in range(NUM_REPEATS):
-    for vol in [0,1,2,3,4]:
-       yield "S{},{}".format(vol,PULSELENGTH)</q2:Script>
+    for vol in [0,1,4,6,8]:
+       yield "H{}\nS{},{}".format(FREQ,vol,PULSELENGTH)</q2:Script>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="Timer">
@@ -383,7 +384,7 @@ def generate():
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q5:TextWriter">
-          <q5:FileName>C:\DATA\Eirinn\Megan\20170407\myrf plate 4 ppi\myrf_plate4_6dpf_ppi.csv</q5:FileName>
+          <q5:FileName>E:\January 2018 PPI\01.02.2018\9. 12 well plate sound titration 200hz 10 repeats\myrf_z2989_6dpf_12wellplate_soundtitration_loudestscrew_10repeats.csv</q5:FileName>
           <q5:Suffix>FileCount</q5:Suffix>
           <q5:Buffered>true</q5:Buffered>
           <q5:Overwrite>false</q5:Overwrite>
@@ -407,7 +408,7 @@ def generate():
             <Expression xsi:type="ExternalizedPropertyOfInt32Buffer">
               <MemberName>Count</MemberName>
               <Name>Count</Name>
-              <Value>97</Value>
+              <Value>13</Value>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:BackgroundSubtraction">
@@ -427,7 +428,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q1:Buffer">
-                <q1:Count>97</q1:Count>
+                <q1:Count>13</q1:Count>
                 <q1:Skip xsi:nil="true" />
               </Combinator>
             </Expression>
@@ -469,10 +470,10 @@ def process(value):
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q3:Crop">
                       <q3:RegionOfInterest>
-                        <q3:X>956</q3:X>
-                        <q3:Y>645</q3:Y>
-                        <q3:Width>73</q3:Width>
-                        <q3:Height>72</q3:Height>
+                        <q3:X>838</q3:X>
+                        <q3:Y>512</q3:Y>
+                        <q3:Width>254</q3:Width>
+                        <q3:Height>218</q3:Height>
                       </q3:RegionOfInterest>
                     </Combinator>
                   </Expression>
@@ -580,1748 +581,236 @@ def process(value):
                 <q3:Regions>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>824</q3:X>
-                      <q3:Y>5</q3:Y>
+                      <q3:X>836</q3:X>
+                      <q3:Y>41</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>1106</q3:X>
-                      <q3:Y>5</q3:Y>
+                      <q3:X>1119</q3:X>
+                      <q3:Y>41</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>1106</q3:X>
-                      <q3:Y>40</q3:Y>
+                      <q3:X>1119</q3:X>
+                      <q3:Y>0</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>824</q3:X>
-                      <q3:Y>40</q3:Y>
+                      <q3:X>836</q3:X>
+                      <q3:Y>0</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>116</q3:X>
-                      <q3:Y>111</q3:Y>
+                      <q3:X>82</q3:X>
+                      <q3:Y>73</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>192</q3:X>
-                      <q3:Y>111</q3:Y>
+                      <q3:X>335</q3:X>
+                      <q3:Y>73</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>192</q3:X>
-                      <q3:Y>182</q3:Y>
+                      <q3:X>335</q3:X>
+                      <q3:Y>290</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>116</q3:X>
-                      <q3:Y>182</q3:Y>
+                      <q3:X>82</q3:X>
+                      <q3:Y>290</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>194</q3:X>
-                      <q3:Y>113</q3:Y>
+                      <q3:X>335</q3:X>
+                      <q3:Y>73</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>270</q3:X>
-                      <q3:Y>113</q3:Y>
+                      <q3:X>588</q3:X>
+                      <q3:Y>73</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>270</q3:X>
-                      <q3:Y>184</q3:Y>
+                      <q3:X>588</q3:X>
+                      <q3:Y>290</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>194</q3:X>
-                      <q3:Y>184</q3:Y>
+                      <q3:X>335</q3:X>
+                      <q3:Y>290</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>271</q3:X>
-                      <q3:Y>112</q3:Y>
+                      <q3:X>585</q3:X>
+                      <q3:Y>73</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>347</q3:X>
-                      <q3:Y>112</q3:Y>
+                      <q3:X>838</q3:X>
+                      <q3:Y>73</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>347</q3:X>
-                      <q3:Y>183</q3:Y>
+                      <q3:X>838</q3:X>
+                      <q3:Y>290</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>271</q3:X>
-                      <q3:Y>183</q3:Y>
+                      <q3:X>585</q3:X>
+                      <q3:Y>290</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>348</q3:X>
-                      <q3:Y>112</q3:Y>
+                      <q3:X>837</q3:X>
+                      <q3:Y>73</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>424</q3:X>
-                      <q3:Y>112</q3:Y>
+                      <q3:X>1090</q3:X>
+                      <q3:Y>73</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>424</q3:X>
-                      <q3:Y>183</q3:Y>
+                      <q3:X>1090</q3:X>
+                      <q3:Y>290</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>348</q3:X>
-                      <q3:Y>183</q3:Y>
+                      <q3:X>837</q3:X>
+                      <q3:Y>290</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>425</q3:X>
-                      <q3:Y>113</q3:Y>
+                      <q3:X>81</q3:X>
+                      <q3:Y>292</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>501</q3:X>
-                      <q3:Y>113</q3:Y>
+                      <q3:X>334</q3:X>
+                      <q3:Y>292</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>501</q3:X>
-                      <q3:Y>184</q3:Y>
+                      <q3:X>334</q3:X>
+                      <q3:Y>509</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>425</q3:X>
-                      <q3:Y>184</q3:Y>
+                      <q3:X>81</q3:X>
+                      <q3:Y>509</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>502</q3:X>
-                      <q3:Y>114</q3:Y>
+                      <q3:X>334</q3:X>
+                      <q3:Y>293</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>578</q3:X>
-                      <q3:Y>114</q3:Y>
+                      <q3:X>587</q3:X>
+                      <q3:Y>293</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>578</q3:X>
-                      <q3:Y>185</q3:Y>
+                      <q3:X>587</q3:X>
+                      <q3:Y>510</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>502</q3:X>
-                      <q3:Y>185</q3:Y>
+                      <q3:X>334</q3:X>
+                      <q3:Y>510</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>579</q3:X>
-                      <q3:Y>114</q3:Y>
+                      <q3:X>586</q3:X>
+                      <q3:Y>293</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>651</q3:X>
-                      <q3:Y>114</q3:Y>
+                      <q3:X>839</q3:X>
+                      <q3:Y>293</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>651</q3:X>
-                      <q3:Y>185</q3:Y>
+                      <q3:X>839</q3:X>
+                      <q3:Y>510</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>579</q3:X>
-                      <q3:Y>185</q3:Y>
+                      <q3:X>586</q3:X>
+                      <q3:Y>510</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>652</q3:X>
-                      <q3:Y>113</q3:Y>
+                      <q3:X>837</q3:X>
+                      <q3:Y>292</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>724</q3:X>
-                      <q3:Y>113</q3:Y>
+                      <q3:X>1090</q3:X>
+                      <q3:Y>292</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>724</q3:X>
-                      <q3:Y>184</q3:Y>
+                      <q3:X>1090</q3:X>
+                      <q3:Y>509</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>652</q3:X>
-                      <q3:Y>184</q3:Y>
+                      <q3:X>837</q3:X>
+                      <q3:Y>509</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>730</q3:X>
-                      <q3:Y>114</q3:Y>
+                      <q3:X>81</q3:X>
+                      <q3:Y>511</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>802</q3:X>
-                      <q3:Y>114</q3:Y>
+                      <q3:X>334</q3:X>
+                      <q3:Y>511</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>802</q3:X>
-                      <q3:Y>185</q3:Y>
+                      <q3:X>334</q3:X>
+                      <q3:Y>728</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>730</q3:X>
-                      <q3:Y>185</q3:Y>
+                      <q3:X>81</q3:X>
+                      <q3:Y>728</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>804</q3:X>
-                      <q3:Y>115</q3:Y>
+                      <q3:X>334</q3:X>
+                      <q3:Y>511</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>876</q3:X>
-                      <q3:Y>115</q3:Y>
+                      <q3:X>587</q3:X>
+                      <q3:Y>511</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>876</q3:X>
-                      <q3:Y>186</q3:Y>
+                      <q3:X>587</q3:X>
+                      <q3:Y>728</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>804</q3:X>
-                      <q3:Y>186</q3:Y>
+                      <q3:X>334</q3:X>
+                      <q3:Y>728</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>879</q3:X>
-                      <q3:Y>115</q3:Y>
+                      <q3:X>585</q3:X>
+                      <q3:Y>512</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>951</q3:X>
-                      <q3:Y>115</q3:Y>
+                      <q3:X>838</q3:X>
+                      <q3:Y>512</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>951</q3:X>
-                      <q3:Y>186</q3:Y>
+                      <q3:X>838</q3:X>
+                      <q3:Y>729</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>879</q3:X>
-                      <q3:Y>186</q3:Y>
+                      <q3:X>585</q3:X>
+                      <q3:Y>729</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                   <q3:ArrayOfPoint>
                     <q3:Point>
-                      <q3:X>954</q3:X>
-                      <q3:Y>114</q3:Y>
+                      <q3:X>838</q3:X>
+                      <q3:Y>512</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>1026</q3:X>
-                      <q3:Y>114</q3:Y>
+                      <q3:X>1091</q3:X>
+                      <q3:Y>512</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>1026</q3:X>
-                      <q3:Y>185</q3:Y>
+                      <q3:X>1091</q3:X>
+                      <q3:Y>729</q3:Y>
                     </q3:Point>
                     <q3:Point>
-                      <q3:X>954</q3:X>
-                      <q3:Y>185</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>119</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>191</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>191</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>119</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>196</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>268</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>268</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>196</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>273</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>345</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>345</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>273</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>350</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>422</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>422</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>350</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>426</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>498</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>498</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>426</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>502</q3:X>
-                      <q3:Y>189</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>574</q3:X>
-                      <q3:Y>189</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>574</q3:X>
-                      <q3:Y>260</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>502</q3:X>
-                      <q3:Y>260</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>578</q3:X>
-                      <q3:Y>189</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>650</q3:X>
-                      <q3:Y>189</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>650</q3:X>
-                      <q3:Y>260</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>578</q3:X>
-                      <q3:Y>260</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>654</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>726</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>726</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>654</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>729</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>801</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>801</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>729</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>805</q3:X>
-                      <q3:Y>189</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>877</q3:X>
-                      <q3:Y>189</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>877</q3:X>
-                      <q3:Y>260</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>805</q3:X>
-                      <q3:Y>260</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>880</q3:X>
-                      <q3:Y>189</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>952</q3:X>
-                      <q3:Y>189</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>952</q3:X>
-                      <q3:Y>260</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>880</q3:X>
-                      <q3:Y>260</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>955</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1027</q3:X>
-                      <q3:Y>188</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1027</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>955</q3:X>
-                      <q3:Y>259</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>120</q3:X>
-                      <q3:Y>262</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>192</q3:X>
-                      <q3:Y>262</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>192</q3:X>
-                      <q3:Y>333</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>120</q3:X>
-                      <q3:Y>333</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>197</q3:X>
-                      <q3:Y>261</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>269</q3:X>
-                      <q3:Y>261</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>269</q3:X>
-                      <q3:Y>332</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>197</q3:X>
-                      <q3:Y>332</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>273</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>345</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>345</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>273</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>350</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>422</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>422</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>350</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>426</q3:X>
-                      <q3:Y>263</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>498</q3:X>
-                      <q3:Y>263</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>498</q3:X>
-                      <q3:Y>334</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>426</q3:X>
-                      <q3:Y>334</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>501</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>573</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>573</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>501</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>576</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>648</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>648</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>576</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>652</q3:X>
-                      <q3:Y>263</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>724</q3:X>
-                      <q3:Y>263</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>724</q3:X>
-                      <q3:Y>334</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>652</q3:X>
-                      <q3:Y>334</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>728</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>800</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>800</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>728</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>804</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>876</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>876</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>804</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>881</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>953</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>953</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>881</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>957</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1029</q3:X>
-                      <q3:Y>264</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1029</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>957</q3:X>
-                      <q3:Y>335</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>119</q3:X>
-                      <q3:Y>339</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>191</q3:X>
-                      <q3:Y>339</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>191</q3:X>
-                      <q3:Y>410</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>119</q3:X>
-                      <q3:Y>410</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>198</q3:X>
-                      <q3:Y>337</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>270</q3:X>
-                      <q3:Y>337</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>270</q3:X>
-                      <q3:Y>408</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>198</q3:X>
-                      <q3:Y>408</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>274</q3:X>
-                      <q3:Y>337</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>346</q3:X>
-                      <q3:Y>337</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>346</q3:X>
-                      <q3:Y>408</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>274</q3:X>
-                      <q3:Y>408</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>349</q3:X>
-                      <q3:Y>337</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>421</q3:X>
-                      <q3:Y>337</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>421</q3:X>
-                      <q3:Y>408</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>349</q3:X>
-                      <q3:Y>408</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>426</q3:X>
-                      <q3:Y>337</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>498</q3:X>
-                      <q3:Y>337</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>498</q3:X>
-                      <q3:Y>408</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>426</q3:X>
-                      <q3:Y>408</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>501</q3:X>
-                      <q3:Y>339</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>573</q3:X>
-                      <q3:Y>339</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>573</q3:X>
-                      <q3:Y>410</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>501</q3:X>
-                      <q3:Y>410</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>576</q3:X>
-                      <q3:Y>338</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>648</q3:X>
-                      <q3:Y>338</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>648</q3:X>
-                      <q3:Y>409</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>576</q3:X>
-                      <q3:Y>409</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>651</q3:X>
-                      <q3:Y>338</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>723</q3:X>
-                      <q3:Y>338</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>723</q3:X>
-                      <q3:Y>409</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>651</q3:X>
-                      <q3:Y>409</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>729</q3:X>
-                      <q3:Y>338</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>801</q3:X>
-                      <q3:Y>338</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>801</q3:X>
-                      <q3:Y>409</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>729</q3:X>
-                      <q3:Y>409</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>804</q3:X>
-                      <q3:Y>339</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>876</q3:X>
-                      <q3:Y>339</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>876</q3:X>
-                      <q3:Y>410</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>804</q3:X>
-                      <q3:Y>410</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>881</q3:X>
-                      <q3:Y>339</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>953</q3:X>
-                      <q3:Y>339</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>953</q3:X>
-                      <q3:Y>410</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>881</q3:X>
-                      <q3:Y>410</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>957</q3:X>
-                      <q3:Y>338</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1029</q3:X>
-                      <q3:Y>338</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1029</q3:X>
-                      <q3:Y>409</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>957</q3:X>
-                      <q3:Y>409</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>119</q3:X>
-                      <q3:Y>415</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>191</q3:X>
-                      <q3:Y>415</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>191</q3:X>
-                      <q3:Y>486</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>119</q3:X>
-                      <q3:Y>486</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>198</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>270</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>270</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>198</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>273</q3:X>
-                      <q3:Y>413</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>345</q3:X>
-                      <q3:Y>413</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>345</q3:X>
-                      <q3:Y>484</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>273</q3:X>
-                      <q3:Y>484</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>348</q3:X>
-                      <q3:Y>412</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>420</q3:X>
-                      <q3:Y>412</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>420</q3:X>
-                      <q3:Y>483</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>348</q3:X>
-                      <q3:Y>483</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>424</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>496</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>496</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>424</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>499</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>571</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>571</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>499</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>577</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>649</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>649</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>577</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>651</q3:X>
-                      <q3:Y>412</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>723</q3:X>
-                      <q3:Y>412</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>723</q3:X>
-                      <q3:Y>483</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>651</q3:X>
-                      <q3:Y>483</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>728</q3:X>
-                      <q3:Y>413</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>800</q3:X>
-                      <q3:Y>413</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>800</q3:X>
-                      <q3:Y>484</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>728</q3:X>
-                      <q3:Y>484</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>802</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>874</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>874</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>802</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>879</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>951</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>951</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>879</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>955</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1027</q3:X>
-                      <q3:Y>414</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1027</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>955</q3:X>
-                      <q3:Y>485</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>118</q3:X>
-                      <q3:Y>492</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>190</q3:X>
-                      <q3:Y>492</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>190</q3:X>
-                      <q3:Y>563</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>118</q3:X>
-                      <q3:Y>563</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>197</q3:X>
-                      <q3:Y>491</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>269</q3:X>
-                      <q3:Y>491</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>269</q3:X>
-                      <q3:Y>562</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>197</q3:X>
-                      <q3:Y>562</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>271</q3:X>
-                      <q3:Y>490</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>343</q3:X>
-                      <q3:Y>490</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>343</q3:X>
-                      <q3:Y>561</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>271</q3:X>
-                      <q3:Y>561</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>349</q3:X>
-                      <q3:Y>492</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>421</q3:X>
-                      <q3:Y>492</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>421</q3:X>
-                      <q3:Y>563</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>349</q3:X>
-                      <q3:Y>563</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>425</q3:X>
-                      <q3:Y>492</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>497</q3:X>
-                      <q3:Y>492</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>497</q3:X>
-                      <q3:Y>563</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>425</q3:X>
-                      <q3:Y>563</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>501</q3:X>
-                      <q3:Y>492</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>573</q3:X>
-                      <q3:Y>492</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>573</q3:X>
-                      <q3:Y>563</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>501</q3:X>
-                      <q3:Y>563</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>576</q3:X>
-                      <q3:Y>491</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>648</q3:X>
-                      <q3:Y>491</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>648</q3:X>
-                      <q3:Y>562</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>576</q3:X>
-                      <q3:Y>562</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>650</q3:X>
-                      <q3:Y>490</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>722</q3:X>
-                      <q3:Y>490</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>722</q3:X>
-                      <q3:Y>561</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>650</q3:X>
-                      <q3:Y>561</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>728</q3:X>
-                      <q3:Y>491</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>800</q3:X>
-                      <q3:Y>491</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>800</q3:X>
-                      <q3:Y>562</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>728</q3:X>
-                      <q3:Y>562</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>802</q3:X>
-                      <q3:Y>492</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>874</q3:X>
-                      <q3:Y>492</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>874</q3:X>
-                      <q3:Y>563</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>802</q3:X>
-                      <q3:Y>563</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>879</q3:X>
-                      <q3:Y>491</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>951</q3:X>
-                      <q3:Y>491</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>951</q3:X>
-                      <q3:Y>562</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>879</q3:X>
-                      <q3:Y>562</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>956</q3:X>
-                      <q3:Y>490</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1028</q3:X>
-                      <q3:Y>490</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1028</q3:X>
-                      <q3:Y>561</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>956</q3:X>
-                      <q3:Y>561</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>118</q3:X>
-                      <q3:Y>571</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>190</q3:X>
-                      <q3:Y>571</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>190</q3:X>
-                      <q3:Y>642</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>118</q3:X>
-                      <q3:Y>642</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>195</q3:X>
-                      <q3:Y>569</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>267</q3:X>
-                      <q3:Y>569</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>267</q3:X>
-                      <q3:Y>640</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>195</q3:X>
-                      <q3:Y>640</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>272</q3:X>
-                      <q3:Y>569</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>344</q3:X>
-                      <q3:Y>569</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>344</q3:X>
-                      <q3:Y>640</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>272</q3:X>
-                      <q3:Y>640</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>348</q3:X>
-                      <q3:Y>570</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>420</q3:X>
-                      <q3:Y>570</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>420</q3:X>
-                      <q3:Y>641</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>348</q3:X>
-                      <q3:Y>641</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>425</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>497</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>497</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>425</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>501</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>573</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>573</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>501</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>578</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>650</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>650</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>578</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>652</q3:X>
-                      <q3:Y>567</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>724</q3:X>
-                      <q3:Y>567</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>724</q3:X>
-                      <q3:Y>638</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>652</q3:X>
-                      <q3:Y>638</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>728</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>800</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>800</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>728</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>803</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>875</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>875</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>803</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>879</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>951</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>951</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>879</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>955</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1027</q3:X>
-                      <q3:Y>568</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1027</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>955</q3:X>
-                      <q3:Y>639</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>120</q3:X>
-                      <q3:Y>646</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>192</q3:X>
-                      <q3:Y>646</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>192</q3:X>
-                      <q3:Y>717</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>120</q3:X>
-                      <q3:Y>717</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>196</q3:X>
-                      <q3:Y>647</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>268</q3:X>
-                      <q3:Y>647</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>268</q3:X>
-                      <q3:Y>718</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>196</q3:X>
-                      <q3:Y>718</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>272</q3:X>
-                      <q3:Y>647</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>344</q3:X>
-                      <q3:Y>647</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>344</q3:X>
-                      <q3:Y>718</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>272</q3:X>
-                      <q3:Y>718</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>348</q3:X>
-                      <q3:Y>647</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>420</q3:X>
-                      <q3:Y>647</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>420</q3:X>
-                      <q3:Y>718</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>348</q3:X>
-                      <q3:Y>718</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>425</q3:X>
-                      <q3:Y>646</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>497</q3:X>
-                      <q3:Y>646</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>497</q3:X>
-                      <q3:Y>717</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>425</q3:X>
-                      <q3:Y>717</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>500</q3:X>
-                      <q3:Y>647</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>572</q3:X>
-                      <q3:Y>647</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>572</q3:X>
-                      <q3:Y>718</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>500</q3:X>
-                      <q3:Y>718</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>576</q3:X>
-                      <q3:Y>645</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>648</q3:X>
-                      <q3:Y>645</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>648</q3:X>
-                      <q3:Y>716</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>576</q3:X>
-                      <q3:Y>716</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>653</q3:X>
-                      <q3:Y>644</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>725</q3:X>
-                      <q3:Y>644</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>725</q3:X>
-                      <q3:Y>715</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>653</q3:X>
-                      <q3:Y>715</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>729</q3:X>
-                      <q3:Y>645</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>801</q3:X>
-                      <q3:Y>645</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>801</q3:X>
-                      <q3:Y>716</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>729</q3:X>
-                      <q3:Y>716</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>805</q3:X>
-                      <q3:Y>645</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>877</q3:X>
-                      <q3:Y>645</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>877</q3:X>
-                      <q3:Y>716</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>805</q3:X>
-                      <q3:Y>716</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>879</q3:X>
-                      <q3:Y>644</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>951</q3:X>
-                      <q3:Y>644</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>951</q3:X>
-                      <q3:Y>715</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>879</q3:X>
-                      <q3:Y>715</q3:Y>
-                    </q3:Point>
-                  </q3:ArrayOfPoint>
-                  <q3:ArrayOfPoint>
-                    <q3:Point>
-                      <q3:X>956</q3:X>
-                      <q3:Y>645</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1028</q3:X>
-                      <q3:Y>645</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>1028</q3:X>
-                      <q3:Y>716</q3:Y>
-                    </q3:Point>
-                    <q3:Point>
-                      <q3:X>956</q3:X>
-                      <q3:Y>716</q3:Y>
+                      <q3:X>838</q3:X>
+                      <q3:Y>729</q3:Y>
                     </q3:Point>
                   </q3:ArrayOfPoint>
                 </q3:Regions>
@@ -2553,15 +1042,16 @@ def process(value):
               <q2:Name>Stimulus script</q2:Name>
               <q2:Script>NUM_REPEATS=30
 PULSELENGTH=10 #milliseconds
-MAXVOL = 4
+MAXVOL = 8
 MINVOL = 1
 DELAY = 300
+FREQ=200
 
 @returns(str)
 def generate():
   for i in range(NUM_REPEATS):
     for prepulse in [0,MINVOL]:
-       yield "S{},{},{},{},{}".format(prepulse,PULSELENGTH,DELAY,MAXVOL,PULSELENGTH)</q2:Script>
+       yield "H{}\nS{},{},{},{},{}".format(FREQ,prepulse,PULSELENGTH,DELAY,MAXVOL,PULSELENGTH)</q2:Script>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="Timer">
@@ -2624,12 +1114,12 @@ def generate():
               <q2:Name>Stimulus script</q2:Name>
               <q2:Script>NUM_REPEATS=5
 PULSELENGTH=10 #milliseconds
-vol=4
+vol=8
 
 @returns(str)
 def generate():
   for i in range(NUM_REPEATS):
-    for hertz in [100,200,400,800,1600]:
+    for hertz in [100,200,300,400,500]:
        yield "H{}\nS{},{}".format(hertz,vol,PULSELENGTH)</q2:Script>
             </Expression>
             <Expression xsi:type="Combinator">
