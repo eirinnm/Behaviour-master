@@ -77,7 +77,7 @@ def get_bouts(movementframes, velocities=None): #returns stats for each bout in 
         breakpoints=breakpoints[:,boutlengths>=MIN_BOUT_LENGTH]
         boutlengths=boutlengths[boutlengths>=MIN_BOUT_LENGTH]
         # calculate "vigour"
-        if velocities:
+        if velocities is not None:
             #we have actual XY velocities, in pixels/frame
             bout_velocities = [velocities[start:end] for start, end in breakpoints.T]
             v_max = np.array([np.max(v) for v in bout_velocities]) * SCALEFACTOR / FRAMERATE
@@ -273,11 +273,11 @@ if USEDELTAPIXELS:
     vigour_string = 'bout vigour (total deltapixels)'
 else:
     vigour_string = 'bout vigour (mm traveled)'
-sns.lmplot(fit_reg=False, data=df, x='latency',y='v_sum', hue='cat', size=9)
+sns.lmplot(fit_reg=False, data=df, x='latency',y='v_sum', hue='cat', size=6)
 plt.title('Bout type categories')
 plt.ylabel(vigour_string)
 plt.xlabel('latency (ms)')
-plt.savefig(os.path.join(datapath, datafilename+"bouttypes.png"))
+plt.savefig(os.path.join(datapath, datafilename+"_bouttypes.png"))
 #%% Plot the response per well
 groupcols = ['row','col','fish','genotype','treatment','stimulus','pulse']
 fishmeans = df.groupby(groupcols).agg({'boutlength':np.mean,
