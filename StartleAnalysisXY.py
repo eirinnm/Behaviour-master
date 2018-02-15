@@ -26,6 +26,7 @@ datapath = cpa.datapath
 NUM_WELLS = cpa.NUM_WELLS
 NUM_TRIALS = cpa.NUM_TRIALS
 FRAMERATE = cpa.FRAMERATE
+SCALEFACTOR = cpa.SCALEFACTOR ## scalefactor is mm per pixel. Default is 0.1227 so 1144 pixels is 140mm
 USEDELTAPIXELS = cpa.args.usedeltapixels
 SKIP_FRAMES = cpa.args.skipframes #number of frames to skip at the start of each trial
 trialdata = cpa.trialdata
@@ -34,19 +35,26 @@ genotype_order = cpa.genotype_order
 stim_order = cpa.stim_order
 MAX_LATENCY = cpa.args.maxlatency #milliseconds. Movement after this time is not a response to the stimulus
 FILTER_LED_SIGNAL = cpa.args.filterled
-MIN_DELTA_PIXEL_CHANGE = cpa.args.mindeltapixelchange #300000
+MIN_DELTA_PIXEL_CHANGE = cpa.args.mindeltapixelchange #300000 #setting should only be used for adult tracking
+LLC_THRESHOLD_MS = 25
+MIN_SUM_DELTAPIXELS = 100000 # pixels^2 per bout
+MIN_DISTANCE = 3 # mm per bout
 
-LLC_THRESHOLD = 25 #ms
+
+if data.shape[1]==NUM_WELLS+1:
+    #it looks like this is a deltapixels CSV
+    USEDELTAPIXELS=True
+    print("Deltapixels mode enabled automatically")
 if not USEDELTAPIXELS:
     ##reshape the data to pair the XY coords
     data=np.dstack((data[:,::2],data[:,1::2]))
 #%%
 #main function for finding swim bouts in a given set of values
-MIN_BOUT_LENGTH = 1 #frames. We'll apply a time-based filter later.
+MIN_BOUT_LENGTH = 6 #frames. We'll apply a time-based filter later.
 MIN_BOUT_GAP = 3 #frames. Gaps shorter than this will be merged into a single bout
-## TODO: check if this bout length is a sane figure
 
-def get_bouts(movementframes): #returns stats for each bout in this well
+
+def get_bouts(movementframes, velocities=None): #returns stats for each bout in this well
     global frames
     #bouts=xy[:,0].nonzero()[0]
     ## apply a median filter to smooth single spikes and gaps
@@ -62,14 +70,23 @@ def get_bouts(movementframes): #returns stats for each bout in this well
     if len(bouts)>0:
         start_gaps=np.ediff1d(bouts,to_begin=99)
         end_gaps=np.ediff1d(bouts,to_end=99)
-        breakpoints=np.vstack((bouts[np.where(start_gaps>=MIN_BOUT_GAP)],
-                               bouts[np.where(end_gaps>=MIN_BOUT_GAP)])) #two columns, start and end frame
+        breakpoints=np.vstack((bouts[np.where(start_gaps>=MIN_BOUT_GAP+1)],
+                               bouts[np.where(end_gaps>=MIN_BOUT_GAP+1)])) #two columns, start and end frame
         boutlengths=np.diff(breakpoints,axis=0)[0]
         #select only bouts longer than a minimum
         breakpoints=breakpoints[:,boutlengths>=MIN_BOUT_LENGTH]
         boutlengths=boutlengths[boutlengths>=MIN_BOUT_LENGTH]
-        #intensities=np.array([np.sum(delta_pixels[start:end]) for start, end in breakpoints.T])
-        return boutlengths, breakpoints[0]#, intensities
+        # calculate "vigour"
+        if velocities:
+            #we have actual XY velocities, in pixels/frame
+            bout_velocities = [velocities[start:end] for start, end in breakpoints.T]
+            v_max = np.array([np.max(v) for v in bout_velocities]) * SCALEFACTOR / FRAMERATE
+            v_sum = np.array([np.sum(v) for v in bout_velocities]) * SCALEFACTOR
+        else:
+            bout_deltapixels = [movementframes[start:end] for start, end in breakpoints.T]
+            v_max = np.array([np.max(v) for v in bout_deltapixels])
+            v_sum = np.array([np.sum(v) for v in bout_deltapixels])
+        return boutlengths, breakpoints[0], v_max, v_sum
     else:
         return [],[]
 ## calculate velocities using the XY centroids
@@ -95,8 +112,9 @@ response2=[]
 trialframecounter=0
 tdf=[] # trial dataframe
 bdf=[] # bout dataframe
-vdf=[] # velocity-response dataframe
-trial_velocities=[] #list of (250,n) arrays of smoothed velocities
+vdf=[] # vigour-response dataframe
+#trial_vigours=[] #list of (250,n) arrays of smoothed "vigours"
+### Vigour is defined as: (for centroids) mm/sec; (for deltapixels) pixels^2/sec
 for t,trial in enumerate(trials):
     #find the LED flash, if there is one. It will always be in well 0.
     if USEDELTAPIXELS:
@@ -113,7 +131,9 @@ for t,trial in enumerate(trials):
     tdf.append({'trialstart':trialframecounter,'flash1':flash1,'flash2':flash2,
                     'flash1_abs':trialframecounter+flash1+SKIP_FRAMES})
     trialframecounter = trialframecounter+len(trial)
-    if not USEDELTAPIXELS:
+    if USEDELTAPIXELS:
+        this_trial_velocities = None
+    else:
         #calculate velocities
         #first convert 0 locations to nans so the fish isn't teleporting
         trial_coords = trial[SKIP_FRAMES:,1:].copy()
@@ -121,7 +141,7 @@ for t,trial in enumerate(trials):
         this_trial_velocities = abs(np.diff(np.linalg.norm(trial_coords,axis=2),axis=0))
         this_trial_velocities = np.nan_to_num(this_trial_velocities) ## convert nans to zero velocity
         #this_trial_velocities = scipy.signal.savgol_filter(this_trial_velocities[1:],3,1,axis=0)
-        trial_velocities.append(this_trial_velocities)
+#        trial_vigours.append(this_trial_velocities)
     #now find the swimming bouts
     for well in range(NUM_WELLS):
         if USEDELTAPIXELS:
@@ -131,16 +151,20 @@ for t,trial in enumerate(trials):
 #            max_before, max_after, startle_pvalue, startle_cohensd = did_velocity_increase(trial[SKIP_FRAMES:,well+1],flash1)
 #            vdf.append({'trial':t,'fish':well,'max_after':max_after,
 #                        'startle_pvalue':startle_pvalue,'startle_cohensd':startle_cohensd})
-        for boutid,(boutlength, startframe) in enumerate(zip(*get_bouts(thismovement))):
+        for boutid,(boutlength, startframe, v_max, v_sum) in enumerate(zip(*get_bouts(thismovement, this_trial_velocities))):
             bdf.append({'boutid':boutid,'trial':t,'fish':well,
                         'boutlength_raw':boutlength,
                         'boutlength':boutlength/FRAMERATE*1000,
-                        'startframe':startframe})
+                        'startframe':startframe,
+                        'v_max':v_max,
+                        'v_sum':v_sum,
+                        })
                         #'endframe':startframe+boutlength})
 tdf=pd.DataFrame(tdf,dtype=int)
 bdf=pd.DataFrame(bdf)
-vdf=pd.DataFrame(vdf)
-trial_velocities = np.dstack(trial_velocities)
+#if not USEDELTAPIXELS:
+#    vdf=pd.DataFrame(vdf)
+#    trial_velocities = np.dstack(trial_velocities)
 
 ## Prepare trial data
 meanflash=tdf.flash1.median()
@@ -179,6 +203,13 @@ bdf=bdf.merge(tdf.stimulus.to_frame(),left_on='trial',right_index=True)
 ## make the fish and trials a category, so missing fish/trials will show up
 bdf.fish = bdf.fish.astype("category", categories = np.arange(NUM_WELLS))
 bdf.trial = bdf.trial.astype("category", categories = np.arange(NUM_TRIALS))
+#categorise bout types based on speed/distance
+bdf['cstart']=False
+if USEDELTAPIXELS:
+    bdf.loc[(bdf.v_sum>MIN_SUM_DELTAPIXELS), 'cstart']=True
+else:
+    bdf.loc[(bdf.v_sum>MIN_DISTANCE), 'cstart']=True
+
 #drop fish with genotype 'x'
 bdf=bdf[bdf.genotype!='X']
 if 'X' in genotype_order: genotype_order.remove('X')
@@ -190,69 +221,74 @@ df = pd.DataFrame([{'trial':t,'fish':f} for f,t in product(bdf.fish.cat.categori
 ## group responses for each fish/trial, getting the first latency and longest bout
 def get_first_bout(bouts):
     #find all bouts that start after the flash (positive latency) or are ongoing during the flash
-    possible_responses = bouts[bouts.latency+bouts.boutlength>=0]
+    #also sort them so the cstart ones are first
+    possible_responses = bouts[bouts.latency+bouts.boutlength>=0].sort_values(by=['cstart','latency'], ascending=[False,True])
     if len(possible_responses):
+        #find the first one. If there's no 'cstart' ones it will get the first non-cstart one.
         firstbout = bouts.loc[possible_responses.latency.idxmin()]
-        #print type(firstbout)
-        return firstbout#[['latency','boutlength']]
+        return firstbout
     else:
         return None
 rdf=bdf.groupby(['fish','trial','pulse'],as_index=False).apply(get_first_bout)
-rdf=rdf[['fish','trial','pulse','latency','boutlength']]
 
-df=pd.merge(df,rdf,left_on=['fish','trial'],right_on=['fish','trial'],how='outer') ## add the latency etc
+df=pd.merge(df,rdf[['fish','trial','pulse','latency','boutlength','v_max','v_sum','cstart']],
+            left_on=['fish','trial'],right_on=['fish','trial'],how='outer') ## add the latency etc
 #df=pd.merge(df,vdf,left_on=['fish','trial'],right_on=['fish','trial'],how='outer') ## add the response-based-on-velocity
 #df['startled'] = df.startle_pvalue<0.001
 df=pd.merge(df,tdf,left_on='trial',right_index=True) ## add the trial conditions
 df=pd.merge(df, conditions, left_on='fish',right_index=True) ## add the well (fish) conditions
 
 #analyse velocities
-def analyse_velocity(event):
-#    print(event)
-    velocity = trial_velocities[:,event.fish,event.trial]
-    flashframe = event.flash1 if event.pulse=='pre' else event.flash2
-    velocity_pre = velocity[flashframe-25:flashframe]
-    velocity_post = velocity[flashframe:flashframe+50]
-    mean_velocity_pre = velocity_pre.mean()
-    mean_velocity_post = velocity_post.mean()
-    distance_pre = velocity_pre.sum()
-    distance_post = velocity_post.sum()
-#    v_before = velocity[:event]
-    return pd.Series({'mean_velocity_pre':mean_velocity_pre, 'mean_velocity_post':mean_velocity_post,
-                      'distance_pre':distance_pre, 'distance_post':distance_post})
-
-velocity_data = df.apply(analyse_velocity, axis=1)
-df = pd.concat((df,velocity_data), axis=1)
+#def analyse_velocity(event):
+##    print(event)
+#    velocity = trial_velocities[:,event.fish,event.trial]
+#    flashframe = event.flash1 if event.pulse=='pre' else event.flash2
+#    velocity_pre = velocity[flashframe-25:flashframe]
+#    velocity_post = velocity[flashframe:flashframe+50]
+#    mean_velocity_pre = velocity_pre.mean()
+#    mean_velocity_post = velocity_post.mean()
+#    distance_pre = velocity_pre.sum()
+#    distance_post = velocity_post.sum()
+##    v_before = velocity[:event]
+#    return pd.Series({'mean_velocity_pre':mean_velocity_pre, 'mean_velocity_post':mean_velocity_post,
+#                      'distance_pre':distance_pre, 'distance_post':distance_post})
+#if not USEDELTAPIXELS:
+#    velocity_data = df.apply(analyse_velocity, axis=1)
+#    df = pd.concat((df,velocity_data), axis=1)
 #nr = df.query('genotype=="Het" and pulse=="main" and stimulus=="yes" and responded==False')
 #r = df.query('genotype=="Het" and pulse=="main" and stimulus=="yes" and responded==True')
 #plt.plot(trial_velocities[:,nr.fish.astype(int),nr.trial.astype(int)])
 #plt.plot(trial_velocities[:,r.fish.astype(int),r.trial.astype(int)].sum(axis=0));
 
 df['responded']=False
-df.loc[df.latency.between(0,MAX_LATENCY),'responded']=True
-df.loc[df.latency.between(0,LLC_THRESHOLD),'cat']='SLC'
-df.loc[df.latency>=LLC_THRESHOLD,'cat']='LLC'
+df.loc[df.cstart & df.latency.between(0,MAX_LATENCY),'responded']=True
+df.loc[df.cstart & df.latency.between(0,LLC_THRESHOLD_MS),'cat']='SLC'
+df.loc[df.cstart & df.latency.between(LLC_THRESHOLD_MS,MAX_LATENCY),'cat']='LLC'
 df.loc[df.latency>MAX_LATENCY,'cat']='Too slow'
+df.loc[df.cstart==False,'cat']='Routine'
 df.loc[df.latency<0,'cat']='Already moving'
-#categories based on velocity
-df['vel_responded']=False
-df.loc[df.latency.between(0,MAX_LATENCY) & (df.mean_velocity_post>1),'vel_responded']=True
-#df.loc[df.latency.between(0,LLC_THRESHOLD),'vel_cat']='SLC'
-#df.loc[df.latency>=LLC_THRESHOLD,'cat']='LLC'
-#df.loc[df.latency>MAX_LATENCY,'cat']='Too slow'
-#df.loc[df.latency<0,'cat']='Already moving'
+
+#%%
+if USEDELTAPIXELS:
+    vigour_string = 'bout vigour (total deltapixels)'
+else:
+    vigour_string = 'bout vigour (mm traveled)'
+sns.lmplot(fit_reg=False, data=df, x='latency',y='v_sum', hue='cat', size=9)
+plt.title('Bout type categories')
+plt.ylabel(vigour_string)
+plt.xlabel('latency (ms)')
+plt.savefig(os.path.join(datapath, datafilename+"bouttypes.png"))
 #%% Plot the response per well
 groupcols = ['row','col','fish','genotype','treatment','stimulus','pulse']
 fishmeans = df.groupby(groupcols).agg({'boutlength':np.mean,
                                         'responded': np.mean,
-                                        'vel_responded': np.mean,
-#                                        'startled': np.mean,
-                                        'latency': lambda x: x[x<=MAX_LATENCY].mean(),
                                         'cat':{'llc':lambda x: np.mean(x=='LLC'),
                                                'slc':lambda x: np.mean(x=='SLC')}})
-fishmeans=fishmeans.reset_index()
 ##flatten some of the column names
 fishmeans.columns = [col[0] if col[0]!='cat' else col[1] for col in fishmeans.columns.values]
+## get the latency of actual responses and merge that with the rest of the data
+fishmeanlatency = df[df.responded].groupby(groupcols).latency.mean()
+fishmeans = pd.concat([fishmeans, fishmeanlatency], axis=1).reset_index()
 #%%
 fig,axes=plt.subplots(1,2, sharex=True, sharey=True, figsize=(14,4))
 #plt.tight_layout()
@@ -280,28 +316,19 @@ plt.savefig(os.path.join(datapath, datafilename+"_plateview.png"))
 #%% ================= Per-trial response rate =================
 ## What percentage of fish responded to each stimuli?
 trialmeans = df.groupby(['genotype','treatment','stimulus','trial','pulse']).agg({'responded': np.mean, 
-                                                                                   'vel_responded': np.mean,
-#                                                                                   'startled': np.mean,
                                                                             'latency': np.mean}).reset_index()
 g=sns.factorplot(data=trialmeans[trialmeans.pulse=='main'],y='responded',x='stimulus',hue='genotype',col='treatment',
                 aspect=0.75,capsize=.1,size=5,order = stim_order,hue_order=genotype_order,col_order=treatment_order)
 g.set_xlabels(stimname)
 g.set_ylabels('Fraction of fish')
 #g.set(ylim=(0,1))
-plt.subplots_adjust(top=0.85)
 plt.suptitle('Responses per stimulus and treatment')
+plt.subplots_adjust(top=0.85)
 g.savefig(os.path.join(datapath, datafilename+"_pct_perstimulus.png"))
-#%% Similar chart using velocities
-#g=sns.factorplot(data=trialmeans[trialmeans.pulse=='main'],y='startled',x='stimulus',hue='genotype',col='treatment',
-#                aspect=0.75,capsize=.1,size=5,order = stim_order,hue_order=genotype_order,col_order=treatment_order)
-#g.set_xlabels(stimname)
-#g.set_ylabels('Fraction of fish')
-##g.set(ylim=(0,1))
-#plt.subplots_adjust(top=0.85)
-#plt.suptitle('Response (velocities) per stimulus and treatme  ,nt')
+
 #%%
 if PPI_MODE:
-    g=sns.factorplot(data=trialmeans,y='vel_responded',x='pulse',order=pulse_order,hue='stimulus',col='genotype',
+    g=sns.factorplot(data=trialmeans,y='responded',x='pulse',order=pulse_order,hue='stimulus',col='genotype',
                      aspect=0.75,capsize=.1,size=5,col_order=genotype_order,legend=False)
     plt.legend(title=stimname)
     plt.subplots_adjust(top=0.85)
@@ -338,11 +365,11 @@ g.savefig(os.path.join(datapath, datafilename+"_pertrial.png"))
 ## make a facetgrid
 #g = sns.FacetGrid(data=fishmeans, hue='genotype',col='stimulus',aspect=1, ylim=(0,1),size=5)
 g=sns.factorplot(data=fishmeans,hue='genotype',col='stimulus',row='pulse',aspect=0.75,size=5,hue_order=genotype_order,col_order=stim_order,order=treatment_order,
-              kind='bar',y='vel_responded',x='treatment', legend_out=False)
+              kind='bar',y='responded',x='treatment', legend_out=False)
 def swarmplot_hue(x,y, **kwargs):
     sns.swarmplot(x=x,y=y,hue='genotype', **kwargs)
 #g.map(sns.violinplot,'treatment','responded', cut=0, bw=0.2)
-g = g.map_dataframe(swarmplot_hue,'treatment','vel_responded', split=True, linewidth=1, edgecolor='gray',alpha=0.4,hue_order=genotype_order,order=treatment_order)
+g = g.map_dataframe(swarmplot_hue,'treatment','responded', split=True, linewidth=1, edgecolor='gray',alpha=0.4,hue_order=genotype_order,order=treatment_order)
 #g.map(sns.swarmplot,'treatment','responded',color='#333333')
 g.set_ylabels('Rate (fraction of trials)')
 g.set_titles('%s = {col_name}' % stimname)
@@ -386,7 +413,7 @@ g=sns.factorplot(data=bdf[bdf.pulse=='main'],kind='violin',row='stimulus',x='bou
 #sns.violinplot(data=bdf,x='boutlength',y='genotype',order=genotype_order, bw=0.1)
 plt.suptitle('Bout lengths')
 plt.tight_layout()
-plt.subplots_adjust(top=0.88)
+plt.subplots_adjust(top=0.85)
 g.set_titles('%s = {row_name}' % stimname)
 g.set_xlabels('bout length (seconds)')
 g.savefig(os.path.join(datapath, datafilename+"_boutlengths.png"))
@@ -400,8 +427,8 @@ else:
 #                   kind='violin',x='latency',y='treatment',cut=0, bw=0.1)
 g.map(sns.kdeplot, 'latency', bw=5, legend=True)
 def plot_timespans(**kwargs):    
-    plt.axvspan(0,LLC_THRESHOLD,fc='gold',alpha=0.3)
-    plt.axvspan(LLC_THRESHOLD,MAX_LATENCY,fc='olive',alpha=0.3)
+    plt.axvspan(0,LLC_THRESHOLD_MS,fc='gold',alpha=0.3)
+    plt.axvspan(LLC_THRESHOLD_MS,MAX_LATENCY,fc='olive',alpha=0.3)
 g.map(plot_timespans)
 #g = g.map_dataframe(swarmplot_hue,'latency','treatment', split=True, linewidth=1, edgecolor='gray',alpha=0.4,hue_order=genotype_order)
 g.set_xlabels('latency (ms)')
