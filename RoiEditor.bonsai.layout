@@ -35,8 +35,8 @@
       <Y>175</Y>
     </Location>
     <Size>
-      <Width>336</Width>
-      <Height>278</Height>
+      <Width>811</Width>
+      <Height>618</Height>
     </Size>
     <WindowState>Normal</WindowState>
     <VisualizerTypeName>Bonsai.Vision.Design.IplImageVisualizer</VisualizerTypeName>
@@ -63,11 +63,11 @@
   <DialogSettings>
     <Visible>false</Visible>
     <Location>
-      <X>175</X>
-      <Y>173</Y>
+      <X>166</X>
+      <Y>120</Y>
     </Location>
     <Size>
-      <Width>1168</Width>
+      <Width>1088</Width>
       <Height>689</Height>
     </Size>
     <WindowState>Normal</WindowState>
@@ -86,7 +86,7 @@
       <Width>336</Width>
       <Height>278</Height>
     </Size>
-    <WindowState>Maximized</WindowState>
+    <WindowState>Normal</WindowState>
     <VisualizerTypeName>Bonsai.Vision.Design.RegionActivityCollectionVisualizer</VisualizerTypeName>
     <VisualizerSettings>
       <RegionActivityCollectionVisualizer />
@@ -107,16 +107,20 @@
   <DialogSettings>
     <Visible>false</Visible>
     <Location>
-      <X>0</X>
-      <Y>0</Y>
+      <X>75</X>
+      <Y>75</Y>
     </Location>
     <Size>
-      <Width>0</Width>
-      <Height>0</Height>
+      <Width>336</Width>
+      <Height>278</Height>
     </Size>
     <WindowState>Normal</WindowState>
+    <VisualizerTypeName>Bonsai.Vision.Design.RegionActivityCollectionVisualizer</VisualizerTypeName>
+    <VisualizerSettings>
+      <RegionActivityCollectionVisualizer />
+    </VisualizerSettings>
   </DialogSettings>
-  <DialogSettings xsi:type="WorkflowEditorSettings">
+  <DialogSettings>
     <Visible>false</Visible>
     <Location>
       <X>0</X>
@@ -131,55 +135,21 @@
     <VisualizerSettings>
       <RegionActivityCollectionVisualizer />
     </VisualizerSettings>
-    <EditorDialogSettings>
-      <Visible>true</Visible>
-      <Location>
-        <X>200</X>
-        <Y>200</Y>
-      </Location>
-      <Size>
-        <Width>316</Width>
-        <Height>238</Height>
-      </Size>
-      <WindowState>Normal</WindowState>
-    </EditorDialogSettings>
-    <EditorVisualizerLayout>
-      <DialogSettings>
-        <Visible>false</Visible>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <WindowState>Normal</WindowState>
-      </DialogSettings>
-      <DialogSettings>
-        <Visible>false</Visible>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <WindowState>Normal</WindowState>
-      </DialogSettings>
-      <DialogSettings>
-        <Visible>false</Visible>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <WindowState>Normal</WindowState>
-      </DialogSettings>
-    </EditorVisualizerLayout>
+  </DialogSettings>
+  <DialogSettings>
+    <Visible>false</Visible>
+    <Location>
+      <X>200</X>
+      <Y>200</Y>
+    </Location>
+    <Size>
+      <Width>336</Width>
+      <Height>278</Height>
+    </Size>
+    <WindowState>Maximized</WindowState>
+    <VisualizerTypeName>Bonsai.Vision.Design.RegionActivityCollectionVisualizer</VisualizerTypeName>
+    <VisualizerSettings>
+      <RegionActivityCollectionVisualizer />
+    </VisualizerSettings>
   </DialogSettings>
 </VisualizerLayout>

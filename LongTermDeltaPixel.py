@@ -33,14 +33,14 @@ trialdata = cpa.trialdata
 stimname = cpa.stimname
 genotype_order = cpa.genotype_order
 #%% Analysis functions
-MIN_BOUT_LENGTH = 2 #frames
+MIN_BOUT_LENGTH = 3 #frames
 MIN_BOUT_GAP = 2 #frames
 LONGBOUT_THRESHOLD = args.longboutlength #seconds
 MIN_ACTIVITY_THRESHOLD = args.minactivity #seconds
 MIN_BOUT_FREQ = 0.4#2 #bouts per minute to decide if a fish is active enough
 
-def get_bouts(delta_pixels):
-    bouts=delta_pixels.nonzero()[0]
+def get_bouts(movementframes):
+    bouts=movementframes.nonzero()[0]
     if len(bouts)>0:
         start_gaps=np.ediff1d(bouts,to_begin=99)
         end_gaps=np.ediff1d(bouts,to_end=99)
@@ -48,10 +48,14 @@ def get_bouts(delta_pixels):
                                bouts[np.where(end_gaps>MIN_BOUT_GAP)])) #two columns, start and end frame
         boutlengths=np.diff(breakpoints,axis=0)[0]
         #select only bouts longer than a minimum
-        breakpoints=breakpoints[:,boutlengths>MIN_BOUT_LENGTH]
-        boutlengths=boutlengths[boutlengths>MIN_BOUT_LENGTH]
-        #intensities=np.array([np.sum(delta_pixels[start:end]) for start, end in breakpoints.T])
-        return boutlengths, breakpoints[0]#, intensities
+        breakpoints=breakpoints[:,boutlengths>=MIN_BOUT_LENGTH]
+        boutlengths=boutlengths[boutlengths>=MIN_BOUT_LENGTH]
+        #intensities=np.array([np.sum(movementframes[start:end]) for start, end in breakpoints.T])
+        # calculate "vigour"
+        bout_deltapixels = [movementframes[start:end] for start, end in breakpoints.T]
+        v_max = np.array([np.max(v) for v in bout_deltapixels])
+        v_sum = np.array([np.sum(v) for v in bout_deltapixels])
+        return boutlengths, breakpoints[0], v_max, v_sum
     else:
         return [],[]
 
@@ -66,10 +70,12 @@ def process(data):
         else:
             thismovement=data[:,well+1]
         #boutlengths, startframes, intensities = 
-        for boutlength, startframe in zip(*get_bouts(thismovement)):
+        for boutlength, startframe, v_max, v_sum in zip(*get_bouts(thismovement)):
             bdf.append({'fish':well,
                         'boutlength':boutlength/FRAMERATE,
                         'startframe':startframe,
+                        'v_max':v_max/255,
+                        'v_sum':v_sum/255,
                         })
     bdf=pd.DataFrame(bdf)
     bdf=bdf.merge(conditions,left_on='fish',right_index=True)
@@ -97,7 +103,7 @@ plt.figure(figsize=(4,5))
 #sns.set_style('whitegrid')
 ax=sns.stripplot(data=bdf, jitter=True,y='boutlength',x='treatment',hue='genotype', 
                       split=True, order=treatment_order, hue_order=genotype_order, size=5, edgecolor='gray', linewidth=0.5)
-ax.set_ylabel('Bout length (seconds)')
+ax.set_ylabel('Bout length (ms)')
 ax.set_xlabel('Treatment')
 #handles, labels = ax.get_legend_handles_labels()
 #ax.legend(handles, labels)
@@ -105,7 +111,12 @@ plt.title("Bout lengths")
 plt.savefig(os.path.join(datapath, datafilename+".bout_lengths.png"))
 #plt.savefig(os.path.join(datapath, datafilename+".bout_lengths.pdf"))
 #plt.show()
-
+#%% Even better bout length plot
+g = sns.lmplot(data=bdf,x='boutlength',y='v_max',fit_reg=False, col='genotype', row='treatment', 
+           scatter_kws={"s": 8}, x_jitter=0.01, y_jitter=5)
+g.set_ylabels("Peak velocity (px^2)")
+g.set_xlabels("Bout length (seconds)")
+g.savefig(os.path.join(datapath, datafilename+".bout_lengths_scatter.png"))
 #%% Get stats per minute
 #calculate the mean length and frequency of bouts per fish and per minute
 #also count the number of seizures (long bouts)
@@ -181,7 +192,7 @@ if len(fishmeans)!=old_count:
 melted=pd.melt(fishmeans, ['treatment','genotype','fish'],
                ['bout_freq','total_activity','bout_length','long_bouts'])
 ax=sns.factorplot(data=melted,x='treatment',y='value',hue='genotype',kind='bar',hue_order=genotype_order,capsize=.1,
-               order=treatment_order,col='variable', col_wrap=2, aspect=aspect, sharey=False,sharex=False)
+               order=treatment_order,col='variable', col_wrap=2, aspect=aspect, sharey=False,sharex=False, legend_out=False)
 ax.fig.tight_layout()
 ax.fig.axes
 #plt.suptitle("Mean behaviours")
@@ -190,7 +201,7 @@ plt.tight_layout()
 plt.savefig(os.path.join(datapath, datafilename+".behaviours.png"))
 #plt.show()
 #%% Seizures per minute, expansion of the smaller plot just generated
-#plt.figure(figsize=(4,5))
+plt.figure(figsize=(4,5))
 ax=sns.pointplot(data=fishmeans,x='treatment',y='long_bouts',hue='genotype',hue_order=genotype_order,order=treatment_order,capsize=0.1)
 plt.title('Long (>0.5s) bouts per minute')
 ax.set_ylabel('Long bouts per minute')
@@ -203,7 +214,7 @@ for timebin in tdf.minutes.unique():
     melted=pd.melt(tdf[(tdf.minutes==timebin) & (tdf.bout_freq>MIN_BOUT_FREQ)], ['treatment','genotype','fish'],
                    ['bout_freq','total_activity','bout_length','long_bouts'])
     sns.factorplot(data=melted,x='treatment',y='value',hue='genotype',kind='bar',hue_order=genotype_order,capsize=.1,
-                   order=treatment_order,col='variable', col_wrap=2,aspect=aspect, sharey=False,sharex=False)
+                   order=treatment_order,col='variable', col_wrap=2,aspect=aspect, sharey=False,sharex=False, legend_out=False)
     plt.suptitle("Behaviour during minutes "+timebin, y=1)
     #plt.subplots_adjust(top=0.80)
     plt.savefig(os.path.join(datapath, datafilename+".behaviours-"+timebin+"min.png"))
