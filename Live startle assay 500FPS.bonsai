@@ -111,14 +111,14 @@
           <Nodes>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="StringProperty">
-                <Value>C:\DATA\Eirinn\Megan\January 2018\16022018</Value>
+                <Value>C:\DATA\Eirinn\Megan\January 2018\22022018</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
             <Expression xsi:type="ExternalizedPropertyOfStringStringProperty">
               <MemberName>Value</MemberName>
               <Name>Value</Name>
-              <Value>C:\DATA\Eirinn\Megan\January 2018\16022018</Value>
+              <Value>C:\DATA\Eirinn\Megan\January 2018\22022018</Value>
             </Expression>
           </Nodes>
           <Edges>
@@ -148,11 +148,11 @@
             <Expression xsi:type="q2:PythonSource">
               <q2:Name>Stimulus script</q2:Name>
               <q2:Script>NUM_REPEATS=20
-PREPULSELENGTH=10 #milliseconds
+PREPULSELENGTH=20 #milliseconds
 MAINPULSELENGTH=20 #milliseconds
 MAXVOL = 8
 MINVOL = 1
-DELAY = 300
+DELAY = 100
 FREQ=200
 
 @returns(str)
@@ -286,7 +286,7 @@ FREQ=200
 @returns(str)
 def generate():
   for i in range(NUM_REPEATS):
-    for vol in [0,8,1,6,2]:
+    for vol in [0,1,4,6,8]:
        yield "H{}\nS{},{}".format(FREQ,vol,PULSELENGTH)</q2:Script>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -676,8 +676,8 @@ def process(value):
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q5:Crop">
                       <q5:RegionOfInterest>
-                        <q5:X>924</q5:X>
-                        <q5:Y>605</q5:Y>
+                        <q5:X>921</q5:X>
+                        <q5:Y>604</q5:Y>
                         <q5:Width>140</q5:Width>
                         <q5:Height>120</q5:Height>
                       </q5:RegionOfInterest>
@@ -825,434 +825,434 @@ def process(value):
                         </q5:ArrayOfPoint>
                         <q5:ArrayOfPoint>
                           <q5:Point>
-                            <q5:X>89</q5:X>
-                            <q5:Y>116</q5:Y>
+                            <q5:X>86</q5:X>
+                            <q5:Y>119</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>228</q5:X>
-                            <q5:Y>116</q5:Y>
+                            <q5:X>225</q5:X>
+                            <q5:Y>119</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>228</q5:X>
-                            <q5:Y>235</q5:Y>
+                            <q5:X>225</q5:X>
+                            <q5:Y>238</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>89</q5:X>
-                            <q5:Y>235</q5:Y>
+                            <q5:X>86</q5:X>
+                            <q5:Y>238</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>253</q5:X>
+                            <q5:Y>118</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>392</q5:X>
+                            <q5:Y>118</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>392</q5:X>
+                            <q5:Y>237</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>253</q5:X>
+                            <q5:Y>237</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>422</q5:X>
+                            <q5:Y>118</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>561</q5:X>
+                            <q5:Y>118</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>561</q5:X>
+                            <q5:Y>237</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>422</q5:X>
+                            <q5:Y>237</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>588</q5:X>
+                            <q5:Y>120</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>727</q5:X>
+                            <q5:Y>120</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>727</q5:X>
+                            <q5:Y>239</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>588</q5:X>
+                            <q5:Y>239</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>756</q5:X>
+                            <q5:Y>120</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>895</q5:X>
+                            <q5:Y>120</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>895</q5:X>
+                            <q5:Y>239</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>756</q5:X>
+                            <q5:Y>239</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>922</q5:X>
+                            <q5:Y>118</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>1061</q5:X>
+                            <q5:Y>118</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>1061</q5:X>
+                            <q5:Y>237</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>922</q5:X>
+                            <q5:Y>237</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>88</q5:X>
+                            <q5:Y>278</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>227</q5:X>
+                            <q5:Y>278</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>227</q5:X>
+                            <q5:Y>397</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>88</q5:X>
+                            <q5:Y>397</q5:Y>
                           </q5:Point>
                         </q5:ArrayOfPoint>
                         <q5:ArrayOfPoint>
                           <q5:Point>
                             <q5:X>256</q5:X>
-                            <q5:Y>115</q5:Y>
+                            <q5:Y>279</q5:Y>
                           </q5:Point>
                           <q5:Point>
                             <q5:X>395</q5:X>
-                            <q5:Y>115</q5:Y>
+                            <q5:Y>279</q5:Y>
                           </q5:Point>
                           <q5:Point>
                             <q5:X>395</q5:X>
-                            <q5:Y>234</q5:Y>
+                            <q5:Y>398</q5:Y>
                           </q5:Point>
                           <q5:Point>
                             <q5:X>256</q5:X>
-                            <q5:Y>234</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>424</q5:X>
-                            <q5:Y>115</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>563</q5:X>
-                            <q5:Y>115</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>563</q5:X>
-                            <q5:Y>234</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>424</q5:X>
-                            <q5:Y>234</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>592</q5:X>
-                            <q5:Y>114</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>731</q5:X>
-                            <q5:Y>114</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>731</q5:X>
-                            <q5:Y>233</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>592</q5:X>
-                            <q5:Y>233</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>759</q5:X>
-                            <q5:Y>115</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>898</q5:X>
-                            <q5:Y>115</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>898</q5:X>
-                            <q5:Y>234</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>759</q5:X>
-                            <q5:Y>234</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>924</q5:X>
-                            <q5:Y>115</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>1063</q5:X>
-                            <q5:Y>115</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>1063</q5:X>
-                            <q5:Y>234</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>924</q5:X>
-                            <q5:Y>234</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>92</q5:X>
-                            <q5:Y>277</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>231</q5:X>
-                            <q5:Y>277</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>231</q5:X>
-                            <q5:Y>396</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>92</q5:X>
-                            <q5:Y>396</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>257</q5:X>
-                            <q5:Y>276</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>396</q5:X>
-                            <q5:Y>276</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>396</q5:X>
-                            <q5:Y>395</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>257</q5:X>
-                            <q5:Y>395</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>425</q5:X>
-                            <q5:Y>278</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>564</q5:X>
-                            <q5:Y>278</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>564</q5:X>
-                            <q5:Y>397</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>425</q5:X>
-                            <q5:Y>397</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>590</q5:X>
-                            <q5:Y>278</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>729</q5:X>
-                            <q5:Y>278</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>729</q5:X>
-                            <q5:Y>397</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>590</q5:X>
-                            <q5:Y>397</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>759</q5:X>
-                            <q5:Y>279</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>898</q5:X>
-                            <q5:Y>279</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>898</q5:X>
-                            <q5:Y>398</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>759</q5:X>
                             <q5:Y>398</q5:Y>
                           </q5:Point>
                         </q5:ArrayOfPoint>
                         <q5:ArrayOfPoint>
                           <q5:Point>
-                            <q5:X>924</q5:X>
-                            <q5:Y>279</q5:Y>
+                            <q5:X>422</q5:X>
+                            <q5:Y>281</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>1063</q5:X>
-                            <q5:Y>279</q5:Y>
+                            <q5:X>561</q5:X>
+                            <q5:Y>281</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>1063</q5:X>
-                            <q5:Y>398</q5:Y>
+                            <q5:X>561</q5:X>
+                            <q5:Y>400</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>924</q5:X>
-                            <q5:Y>398</q5:Y>
+                            <q5:X>422</q5:X>
+                            <q5:Y>400</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>587</q5:X>
+                            <q5:Y>282</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>726</q5:X>
+                            <q5:Y>282</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>726</q5:X>
+                            <q5:Y>401</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>587</q5:X>
+                            <q5:Y>401</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>754</q5:X>
+                            <q5:Y>280</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>893</q5:X>
+                            <q5:Y>280</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>893</q5:X>
+                            <q5:Y>399</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>754</q5:X>
+                            <q5:Y>399</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>921</q5:X>
+                            <q5:Y>283</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>1060</q5:X>
+                            <q5:Y>283</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>1060</q5:X>
+                            <q5:Y>402</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>921</q5:X>
+                            <q5:Y>402</q5:Y>
                           </q5:Point>
                         </q5:ArrayOfPoint>
                         <q5:ArrayOfPoint>
                           <q5:Point>
                             <q5:X>90</q5:X>
-                            <q5:Y>441</q5:Y>
+                            <q5:Y>444</q5:Y>
                           </q5:Point>
                           <q5:Point>
                             <q5:X>229</q5:X>
-                            <q5:Y>441</q5:Y>
+                            <q5:Y>444</q5:Y>
                           </q5:Point>
                           <q5:Point>
                             <q5:X>229</q5:X>
-                            <q5:Y>560</q5:Y>
+                            <q5:Y>563</q5:Y>
                           </q5:Point>
                           <q5:Point>
                             <q5:X>90</q5:X>
-                            <q5:Y>560</q5:Y>
+                            <q5:Y>563</q5:Y>
                           </q5:Point>
                         </q5:ArrayOfPoint>
                         <q5:ArrayOfPoint>
                           <q5:Point>
-                            <q5:X>257</q5:X>
-                            <q5:Y>441</q5:Y>
+                            <q5:X>254</q5:X>
+                            <q5:Y>444</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>396</q5:X>
-                            <q5:Y>441</q5:Y>
+                            <q5:X>393</q5:X>
+                            <q5:Y>444</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>396</q5:X>
-                            <q5:Y>560</q5:Y>
+                            <q5:X>393</q5:X>
+                            <q5:Y>563</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>257</q5:X>
-                            <q5:Y>560</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>425</q5:X>
-                            <q5:Y>443</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>564</q5:X>
-                            <q5:Y>443</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>564</q5:X>
-                            <q5:Y>562</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>425</q5:X>
-                            <q5:Y>562</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>593</q5:X>
-                            <q5:Y>441</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>732</q5:X>
-                            <q5:Y>441</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>732</q5:X>
-                            <q5:Y>560</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>593</q5:X>
-                            <q5:Y>560</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>758</q5:X>
-                            <q5:Y>442</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>897</q5:X>
-                            <q5:Y>442</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>897</q5:X>
-                            <q5:Y>561</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>758</q5:X>
-                            <q5:Y>561</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>924</q5:X>
-                            <q5:Y>442</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>1063</q5:X>
-                            <q5:Y>442</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>1063</q5:X>
-                            <q5:Y>561</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>924</q5:X>
-                            <q5:Y>561</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>89</q5:X>
-                            <q5:Y>604</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>228</q5:X>
-                            <q5:Y>604</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>228</q5:X>
-                            <q5:Y>723</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>89</q5:X>
-                            <q5:Y>723</q5:Y>
-                          </q5:Point>
-                        </q5:ArrayOfPoint>
-                        <q5:ArrayOfPoint>
-                          <q5:Point>
-                            <q5:X>257</q5:X>
-                            <q5:Y>602</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>396</q5:X>
-                            <q5:Y>602</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>396</q5:X>
-                            <q5:Y>721</q5:Y>
-                          </q5:Point>
-                          <q5:Point>
-                            <q5:X>257</q5:X>
-                            <q5:Y>721</q5:Y>
+                            <q5:X>254</q5:X>
+                            <q5:Y>563</q5:Y>
                           </q5:Point>
                         </q5:ArrayOfPoint>
                         <q5:ArrayOfPoint>
                           <q5:Point>
                             <q5:X>423</q5:X>
-                            <q5:Y>605</q5:Y>
+                            <q5:Y>443</q5:Y>
                           </q5:Point>
                           <q5:Point>
                             <q5:X>562</q5:X>
-                            <q5:Y>605</q5:Y>
+                            <q5:Y>443</q5:Y>
                           </q5:Point>
                           <q5:Point>
                             <q5:X>562</q5:X>
-                            <q5:Y>724</q5:Y>
+                            <q5:Y>562</q5:Y>
                           </q5:Point>
                           <q5:Point>
                             <q5:X>423</q5:X>
-                            <q5:Y>724</q5:Y>
+                            <q5:Y>562</q5:Y>
                           </q5:Point>
                         </q5:ArrayOfPoint>
                         <q5:ArrayOfPoint>
                           <q5:Point>
-                            <q5:X>591</q5:X>
+                            <q5:X>590</q5:X>
+                            <q5:Y>443</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>729</q5:X>
+                            <q5:Y>443</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>729</q5:X>
+                            <q5:Y>562</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>590</q5:X>
+                            <q5:Y>562</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>754</q5:X>
+                            <q5:Y>443</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>893</q5:X>
+                            <q5:Y>443</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>893</q5:X>
+                            <q5:Y>562</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>754</q5:X>
+                            <q5:Y>562</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>922</q5:X>
+                            <q5:Y>446</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>1061</q5:X>
+                            <q5:Y>446</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>1061</q5:X>
+                            <q5:Y>565</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>922</q5:X>
+                            <q5:Y>565</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>86</q5:X>
+                            <q5:Y>604</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>225</q5:X>
+                            <q5:Y>604</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>225</q5:X>
+                            <q5:Y>723</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>86</q5:X>
+                            <q5:Y>723</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>254</q5:X>
                             <q5:Y>602</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>730</q5:X>
+                            <q5:X>393</q5:X>
                             <q5:Y>602</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>730</q5:X>
+                            <q5:X>393</q5:X>
                             <q5:Y>721</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>591</q5:X>
+                            <q5:X>254</q5:X>
                             <q5:Y>721</q5:Y>
                           </q5:Point>
                         </q5:ArrayOfPoint>
                         <q5:ArrayOfPoint>
                           <q5:Point>
-                            <q5:X>757</q5:X>
+                            <q5:X>420</q5:X>
                             <q5:Y>605</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>896</q5:X>
+                            <q5:X>559</q5:X>
                             <q5:Y>605</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>896</q5:X>
+                            <q5:X>559</q5:X>
                             <q5:Y>724</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>757</q5:X>
+                            <q5:X>420</q5:X>
                             <q5:Y>724</q5:Y>
                           </q5:Point>
                         </q5:ArrayOfPoint>
                         <q5:ArrayOfPoint>
                           <q5:Point>
-                            <q5:X>924</q5:X>
+                            <q5:X>587</q5:X>
+                            <q5:Y>606</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>726</q5:X>
+                            <q5:Y>606</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>726</q5:X>
+                            <q5:Y>725</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>587</q5:X>
+                            <q5:Y>725</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>755</q5:X>
                             <q5:Y>605</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>1063</q5:X>
+                            <q5:X>894</q5:X>
                             <q5:Y>605</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>1063</q5:X>
+                            <q5:X>894</q5:X>
                             <q5:Y>724</q5:Y>
                           </q5:Point>
                           <q5:Point>
-                            <q5:X>924</q5:X>
+                            <q5:X>755</q5:X>
                             <q5:Y>724</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>921</q5:X>
+                            <q5:Y>604</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>1060</q5:X>
+                            <q5:Y>604</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>1060</q5:X>
+                            <q5:Y>723</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>921</q5:X>
+                            <q5:Y>723</q5:Y>
                           </q5:Point>
                         </q5:ArrayOfPoint>
                       </q5:Regions>
@@ -1614,7 +1614,7 @@ def generate():
           <Nodes>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q5:VideoWriter">
-                <q5:FileName>C:\DATA\Eirinn\Megan\January 2018\16022018_.avi</q5:FileName>
+                <q5:FileName>C:\DATA\Eirinn\Megan\January 2018\22022018_.avi</q5:FileName>
                 <q5:Suffix>FileCount</q5:Suffix>
                 <q5:Buffered>true</q5:Buffered>
                 <q5:Overwrite>false</q5:Overwrite>
@@ -1703,7 +1703,7 @@ def generate():
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q4:TextWriter">
-                <q4:FileName>C:\DATA\Eirinn\Megan\January 2018\16022018_deltapixels_.csv</q4:FileName>
+                <q4:FileName>C:\DATA\Eirinn\Megan\January 2018\22022018_deltapixels_.csv</q4:FileName>
                 <q4:Suffix>FileCount</q4:Suffix>
                 <q4:Buffered>true</q4:Buffered>
                 <q4:Overwrite>false</q4:Overwrite>
@@ -1764,7 +1764,7 @@ def generate():
           <Nodes>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q4:TextWriter">
-                <q4:FileName>C:\DATA\Eirinn\Megan\January 2018\16022018_centroids_.csv</q4:FileName>
+                <q4:FileName>C:\DATA\Eirinn\Megan\January 2018\22022018_centroids_.csv</q4:FileName>
                 <q4:Suffix>FileCount</q4:Suffix>
                 <q4:Buffered>true</q4:Buffered>
                 <q4:Overwrite>false</q4:Overwrite>

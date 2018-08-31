@@ -4,7 +4,7 @@
     <Nodes>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:FileCapture">
-          <q1:FileName>Y:\Megan\January 2018\14022018\5 24 well plate start assay vol 8 25 trials\2 24 well plate freq titration max screw_0.avi</q1:FileName>
+          <q1:FileName>Y:\Megan\January 2018\16022018\7. ppi repeat\16022018_1.avi</q1:FileName>
           <q1:PlaybackRate>120</q1:PlaybackRate>
           <q1:StartPosition>0</q1:StartPosition>
           <q1:PositionUnits>Frames</q1:PositionUnits>
@@ -103,7 +103,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q4:TextWriter">
-                <q4:FileName>Y:\Megan\January 2018\14022018\5 24 well plate start assay vol 8 25 trials\2 24 well plate freq titration max screw_0_reanalyzed_centroids_.csv</q4:FileName>
+                <q4:FileName>Y:\Megan\January 2018\16022018\7. ppi repeat\16022018_1_reanalyzed_centroids_.csv</q4:FileName>
                 <q4:Suffix>FileCount</q4:Suffix>
                 <q4:Buffered>true</q4:Buffered>
                 <q4:Overwrite>false</q4:Overwrite>
@@ -200,7 +200,7 @@ def format_float(f):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q4:TextWriter">
-                <q4:FileName>Y:\Megan\January 2018\14022018\5 24 well plate start assay vol 8 25 trials\2 24 well plate freq titration max screw_0_reanalyzed_deltapixels_.csv</q4:FileName>
+                <q4:FileName>Y:\Megan\January 2018\16022018\7. ppi repeat\16022018_1_reanalyzed_deltapixels_.csv</q4:FileName>
                 <q4:Suffix>FileCount</q4:Suffix>
                 <q4:Buffered>true</q4:Buffered>
                 <q4:Overwrite>false</q4:Overwrite>
@@ -364,7 +364,7 @@ def find_biggest_cc(ROI, CCs):
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="StringProperty">
-          <Value>Y:\Megan\January 2018\14022018\5 24 well plate start assay vol 8 25 trials\2 24 well plate freq titration max screw_0.avi</Value>
+          <Value>"Y:\Megan\January 2018\16022018\7. ppi repeat\16022018_1.avi"</Value>
         </Combinator>
       </Expression>
       <Expression xsi:type="Add">
@@ -374,7 +374,7 @@ def find_biggest_cc(ROI, CCs):
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:VideoWriter">
-          <q1:FileName>Y:\Megan\January 2018\14022018\5 24 well plate start assay vol 8 25 trials\2 24 well plate freq titration max screw_0_reanalyzed_.avi</q1:FileName>
+          <q1:FileName>Y:\Megan\January 2018\16022018\7. ppi repeat\16022018_1_reanalyzed_.avi</q1:FileName>
           <q1:Suffix>Timestamp</q1:Suffix>
           <q1:Buffered>true</q1:Buffered>
           <q1:Overwrite>false</q1:Overwrite>
@@ -930,6 +930,12 @@ def solidness(component):
       <Expression xsi:type="SubscribeSubject">
         <Name>VideoFileName</Name>
       </Expression>
+      <Expression xsi:type="q3:PythonTransform">
+        <q3:Name>Remove quotes</q3:Name>
+        <q3:Script>@returns(str)
+def process(value):
+  return value.replace('"','')</q3:Script>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge>
@@ -1019,7 +1025,7 @@ def solidness(component):
       </Edge>
       <Edge>
         <From>17</From>
-        <To>13</To>
+        <To>27</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -1065,6 +1071,11 @@ def solidness(component):
       <Edge>
         <From>26</From>
         <To>20</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>27</From>
+        <To>13</To>
         <Label>Source1</Label>
       </Edge>
     </Edges>
