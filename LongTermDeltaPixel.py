@@ -33,7 +33,7 @@ trialdata = cpa.trialdata
 stimname = cpa.stimname
 genotype_order = cpa.genotype_order
 #%% Analysis functions
-MIN_BOUT_LENGTH = 3 #frames
+MIN_BOUT_LENGTH = 1 #frames
 MIN_BOUT_GAP = 1 #frames
 LONGBOUT_THRESHOLD = args.longboutlength #seconds
 MIN_ACTIVITY_THRESHOLD = args.minactivity #seconds
@@ -115,7 +115,7 @@ aspect = 0.75+0.25*(len(treatment_order)-1)
 #kmeans = KMeans(n_clusters=15, random_state=0).fit_predict(Y)
 #plt.scatter(Y[:,0],Y[:,1], s=2, c=kmeans)
 #%%
-plt.figure(figsize=(4,5))
+plt.figure(figsize=(8,5))
 #sns.set_context('poster')
 #sns.set_style('whitegrid')
 ax=sns.stripplot(data=bdf, jitter=True,y='boutlength',x='treatment',hue='genotype', 
@@ -244,7 +244,7 @@ def analyse_minute(bouts):
 df=bdf.groupby(['fish','minute']).apply(analyse_minute)
 df.reset_index(inplace=True)
 ## merge with conditions
-df=pd.merge(df,conditions,left_on='fish',right_index=True)
+df=pd.merge(df,conditions,left_on=df.fish.astype(int),right_index=True)
 #what percentage of bouts are long bouts?
 df.total_activity.fillna(0, inplace=True)
 df.long_bouts.fillna(0, inplace=True)
@@ -316,7 +316,7 @@ plt.tight_layout()
 plt.savefig(os.path.join(datapath, datafilename+".behaviours.png"))
 #plt.show()
 #%% Seizures per minute, expansion of the smaller plot just generated
-plt.figure(figsize=(4,5))
+plt.figure(figsize=(8,5))
 ax=sns.pointplot(data=fishmeans,x='treatment',y='long_bouts',hue='genotype',hue_order=genotype_order,order=treatment_order,capsize=0.1)
 plt.title('Long (>0.5s) bouts per minute')
 ax.set_ylabel('Long bouts per minute')
